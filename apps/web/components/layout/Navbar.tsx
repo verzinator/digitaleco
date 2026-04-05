@@ -4,14 +4,15 @@ import React, { useState } from 'react'
 
 /* ─── Voci di navigazione ─────────────────────────────── */
 const NAV_ITEMS = [
-  { label: 'Chi Siamo', href: '/about' },
-  { label: 'Strategia', href: '/strategia' },
-  { label: 'Soluzioni Digitali', href: '/soluzioni-digitali' },
-  { label: 'Portfolio', href: '/portfolio' },
+  { label: 'Portfolio',         href: '/portfolio' },
+  { label: 'Chi Siamo',         href: '/about' },
+  { label: 'Strategia',         href: '/strategia' },
+  { label: 'Soluzioni Digitali',href: '/soluzioni-digitali' },
+  { label: 'Blog',              href: '/blog' },
 ]
 
 /* ─── Costanti colore (grigio tenue + stroke più scuro) ── */
-const BG = '#F1F3F5'   // grigio tenue — var(--color-surface-offset)
+const BG     = '#F1F3F5'   // grigio tenue — var(--color-surface-offset)
 const STROKE = '#C8CDD4'   // grigio leggermente più scuro
 
 export default function Navbar() {
@@ -48,7 +49,7 @@ export default function Navbar() {
           borderRadius: '24px',
           boxShadow: '0 2px 20px rgba(0,0,0,0.08)',
           /* padding: gap sinistro logo | gap destro CTA (6px → CTA non tocca mai il bordo) */
-          padding: '6px 10px 6px 20px',
+          padding: '6px 8px 6px 20px',
         }}
       >
         {/* ── Logo ─────────────────── */}
@@ -66,7 +67,7 @@ export default function Navbar() {
             display: 'flex',
             alignItems: 'center',
             gap: '2px',
-            cornerRadius: '1px',
+            borderRadius: '1px',
           }}
         >
           {NAV_ITEMS.map(item => (
@@ -180,7 +181,7 @@ export default function Navbar() {
                   display: 'block',
                   width: '100%',
                   padding: '13px',
-                  borderRadius: '12px',
+                  borderRadius: '999px',
                   fontSize: '16px',
                   fontFamily: 'var(--font-body)',
                   fontWeight: 600,
@@ -215,7 +216,7 @@ function NavBtn({ children, onClick }: { children: React.ReactNode; onClick: () 
         ...btnReset,
         height: '40px',
         padding: '0 14px',
-        borderRadius: '12px',
+        borderRadius: '999px',
         fontSize: '14px',
         fontFamily: 'var(--font-body)',
         fontWeight: 500,
@@ -242,7 +243,7 @@ function CtaBtn({ children, onClick }: { children: React.ReactNode; onClick: () 
         ...btnReset,
         height: '40px',
         padding: '0 22px',
-        borderRadius: '12px',
+        borderRadius: '999px',
         fontSize: '14px',
         fontFamily: 'var(--font-body)',
         fontWeight: 600,
