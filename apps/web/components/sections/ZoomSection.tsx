@@ -13,14 +13,19 @@ export default function ZoomSection() {
     offset: ["start start", "end end"]
   })
 
-  // L'immagine occupa tutto lo schermo all'inizio (scale 1) 
-  // e si rimpicciolisce fino allo 0.85 (più margini) man mano che scendi
-  const scale = useTransform(scrollYProgress, [0, 0.5], [1, 0.85])
-  const borderRadius = useTransform(scrollYProgress, [0, 0.5], [0, 32])
-  
-  // Il testo appare quando l'immagine ha già iniziato a rimpicciolirsi
+  const scale        = useTransform(scrollYProgress, [0, 0.5],   [1, 0.85])
+  const borderRadius = useTransform(scrollYProgress, [0, 0.5],   [0, 32])
+
+  // Velina: 80% nero, completata al 20% di scroll (rapido su mobile e desktop)
+  const overlayOpacity = useTransform(scrollYProgress, [0.02, 0.20], [0, 0.80])
+
+  // Testo: bianco pieno già al 20% di scroll
+  const overlayTextOpacity = useTransform(scrollYProgress, [0.05, 0.20], [0, 1])
+  const overlayTextY       = useTransform(scrollYProgress, [0.05, 0.20], [24, 0])
+
+  // Testo secondario sotto l'immagine (già esistente)
   const opacityText = useTransform(scrollYProgress, [0.4, 0.7], [0, 1])
-  const yText = useTransform(scrollYProgress, [0.4, 0.7], [40, 0])
+  const yText       = useTransform(scrollYProgress, [0.4, 0.7], [40, 0])
 
   return (
     <section 
@@ -54,13 +59,56 @@ export default function ZoomSection() {
              boxShadow: 'var(--shadow-lg)'
            }}
         >
-          <Image 
+          <Image
             src="/modern_office.png"
             alt="Il nostro ufficio"
             fill
             priority
             style={{ objectFit: 'cover' }}
           />
+
+          {/* Velina nera — si intensifica con lo scroll */}
+          <motion.div
+            aria-hidden="true"
+            style={{
+              position: 'absolute',
+              inset: 0,
+              background: '#000000',
+              opacity: overlayOpacity,
+              pointerEvents: 'none',
+            }}
+          />
+
+          {/* Testo sopra la velina */}
+          <motion.div
+            style={{
+              position: 'absolute',
+              inset: 0,
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              opacity: overlayTextOpacity,
+              y: overlayTextY,
+              pointerEvents: 'none',
+              paddingInline: 'var(--space-6)',
+            }}
+          >
+            <h2
+              style={{
+                fontFamily: 'var(--font-display)',
+                fontSize: 'var(--text-3xl)',
+                fontWeight: 700,
+                color: '#FFFFFF',
+                textAlign: 'center',
+                lineHeight: 1.15,
+                maxWidth: '760px',
+                opacity: 1,
+                textShadow: 'none',
+              }}
+            >
+              E lo facciamo con il nostro metodo
+            </h2>
+          </motion.div>
         </motion.div>
 
         {/* Testo in Baskerville che appare sotto l'immagine */}
