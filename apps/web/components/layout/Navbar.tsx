@@ -8,7 +8,6 @@ const NAV_ITEMS = [
   { label: 'Chi Siamo',         href: '/about' },
   { label: 'Strategia',         href: '/strategia' },
   { label: 'Soluzioni Digitali',href: '/soluzioni-digitali' },
-  { label: 'Blog',              href: '/blog' },
 ]
 
 /* ─── Costanti colore (grigio tenue + stroke più scuro) ── */

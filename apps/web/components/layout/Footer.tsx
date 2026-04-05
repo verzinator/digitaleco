@@ -53,8 +53,6 @@ const footerColumns = [
     links: [
       { label: 'Chi siamo', href: '/about' },
       { label: 'Portfolio', href: '/portfolio' },
-      { label: 'Lavora con noi', href: '/careers' },
-      { label: 'Blog', href: '/blog' },
       { label: 'Contatti', href: '/contact' },
     ],
   },
