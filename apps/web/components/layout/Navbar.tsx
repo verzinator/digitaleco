@@ -17,35 +17,40 @@ export default function Navbar() {
           top: 16px;
           left: 50%;
           transform: translateX(-50%);
-          height: 56px;
-          width: calc(100% - 24px);
-          max-width: 420px;
-          background: rgba(255, 255, 255, 0.85);
-          backdrop-filter: blur(16px);
-          -webkit-backdrop-filter: blur(16px);
-          border: 1px solid rgba(26, 26, 46, 0.06);
-          border-radius: 28px;
-          box-shadow: 0 4px 24px rgba(0, 0, 0, 0.06), 0 1px 2px rgba(0, 0, 0, 0.04);
+          height: 60px;
+          width: calc(100% - 32px);
+          max-width: 440px;
+          background: rgba(255, 255, 255, 0.72);
+          backdrop-filter: blur(20px) saturate(1.4);
+          -webkit-backdrop-filter: blur(20px) saturate(1.4);
+          border: 1px solid rgba(255, 255, 255, 0.5);
+          border-radius: 30px;
+          box-shadow: 0 4px 24px rgba(0, 0, 0, 0.06), 0 1px 0 rgba(255, 255, 255, 0.6) inset;
           z-index: 9999;
           display: flex;
           align-items: center;
           justify-content: space-between;
-          padding: 6px 6px 6px 20px;
+          padding: 6px 6px 6px 22px;
           gap: 12px;
+          transition: background 300ms ease, border-color 300ms ease;
+        }
+        .nav-pill:hover {
+          background: rgba(255, 255, 255, 0.82);
+          border-color: rgba(255, 255, 255, 0.7);
         }
         .nav-cta {
           background: var(--color-primary);
           color: #F8F9FA;
           border: none;
-          padding: 10px 22px;
+          padding: 12px 24px;
           border-radius: 22px;
           font-size: 14px;
           font-family: var(--font-body);
           font-weight: 500;
-          letter-spacing: 0.01em;
+          letter-spacing: 0.02em;
           cursor: pointer;
           white-space: nowrap;
-          transition: background 200ms ease, transform 120ms ease;
+          transition: background 200ms ease, border-color 200ms ease, transform 100ms ease;
         }
         .nav-cta:hover {
           background: var(--color-primary-hover);
@@ -65,7 +70,7 @@ export default function Navbar() {
             textDecoration: 'none',
           }}
         >
-          <Image src="/logo-digital-eco.png" alt="Digital Eco" width={120} height={30} style={{ height: '30px', width: 'auto', filter: 'brightness(0)' }} />
+          <Image src="/logo-digital-eco.png" alt="Digital Eco" width={120} height={30} style={{ height: '32px', width: 'auto', filter: 'brightness(0)' }} />
         </a>
 
         {/* CTA Button */}
