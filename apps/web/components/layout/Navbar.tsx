@@ -1,282 +1,85 @@
 'use client'
 
-import React, { useState } from 'react'
+import React from 'react'
+import Image from 'next/image'
 
-/* ─── Voci di navigazione ─────────────────────────────── */
-const NAV_ITEMS = [
-  { label: 'Portfolio',         href: '/portfolio' },
-  { label: 'Chi Siamo',         href: '/about' },
-  { label: 'Strategia',         href: '/strategia' },
-  { label: 'Soluzioni Digitali',href: '/soluzioni-digitali' },
-]
-
-/* ─── Costanti colore (grigio tenue + stroke più scuro) ── */
-const BG     = '#F1F3F5'   // grigio tenue — var(--color-surface-offset)
-const STROKE = '#C8CDD4'   // grigio leggermente più scuro
+const BG = '#F1F3F5'
+const STROKE = '#C8CDD4'
 
 export default function Navbar() {
-  const [open, setOpen] = useState(false)
-
-  function go(href: string) {
-    window.location.href = href
-    setOpen(false)
-  }
-
   function cta() {
     const el = document.getElementById('consulenza')
     if (el) el.scrollIntoView({ behavior: 'smooth' })
-    else window.location.href = '/contact'
-    setOpen(false)
   }
 
   return (
-    <>
-      {/* ════════════════════════════════════════════════════
-          DESKTOP  ≥ md  — pill floating centrata
-      ════════════════════════════════════════════════════ */}
-      <header
-        className="hidden md:flex items-center fixed z-[9999]"
+    <header
+      style={{
+        position: 'fixed',
+        top: '20px',
+        left: '50%',
+        transform: 'translateX(-50%)',
+        height: '44px',
+        width: 'calc(100% - 24px)',
+        maxWidth: '380px',
+        background: BG,
+        border: `1px solid ${STROKE}`,
+        borderRadius: '22px',
+        boxShadow: '0 2px 20px rgba(0,0,0,0.08)',
+        zIndex: 9999,
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        padding: '4px 6px 4px 14px',
+        gap: '12px',
+      }}
+    >
+      {/* Logo */}
+      <a
+        href="/"
+        aria-label="Torna alla home"
         style={{
-          top: '16px',
-          left: '50%',
-          transform: 'translateX(-50%)',
-          height: '60px',
-          minWidth: '1020px',
-          width: 'max-content',
-          background: BG,
-          border: `1px solid ${STROKE}`,
-          borderRadius: '24px',
-          boxShadow: '0 2px 20px rgba(0,0,0,0.08)',
-          /* padding: gap sinistro logo | gap destro CTA (6px → CTA non tocca mai il bordo) */
-          padding: '6px 8px 6px 20px',
+          display: 'flex',
+          alignItems: 'center',
+          textDecoration: 'none',
         }}
       >
-        {/* ── Logo ─────────────────── */}
-        <button onClick={() => go('/')} aria-label="Torna alla home" style={btnReset}>
-          <LogoSVG />
-        </button>
+        <Image src="/logo-digital-eco.png" alt="Digital Eco" width={120} height={30} style={{ height: '24px', width: 'auto', filter: 'brightness(0)' }} />
+      </a>
 
-        {/* ── Voci centrali — assolute per restare perfettamente al centro ── */}
-        <nav
-          aria-label="Navigazione principale"
-          style={{
-            position: 'absolute',
-            left: '50%',
-            transform: 'translateX(-50%)',
-            display: 'flex',
-            alignItems: 'center',
-            gap: '2px',
-            borderRadius: '1px',
-          }}
-        >
-          {NAV_ITEMS.map(item => (
-            <NavBtn key={item.label} onClick={() => go(item.href)}>
-              {item.label}
-            </NavBtn>
-          ))}
-        </nav>
-
-        {/* ── CTA — il padding-right:6px del pill garantisce il gap dal bordo ── */}
-        <div style={{ marginLeft: 'auto' }}>
-          <CtaBtn onClick={cta}>Parliamone!</CtaBtn>
-        </div>
-      </header>
-
-      {/* ════════════════════════════════════════════════════
-          MOBILE / TABLET  < md
-          Pill floating 16 px da bordi viewport
-      ════════════════════════════════════════════════════ */}
-      <div className="md:hidden">
-        <div
-          role="navigation"
-          aria-label="Navigazione mobile"
-          style={{
-            position: 'fixed',
-            top: '16px',
-            left: '16px',
-            right: '16px',
-            zIndex: 9999,
-            background: BG,
-            border: `1px solid ${STROKE}`,
-            borderRadius: '20px',
-            overflow: 'hidden',
-            maxHeight: open ? '520px' : '60px',
-            transition: 'max-height 280ms cubic-bezier(0.16,1,0.3,1)',
-            boxShadow: '0 2px 16px rgba(0,0,0,0.07)',
-          }}
-        >
-          {/* ── Header row (sempre visibile) ── */}
-          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', height: '60px', padding: '0 10px 0 16px' }}>
-            <button onClick={() => go('/')} aria-label="Torna alla home" style={btnReset}>
-              <LogoSVG scale={0.85} />
-            </button>
-
-            {/* Hamburger / Close */}
-            <button
-              onClick={() => setOpen(v => !v)}
-              aria-label={open ? 'Chiudi menu' : 'Apri menu'}
-              aria-expanded={open}
-              style={{
-                ...btnReset,
-                width: '40px',
-                height: '40px',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                borderRadius: '10px',
-                color: 'var(--color-text)',
-                transition: 'background 140ms ease',
-              }}
-              onMouseEnter={e => (e.currentTarget.style.background = 'rgba(0,0,0,0.06)')}
-              onMouseLeave={e => (e.currentTarget.style.background = 'transparent')}
-            >
-              {open
-                ? <IconX />
-                : <IconMenu />}
-            </button>
-          </div>
-
-          {/* ── Voci espanse ── */}
-          <div
-            style={{
-              padding: '4px 8px 0',
-              opacity: open ? 1 : 0,
-              pointerEvents: open ? 'auto' : 'none',
-              transition: 'opacity 180ms ease',
-            }}
-          >
-            {NAV_ITEMS.map(item => (
-              <button
-                key={item.label}
-                onClick={() => go(item.href)}
-                style={{
-                  ...btnReset,
-                  display: 'block',
-                  width: '100%',
-                  textAlign: 'left',
-                  padding: '13px 16px',
-                  borderRadius: '12px',
-                  fontSize: '16px',
-                  fontFamily: 'var(--font-body)',
-                  fontWeight: 500,
-                  color: 'var(--color-text)',
-                  transition: 'background 140ms ease',
-                }}
-                onMouseEnter={e => (e.currentTarget.style.background = 'rgba(0,0,0,0.06)')}
-                onMouseLeave={e => (e.currentTarget.style.background = 'transparent')}
-                onMouseDown={e => (e.currentTarget.style.background = 'rgba(0,0,0,0.10)')}
-                onMouseUp={e => (e.currentTarget.style.background = 'rgba(0,0,0,0.06)')}
-              >
-                {item.label}
-              </button>
-            ))}
-
-            {/* CTA — margini interni da tutti i bordi del menu */}
-            <div style={{ padding: '10px 8px 14px' }}>
-              <button
-                onClick={cta}
-                style={{
-                  ...btnReset,
-                  display: 'block',
-                  width: '100%',
-                  padding: '13px',
-                  borderRadius: '999px',
-                  fontSize: '16px',
-                  fontFamily: 'var(--font-body)',
-                  fontWeight: 600,
-                  background: 'var(--color-accent)',
-                  color: 'var(--color-primary)',
-                  textAlign: 'center',
-                  transition: 'filter 140ms ease, transform 100ms ease',
-                }}
-                onMouseEnter={e => (e.currentTarget.style.filter = 'brightness(1.07)')}
-                onMouseLeave={e => (e.currentTarget.style.filter = 'none')}
-                onMouseDown={e => (e.currentTarget.style.transform = 'scale(0.97)')}
-                onMouseUp={e => (e.currentTarget.style.transform = 'scale(1)')}
-              >
-                Parliamone!
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
-    </>
+      {/* CTA Button */}
+      <button
+        onClick={cta}
+        style={{
+          background: 'var(--color-accent)',
+          color: 'var(--color-primary)',
+          border: 'none',
+          padding: '6px 14px',
+          borderRadius: '999px',
+          fontSize: '12px',
+          fontFamily: 'var(--font-body)',
+          fontWeight: 600,
+          cursor: 'pointer',
+          transition: 'filter 140ms ease, transform 100ms ease',
+          whiteSpace: 'nowrap',
+        }}
+        onMouseEnter={e => (e.currentTarget.style.filter = 'brightness(1.07)')}
+        onMouseLeave={e => (e.currentTarget.style.filter = 'none')}
+        onMouseDown={e => (e.currentTarget.style.transform = 'scale(0.97)')}
+        onMouseUp={e => (e.currentTarget.style.transform = 'scale(1)')}
+      >
+        Parliamone!
+      </button>
+    </header>
   )
 }
 
-/* ─── Componenti interni ──────────────────────────────── */
-
-/** Voce di navigazione desktop — tertiary: sfondo solo su hover/pressed */
-function NavBtn({ children, onClick }: { children: React.ReactNode; onClick: () => void }) {
-  return (
-    <button
-      onClick={onClick}
-      style={{
-        ...btnReset,
-        height: '40px',
-        padding: '0 14px',
-        borderRadius: '999px',
-        fontSize: '14px',
-        fontFamily: 'var(--font-body)',
-        fontWeight: 500,
-        color: 'var(--color-text)',
-        whiteSpace: 'nowrap',
-        transition: 'background 140ms ease, color 140ms ease',
-      }}
-      onMouseEnter={e => (e.currentTarget.style.background = 'rgba(0,0,0,0.06)')}
-      onMouseLeave={e => (e.currentTarget.style.background = 'transparent')}
-      onMouseDown={e => (e.currentTarget.style.background = 'rgba(0,0,0,0.10)')}
-      onMouseUp={e => (e.currentTarget.style.background = 'rgba(0,0,0,0.06)')}
-    >
-      {children}
-    </button>
-  )
-}
-
-/** Pulsante CTA desktop — pill pieno accent */
-function CtaBtn({ children, onClick }: { children: React.ReactNode; onClick: () => void }) {
-  return (
-    <button
-      onClick={onClick}
-      style={{
-        ...btnReset,
-        height: '40px',
-        padding: '0 22px',
-        borderRadius: '999px',
-        fontSize: '14px',
-        fontFamily: 'var(--font-body)',
-        fontWeight: 600,
-        background: 'var(--color-accent)',
-        color: 'var(--color-primary)',
-        whiteSpace: 'nowrap',
-        transition: 'filter 140ms ease, transform 100ms ease',
-      }}
-      onMouseEnter={e => (e.currentTarget.style.filter = 'brightness(1.07)')}
-      onMouseLeave={e => (e.currentTarget.style.filter = 'none')}
-      onMouseDown={e => (e.currentTarget.style.transform = 'scale(0.97)')}
-      onMouseUp={e => (e.currentTarget.style.transform = 'scale(1)')}
-    >
-      {children}
-    </button>
-  )
-}
-
-/** Reset CSS per button — azzeramento stile nativo del browser */
-const btnReset: React.CSSProperties = {
-  background: 'transparent',
-  border: 'none',
-  cursor: 'pointer',
-  padding: 0,
-  margin: 0,
-  lineHeight: 1,
-}
-
-/* ─── Logo SVG (adattato a sfondo chiaro) ────────────── */
+/* ─── Logo SVG ────────────── */
 function LogoSVG({ scale = 1 }: { scale?: number }) {
   return (
     <svg
-      width={130 * scale}
-      height={30 * scale}
+      width={142 * scale}
+      height={(142 * scale * 36) / 140}
       viewBox="0 0 140 36"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
@@ -293,23 +96,6 @@ function LogoSVG({ scale = 1 }: { scale?: number }) {
       <text x="97" y="23" fontFamily="var(--font-body), sans-serif" fontSize="17" fontWeight="300" fill="var(--color-primary)" letterSpacing="0.5">
         Eco
       </text>
-    </svg>
-  )
-}
-
-/* ─── Icone SVG ──────────────────────────────────────── */
-function IconMenu() {
-  return (
-    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-      <path d="M4 6h16M4 12h16M4 18h16" />
-    </svg>
-  )
-}
-
-function IconX() {
-  return (
-    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-      <path d="M18 6L6 18M6 6l12 12" />
     </svg>
   )
 }

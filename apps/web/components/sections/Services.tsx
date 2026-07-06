@@ -1,68 +1,40 @@
 'use client'
 
+import { useRef, useCallback, useEffect, useState } from 'react'
 import { motion, useReducedMotion, useInView } from 'framer-motion'
-import { useRef } from 'react'
-import Link from 'next/link'
-import {
-  Monitor,
-  ShoppingCart,
-  Share2,
-  Megaphone,
-  BarChart3,
-  PenTool,
-  ArrowRight,
-} from 'lucide-react'
 
 const EASE: [number, number, number, number] = [0.16, 1, 0.3, 1]
 
-const services = [
+const SERVICES = [
   {
-    icon: Monitor,
-    title: 'Web Design',
-    description:
-      "Siti web su misura che riflettono l'identità del tuo brand. Dal concept al lancio, curiamo ogni pixel.",
-    href: '/soluzioni-digitali',
-    color: '#0A5C44',
+    title: 'Siti Web',
+    subtitle: 'Design che converte',
+    illustration: IllustrationWeb,
   },
   {
-    icon: ShoppingCart,
     title: 'E-Commerce',
-    description:
-      'Negozi online performanti e sicuri. Integrazione con i principali gateway di pagamento e piattaforme logistiche.',
-    href: '/soluzioni-digitali',
-    color: '#2ECC71',
+    subtitle: 'Vendere online, meglio',
+    illustration: IllustrationEcommerce,
   },
   {
-    icon: Share2,
-    title: 'Social Media',
-    description:
-      'Strategia editoriale, contenuti originali e community management per ogni piattaforma social.',
-    href: '/soluzioni-digitali',
-    color: '#0A5C44',
+    title: 'SEO',
+    subtitle: 'Farti trovare su Google',
+    illustration: IllustrationSeo,
   },
   {
-    icon: Megaphone,
     title: 'Advertising',
-    description:
-      'Campagne Google Ads, Meta Ads e LinkedIn Ads ottimizzate per il massimo ROI con budget di qualsiasi dimensione.',
-    href: '/soluzioni-digitali',
-    color: '#2ECC71',
+    subtitle: 'Google & Meta Ads',
+    illustration: IllustrationAds,
   },
   {
-    icon: BarChart3,
-    title: 'Analytics & SEO',
-    description:
-      'Dati che guidano le decisioni. Monitoraggio, reportistica e ottimizzazione continua per crescere online.',
-    href: '/soluzioni-digitali',
-    color: '#0A5C44',
+    title: 'Social Media',
+    subtitle: 'Presenza che conta',
+    illustration: IllustrationSocial,
   },
   {
-    icon: PenTool,
-    title: 'Brand Identity',
-    description:
-      'Logo, palette colori, tipografia e brand guidelines che rendono il tuo marchio riconoscibile e memorabile.',
-    href: '/soluzioni-digitali',
-    color: '#2ECC71',
+    title: 'Branding',
+    subtitle: 'Identità memorabile',
+    illustration: IllustrationBranding,
   },
 ]
 
@@ -70,204 +42,401 @@ function ServiceCard({
   service,
   index,
 }: {
-  service: (typeof services)[0]
+  service: (typeof SERVICES)[0]
   index: number
 }) {
-  const ref = useRef<HTMLElement>(null)
-  const isInView = useInView(ref, { once: true, margin: '-60px 0px' })
-  const reduceMotion = useReducedMotion()
-  const Icon = service.icon
+  const Illustration = service.illustration
 
   return (
-    <motion.article
-      ref={ref}
-      initial={reduceMotion ? false : { opacity: 0, y: 24 }}
-      animate={isInView ? { opacity: 1, y: 0 } : {}}
-      transition={{
-        duration: 0.5,
-        delay: reduceMotion ? 0 : index * 0.08,
-        ease: EASE,
-      }}
+    <div
       style={{
+        background: '#222824',
+        borderRadius: '20px',
+        border: 'none',
+        padding: 'clamp(28px, 3vw, 40px) clamp(24px, 2.5vw, 32px)',
         display: 'flex',
         flexDirection: 'column',
-        padding: 'var(--space-8)',
-        background: 'var(--color-surface)',
-        border: '1px solid var(--color-border)',
-        borderRadius: 'var(--radius-md)',
-        boxShadow: 'var(--shadow-sm)',
-        transition:
-          'box-shadow var(--transition-interactive), transform var(--transition-interactive)',
-        textDecoration: 'none',
-        position: 'relative',
+        alignItems: 'center',
+        textAlign: 'center',
+        gap: '0',
+        aspectRatio: 'auto',
         overflow: 'hidden',
+        transition: 'border-color 0.4s ease, background 0.4s ease',
       }}
-      whileHover={
-        reduceMotion
-          ? {}
-          : {
-            y: -3,
-            boxShadow: '0 12px 32px oklch(0.2 0.01 80 / 0.12)',
-          }
-      }
+      onMouseEnter={e => {
+        e.currentTarget.style.background = '#0A2E22'
+      }}
+      onMouseLeave={e => {
+        e.currentTarget.style.background = '#222824'
+      }}
     >
-      <div
-        aria-hidden="true"
-        style={{
-          position: 'absolute',
-          top: 0,
-          right: 0,
-          width: '80px',
-          height: '80px',
-          background: `radial-gradient(circle at top right, oklch(from ${service.color} l c h / 0.06), transparent 70%)`,
-          pointerEvents: 'none',
-        }}
-      />
-
-      <div
-        aria-hidden="true"
-        style={{
-          width: '52px',
-          height: '52px',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          background: `oklch(from ${service.color} l c h / 0.08)`,
-          borderRadius: 'var(--radius-sm)',
-          marginBottom: 'var(--space-6)',
-          flexShrink: 0,
-        }}
-      >
-        <Icon size={24} color={service.color} strokeWidth={1.5} />
-      </div>
-
+      {/* Title */}
       <h3
         style={{
           fontFamily: 'var(--font-display)',
-          fontSize: 'var(--text-xl)',
-          color: 'var(--color-text)',
-          marginBottom: 'var(--space-3)',
-          lineHeight: 1.2,
+          fontSize: 'clamp(1.4rem, 1rem + 1.5vw, 2rem)',
+          fontWeight: 400,
+          fontStyle: 'italic',
+          letterSpacing: '-0.02em',
+          lineHeight: 1.1,
+          color: '#F8F9FA',
+          margin: '0 0 8px 0',
         }}
       >
         {service.title}
       </h3>
+
+      {/* Subtitle */}
       <p
         style={{
           fontFamily: 'var(--font-body)',
-          fontSize: 'var(--text-sm)',
-          color: 'var(--color-text-muted)',
-          lineHeight: 1.7,
-          flex: 1,
-          marginBottom: 'var(--space-6)',
+          fontSize: '13px',
+          fontWeight: 400,
+          color: 'rgba(248,249,250,0.45)',
+          letterSpacing: '0.01em',
+          margin: '0 0 clamp(28px, 3vw, 44px) 0',
+          lineHeight: 1.4,
         }}
       >
-        {service.description}
+        {service.subtitle}
       </p>
 
-      <Link
-        href={service.href}
+      {/* Illustration */}
+      <div
         style={{
-          display: 'inline-flex',
+          width: '100%',
+          maxWidth: '200px',
+          aspectRatio: '1',
+          display: 'flex',
           alignItems: 'center',
-          gap: 'var(--space-2)',
-          fontFamily: 'var(--font-body)',
-          fontSize: 'var(--text-sm)',
-          fontWeight: 600,
-          color: 'var(--color-primary)',
-          textDecoration: 'none',
-          minHeight: '44px',
-          transition: 'gap var(--transition-interactive)',
+          justifyContent: 'center',
         }}
-        onMouseEnter={e => {
-          const arrow = e.currentTarget.querySelector('svg')
-          if (arrow) arrow.style.transform = 'translateX(4px)'
-        }}
-        onMouseLeave={e => {
-          const arrow = e.currentTarget.querySelector('svg')
-          if (arrow) arrow.style.transform = 'translateX(0)'
-        }}
-        aria-label={`Scopri il servizio ${service.title}`}
       >
-        Scopri di più
-        <ArrowRight
-          size={16}
-          aria-hidden="true"
-          style={{ transition: 'transform var(--transition-interactive)' }}
-        />
-      </Link>
-    </motion.article>
+        <Illustration />
+      </div>
+    </div>
+  )
+}
+
+const GAP = 20
+const SPEED = 0.5 // px per frame
+
+function Marquee() {
+  const trackRef = useRef<HTMLDivElement>(null)
+  const offsetRef = useRef(0)
+  const frameRef = useRef<number>(0)
+
+  useEffect(() => {
+    const track = trackRef.current
+    if (!track) return
+
+    function tick() {
+      if (!track) return
+      offsetRef.current -= SPEED
+
+      // Get width of one set (first half of children)
+      const children = track.children
+      const halfCount = children.length / 2
+      let setWidth = 0
+      for (let i = 0; i < halfCount; i++) {
+        setWidth += (children[i] as HTMLElement).offsetWidth + GAP
+      }
+
+      // When scrolled past one full set, reset
+      if (Math.abs(offsetRef.current) >= setWidth) {
+        offsetRef.current += setWidth
+      }
+
+      track.style.transform = `translateX(${offsetRef.current}px)`
+      frameRef.current = requestAnimationFrame(tick)
+    }
+
+    frameRef.current = requestAnimationFrame(tick)
+    return () => cancelAnimationFrame(frameRef.current)
+  }, [])
+
+  // Render enough copies to always fill screen
+  const items = [...SERVICES, ...SERVICES, ...SERVICES]
+
+  return (
+    <div style={{ position: 'relative', zIndex: 1, overflow: 'hidden' }}>
+      <div
+        ref={trackRef}
+        style={{
+          display: 'flex',
+          gap: `${GAP}px`,
+          width: 'max-content',
+          willChange: 'transform',
+        }}
+      >
+        {items.map((service, i) => (
+          <div
+            key={`${service.title}-${i}`}
+            style={{ width: 'clamp(260px, 28vw, 340px)', flexShrink: 0 }}
+          >
+            <ServiceCard service={service} index={i % SERVICES.length} />
+          </div>
+        ))}
+      </div>
+    </div>
   )
 }
 
 export default function Services() {
-  const titleRef = useRef<HTMLDivElement>(null)
-  const isTitleInView = useInView(titleRef, { once: true, margin: '-60px 0px' })
-  const reduceMotion = useReducedMotion()
+  const rm = useReducedMotion()
+  const sectionRef = useRef<HTMLElement>(null)
+  const dotRef = useRef<HTMLDivElement>(null)
+
+  const handleMouseMove = useCallback((e: React.MouseEvent) => {
+    if (rm || !dotRef.current) return
+    const rect = (e.currentTarget as HTMLElement).getBoundingClientRect()
+    const x = ((e.clientX - rect.left) / rect.width) * 100
+    const y = ((e.clientY - rect.top) / rect.height) * 100
+    dotRef.current.style.backgroundPosition = `${x}% ${y}%`
+  }, [rm])
 
   return (
     <section
-      id="services"
+      ref={sectionRef}
+      id="servizi"
       aria-labelledby="services-title"
+      onMouseMove={handleMouseMove}
       style={{
-        background: 'var(--color-bg)',
-        paddingBlock: 'var(--space-24)',
+        background: '#0F1410',
+        paddingTop: 'clamp(80px, 10vw, 140px)',
+        paddingBottom: 'clamp(80px, 10vw, 140px)',
+        position: 'relative',
+        overflow: 'hidden',
       }}
     >
-      <div className="container">
+      {/* Dot pattern overlay */}
+      <div
+        ref={dotRef}
+        aria-hidden="true"
+        style={{
+          position: 'absolute',
+          inset: 0,
+          backgroundImage: 'radial-gradient(circle, rgba(46,204,113,0.08) 1px, transparent 1px)',
+          backgroundSize: '24px 24px',
+          backgroundPosition: '50% 50%',
+          transition: 'background-position 0.8s cubic-bezier(0.16, 1, 0.3, 1)',
+          pointerEvents: 'none',
+          zIndex: 0,
+        }}
+      />
+      <div style={{ maxWidth: '1200px', margin: '0 auto', position: 'relative', zIndex: 1, padding: '0 clamp(24px, 4vw, 48px)' }}>
+        {/* Header */}
         <motion.div
-          ref={titleRef}
-          initial={reduceMotion ? false : { opacity: 0, y: 24 }}
-          animate={isTitleInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.5, ease: EASE }}
-          style={{
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'flex-start',
-            marginBottom: 'var(--space-12)',
-          }}
+          initial={rm ? false : { opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: '-40px' }}
+          transition={{ duration: 0.6, ease: EASE }}
+          style={{ marginBottom: 'clamp(48px, 6vw, 72px)' }}
         >
-          <p className="eyebrow" style={{ marginBottom: 'var(--space-3)' }}>
-            Cosa facciamo
-          </p>
-          <div
+          <p
             style={{
-              display: 'flex',
-              justifyContent: 'space-between',
-              alignItems: 'flex-end',
-              width: '100%',
-              flexWrap: 'wrap',
-              gap: 'var(--space-6)',
+              fontFamily: 'var(--font-body)',
+              fontSize: '10px',
+              fontWeight: 600,
+              letterSpacing: '0.25em',
+              textTransform: 'uppercase',
+              color: 'var(--color-accent)',
+              marginBottom: '12px',
             }}
           >
-            <h2
-              id="services-title"
-              style={{
-                fontFamily: 'var(--font-display)',
-                fontSize: 'var(--text-2xl)',
-                lineHeight: 1.15,
-                color: 'var(--color-text)',
-                maxWidth: '480px',
-              }}
-            >
-              Strategie digitali per il tuo successo
-            </h2>
-
-          </div>
+            Cosa facciamo
+          </p>
+          <h2
+            id="services-title"
+            style={{
+              fontFamily: 'var(--font-display)',
+              fontStyle: 'italic',
+              fontSize: 'clamp(2rem, 1rem + 3.5vw, 3.5rem)',
+              lineHeight: 1.1,
+              letterSpacing: '-0.035em',
+              color: '#F8F9FA',
+              margin: 0,
+            }}
+          >
+            Ogni servizio, un{' '}
+            <em style={{ fontStyle: 'italic', color: 'var(--color-accent)' }}>risultato</em>
+          </h2>
         </motion.div>
 
-        <div
-          style={{
-            display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
-            gap: 'var(--space-6)',
-          }}
-        >
-          {services.map((service, i) => (
-            <ServiceCard key={service.title} service={service} index={i} />
-          ))}
-        </div>
       </div>
+
+      {/* Marquee — JS-driven infinite scroll */}
+      <Marquee />
     </section>
+  )
+}
+
+/* ─── SVG Illustrations ─── */
+
+const S = { stroke: 'rgba(46,204,113,0.5)', fill: 'none', strokeWidth: 1 }
+const SA = { stroke: 'rgba(248,249,250,0.12)', fill: 'none', strokeWidth: 0.5 }
+const SG = { stroke: 'rgba(46,204,113,0.25)', fill: 'none', strokeWidth: 0.5 }
+
+function IllustrationWeb() {
+  return (
+    <svg viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg" style={{ width: '100%', height: '100%' }}>
+      {/* Browser window */}
+      <rect x="20" y="30" width="160" height="120" rx="8" {...S} />
+      <line x1="20" y1="52" x2="180" y2="52" {...S} />
+      {/* Browser dots */}
+      <circle cx="35" cy="41" r="3" {...S} />
+      <circle cx="47" cy="41" r="3" {...S} />
+      <circle cx="59" cy="41" r="3" {...S} />
+      {/* URL bar */}
+      <rect x="72" y="37" width="90" height="8" rx="4" {...SA} />
+      {/* Content lines */}
+      <rect x="36" y="68" width="60" height="4" rx="2" stroke="rgba(10,92,68,0.35)" fill="none" strokeWidth={0.8} />
+      <rect x="36" y="80" width="80" height="3" rx="1.5" {...SA} />
+      <rect x="36" y="88" width="70" height="3" rx="1.5" {...SA} />
+      <rect x="36" y="96" width="75" height="3" rx="1.5" {...SA} />
+      {/* Image placeholder */}
+      <rect x="130" y="68" width="36" height="36" rx="4" {...SG} />
+      {/* CTA button */}
+      <rect x="36" y="116" width="48" height="16" rx="4" stroke="rgba(10,92,68,0.5)" fill="rgba(10,92,68,0.06)" strokeWidth={0.8} />
+      {/* Grid lines background */}
+      <line x1="100" y1="160" x2="100" y2="180" {...SA} />
+      <line x1="80" y1="170" x2="120" y2="170" {...SA} />
+      {/* Floating elements */}
+      <circle cx="170" cy="170" r="12" {...SG} strokeDasharray="3 3" />
+      <rect x="18" y="160" width="24" height="24" rx="6" {...SG} strokeDasharray="3 3" />
+    </svg>
+  )
+}
+
+function IllustrationEcommerce() {
+  return (
+    <svg viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg" style={{ width: '100%', height: '100%' }}>
+      {/* Shopping bag */}
+      <path d="M55 75 L55 160 Q55 170 65 170 L135 170 Q145 170 145 160 L145 75 Z" {...S} />
+      {/* Bag handles */}
+      <path d="M75 75 L75 55 Q75 35 100 35 Q125 35 125 55 L125 75" {...S} />
+      {/* Tag */}
+      <circle cx="100" cy="55" r="4" stroke="rgba(10,92,68,0.5)" fill="none" strokeWidth={0.8} />
+      {/* Product lines inside bag */}
+      <rect x="70" y="95" width="60" height="4" rx="2" {...SA} />
+      <rect x="75" y="107" width="50" height="3" rx="1.5" {...SA} />
+      {/* Price tag */}
+      <rect x="80" y="125" width="40" height="18" rx="4" stroke="rgba(10,92,68,0.35)" fill="rgba(46,204,113,0.06)" strokeWidth={0.8} />
+      <rect x="88" y="131" width="24" height="5" rx="2.5" stroke="rgba(10,92,68,0.2)" fill="none" strokeWidth={0.5} />
+      {/* Floating cart icon */}
+      <circle cx="160" cy="45" r="16" {...SG} strokeDasharray="3 3" />
+      {/* Stars */}
+      <circle cx="35" cy="100" r="2" fill="rgba(10,92,68,0.2)" />
+      <circle cx="170" cy="140" r="2" fill="rgba(10,92,68,0.2)" />
+      <circle cx="40" cy="50" r="1.5" fill="rgba(10,92,68,0.15)" />
+      {/* Growth arrow */}
+      <path d="M155 180 L175 160" {...SG} />
+      <path d="M168 160 L175 160 L175 167" stroke="rgba(10,92,68,0.2)" fill="none" strokeWidth={0.5} />
+    </svg>
+  )
+}
+
+function IllustrationSeo() {
+  return (
+    <svg viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg" style={{ width: '100%', height: '100%' }}>
+      {/* Magnifying glass */}
+      <circle cx="90" cy="85" r="40" {...S} />
+      <line x1="120" y1="115" x2="155" y2="150" stroke="rgba(10,92,68,0.4)" strokeWidth={2} strokeLinecap="round" />
+      {/* Search lines inside lens */}
+      <rect x="68" y="72" width="44" height="3" rx="1.5" stroke="rgba(10,92,68,0.35)" fill="none" strokeWidth={0.8} />
+      <rect x="68" y="82" width="36" height="3" rx="1.5" {...SA} />
+      <rect x="68" y="92" width="40" height="3" rx="1.5" {...SA} />
+      {/* Chart behind */}
+      <path d="M30 170 L30 140 L60 125 L90 135 L120 110 L150 100 L180 85" {...SG} />
+      <path d="M30 170 L180 170" {...SA} />
+      {/* Ranking dots */}
+      <circle cx="60" cy="125" r="3" stroke="rgba(10,92,68,0.35)" fill="rgba(10,92,68,0.08)" strokeWidth={0.6} />
+      <circle cx="120" cy="110" r="3" stroke="rgba(10,92,68,0.35)" fill="rgba(10,92,68,0.08)" strokeWidth={0.6} />
+      <circle cx="180" cy="85" r="3" stroke="rgba(10,92,68,0.5)" fill="rgba(10,92,68,0.1)" strokeWidth={0.6} />
+      {/* Arrow up */}
+      <path d="M170 50 L170 30" stroke="rgba(10,92,68,0.4)" strokeWidth={1} />
+      <path d="M164 36 L170 30 L176 36" stroke="rgba(10,92,68,0.4)" strokeWidth={1} fill="none" />
+    </svg>
+  )
+}
+
+function IllustrationAds() {
+  return (
+    <svg viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg" style={{ width: '100%', height: '100%' }}>
+      {/* Target / bullseye */}
+      <circle cx="100" cy="100" r="65" {...SA} />
+      <circle cx="100" cy="100" r="45" {...SG} />
+      <circle cx="100" cy="100" r="25" stroke="rgba(10,92,68,0.35)" fill="none" strokeWidth={0.8} />
+      <circle cx="100" cy="100" r="6" stroke="rgba(10,92,68,0.55)" fill="rgba(10,92,68,0.1)" strokeWidth={1} />
+      {/* Crosshair lines */}
+      <line x1="100" y1="25" x2="100" y2="70" {...SA} />
+      <line x1="100" y1="130" x2="100" y2="175" {...SA} />
+      <line x1="25" y1="100" x2="70" y2="100" {...SA} />
+      <line x1="130" y1="100" x2="175" y2="100" {...SA} />
+      {/* Data points */}
+      <circle cx="78" cy="72" r="4" stroke="rgba(10,92,68,0.4)" fill="rgba(10,92,68,0.08)" strokeWidth={0.8} />
+      <circle cx="130" cy="82" r="3" stroke="rgba(10,92,68,0.35)" fill="rgba(10,92,68,0.06)" strokeWidth={0.6} />
+      <circle cx="110" cy="125" r="3.5" stroke="rgba(10,92,68,0.35)" fill="rgba(10,92,68,0.06)" strokeWidth={0.6} />
+      {/* Connecting lines */}
+      <line x1="78" y1="72" x2="100" y2="100" {...SG} strokeDasharray="3 3" />
+      <line x1="130" y1="82" x2="100" y2="100" {...SG} strokeDasharray="3 3" />
+      <line x1="110" y1="125" x2="100" y2="100" {...SG} strokeDasharray="3 3" />
+    </svg>
+  )
+}
+
+function IllustrationSocial() {
+  return (
+    <svg viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg" style={{ width: '100%', height: '100%' }}>
+      {/* Central node */}
+      <circle cx="100" cy="100" r="20" {...S} />
+      <circle cx="100" cy="100" r="6" fill="rgba(10,92,68,0.15)" stroke="rgba(10,92,68,0.4)" strokeWidth={0.8} />
+      {/* Orbiting nodes */}
+      <circle cx="50" cy="50" r="14" stroke="rgba(46,204,113,0.35)" fill="none" strokeWidth={0.8} />
+      <circle cx="155" cy="55" r="12" stroke="rgba(46,204,113,0.35)" fill="none" strokeWidth={0.8} />
+      <circle cx="45" cy="145" r="10" stroke="rgba(46,204,113,0.35)" fill="none" strokeWidth={0.8} />
+      <circle cx="160" cy="140" r="15" stroke="rgba(46,204,113,0.35)" fill="none" strokeWidth={0.8} />
+      <circle cx="100" cy="175" r="11" stroke="rgba(46,204,113,0.35)" fill="none" strokeWidth={0.8} />
+      {/* Connection lines */}
+      <line x1="62" y1="60" x2="84" y2="84" {...SG} />
+      <line x1="145" y1="63" x2="116" y2="86" {...SG} />
+      <line x1="53" y1="138" x2="84" y2="114" {...SG} />
+      <line x1="148" y1="132" x2="116" y2="112" {...SG} />
+      <line x1="100" y1="165" x2="100" y2="120" {...SG} />
+      {/* Orbit ring */}
+      <circle cx="100" cy="100" r="68" {...SA} strokeDasharray="4 6" />
+      {/* Pulse rings */}
+      <circle cx="100" cy="100" r="35" {...SA} strokeDasharray="2 8" />
+      {/* Small interaction dots */}
+      <circle cx="50" cy="50" r="3" fill="rgba(10,92,68,0.1)" />
+      <circle cx="155" cy="55" r="3" fill="rgba(10,92,68,0.1)" />
+      <circle cx="160" cy="140" r="3" fill="rgba(10,92,68,0.1)" />
+    </svg>
+  )
+}
+
+function IllustrationBranding() {
+  return (
+    <svg viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg" style={{ width: '100%', height: '100%' }}>
+      {/* Diamond shape */}
+      <path d="M100 25 L165 100 L100 175 L35 100 Z" {...S} />
+      {/* Inner diamond */}
+      <path d="M100 55 L140 100 L100 145 L60 100 Z" stroke="rgba(46,204,113,0.35)" fill="none" strokeWidth={0.8} />
+      {/* Core */}
+      <path d="M100 80 L120 100 L100 120 L80 100 Z" stroke="rgba(10,92,68,0.4)" fill="rgba(46,204,113,0.06)" strokeWidth={0.8} />
+      {/* Horizontal & vertical axis */}
+      <line x1="35" y1="100" x2="165" y2="100" {...SA} />
+      <line x1="100" y1="25" x2="100" y2="175" {...SA} />
+      {/* Corner accents */}
+      <circle cx="100" cy="25" r="3" stroke="rgba(10,92,68,0.35)" fill="rgba(10,92,68,0.08)" strokeWidth={0.6} />
+      <circle cx="165" cy="100" r="3" stroke="rgba(10,92,68,0.35)" fill="rgba(10,92,68,0.08)" strokeWidth={0.6} />
+      <circle cx="100" cy="175" r="3" stroke="rgba(10,92,68,0.35)" fill="rgba(10,92,68,0.08)" strokeWidth={0.6} />
+      <circle cx="35" cy="100" r="3" stroke="rgba(10,92,68,0.35)" fill="rgba(10,92,68,0.08)" strokeWidth={0.6} />
+      {/* Radiating guidelines */}
+      <line x1="67" y1="62" x2="50" y2="45" {...SA} strokeDasharray="2 4" />
+      <line x1="133" y1="62" x2="150" y2="45" {...SA} strokeDasharray="2 4" />
+      <line x1="133" y1="138" x2="150" y2="155" {...SA} strokeDasharray="2 4" />
+      <line x1="67" y1="138" x2="50" y2="155" {...SA} strokeDasharray="2 4" />
+    </svg>
   )
 }

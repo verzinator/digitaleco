@@ -111,7 +111,7 @@ export default function ZoomSection() {
           </motion.div>
         </motion.div>
 
-        {/* Testo in Baskerville che appare sotto l'immagine */}
+        {/* Testo in Instrument Serif che appare sotto l'immagine */}
         <motion.div
           style={{
             marginTop: 'var(--space-10)',
