@@ -1,0 +1,120 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-06-10T00:00:00Z",
+  "title": "Design System: Digital Eco",
+  "extensions": {
+    "colorMeta": {
+      "primary":        { "role": "primary",  "displayName": "Verde Oliva Scuro",  "canonical": "oklch(35% 0.10 158)", "tonalRamp": ["oklch(15% 0.10 158)","oklch(22% 0.10 158)","oklch(29% 0.10 158)","oklch(35% 0.10 158)","oklch(45% 0.10 158)","oklch(58% 0.09 158)","oklch(72% 0.07 158)","oklch(88% 0.04 158)"] },
+      "accent":         { "role": "secondary","displayName": "Verde Foglia",       "canonical": "oklch(72% 0.20 158)", "tonalRamp": ["oklch(20% 0.15 158)","oklch(32% 0.18 158)","oklch(44% 0.20 158)","oklch(56% 0.22 158)","oklch(68% 0.21 158)","oklch(76% 0.18 158)","oklch(86% 0.12 158)","oklch(94% 0.06 158)"] },
+      "bg":             { "role": "neutral",  "displayName": "Carta Italiana",     "canonical": "oklch(98% 0.005 145)", "tonalRamp": ["oklch(18% 0.01 145)","oklch(30% 0.01 145)","oklch(45% 0.01 145)","oklch(60% 0.01 145)","oklch(72% 0.008 145)","oklch(83% 0.007 145)","oklch(92% 0.006 145)","oklch(98% 0.005 145)"] },
+      "text":           { "role": "neutral",  "displayName": "Inchiostro",         "canonical": "oklch(18% 0.025 260)", "tonalRamp": ["oklch(10% 0.02 260)","oklch(18% 0.025 260)","oklch(30% 0.02 260)","oklch(42% 0.015 260)","oklch(55% 0.01 260)","oklch(68% 0.008 260)","oklch(80% 0.005 260)","oklch(92% 0.003 260)"] },
+      "text-muted":     { "role": "neutral",  "displayName": "Inchiostro Attenuato","canonical": "oklch(52% 0.015 220)", "tonalRamp": [] },
+      "surface":        { "role": "neutral",  "displayName": "Superficie",         "canonical": "oklch(100% 0 0)",     "tonalRamp": [] }
+    },
+    "typographyMeta": {
+      "display": { "displayName": "Display", "purpose": "Hero headline, un solo uso per pagina. La parola chiave va in italic." },
+      "headline": { "displayName": "Headline", "purpose": "Titoli di sezione." },
+      "title":    { "displayName": "Title",    "purpose": "Nomi progetto, sottotitoli. Sempre italic." },
+      "body":     { "displayName": "Body",     "purpose": "Corpo testo. Max 65ch per riga." },
+      "label":    { "displayName": "Label",    "purpose": "Eyebrow, tag, metadati. Uppercase, tracking 0.22em." }
+    },
+    "shadows": [
+      { "name": "ambient-low",    "value": "0 2px 12px rgba(26,26,46,0.06)",  "purpose": "Card a riposo, pannelli." },
+      { "name": "ambient-medium", "value": "0 4px 12px rgba(26,26,46,0.08)",  "purpose": "Card in hover, dropdown." },
+      { "name": "ambient-high",   "value": "0 12px 32px rgba(26,26,46,0.12)", "purpose": "Modale, navbar floating, elementi in focus." }
+    ],
+    "motion": [
+      { "name": "ease-expo",     "value": "cubic-bezier(0.16, 1, 0.3, 1)", "purpose": "Entrate staggered, reveal da scroll." },
+      { "name": "ease-standard", "value": "cubic-bezier(0.4, 0, 0.2, 1)",  "purpose": "Transizioni di stato (hover, focus)." }
+    ],
+    "breakpoints": [
+      { "name": "md", "value": "768px" },
+      { "name": "lg", "value": "1024px" },
+      { "name": "xl", "value": "1280px" }
+    ]
+  },
+  "components": [
+    {
+      "name": "Primary Button",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "CTA principale. Verde Oliva Scuro, label uppercase.",
+      "html": "<button class=\"ds-btn-primary\">Consulenza Gratuita</button>",
+      "css": ".ds-btn-primary { display: inline-flex; align-items: center; font-family: 'DM Sans', sans-serif; font-size: 13px; font-weight: 600; letter-spacing: 0.02em; color: #F8F9FA; background: #0A5C44; padding: 13px 24px; border-radius: 8px; border: none; cursor: pointer; transition: background 140ms ease, transform 100ms ease; } .ds-btn-primary:hover { background: #084a37; transform: translateY(-1px); } .ds-btn-primary:focus-visible { outline: 3px solid rgba(10,92,68,0.4); outline-offset: 2px; }"
+    },
+    {
+      "name": "Secondary Button",
+      "kind": "button",
+      "refersTo": "button-secondary",
+      "description": "Azione secondaria. Ghost con bordo sottile.",
+      "html": "<button class=\"ds-btn-secondary\">Vedi i Progetti</button>",
+      "css": ".ds-btn-secondary { display: inline-flex; align-items: center; font-family: 'DM Sans', sans-serif; font-size: 13px; font-weight: 500; color: #0A5C44; background: transparent; padding: 13px 24px; border-radius: 8px; border: 1px solid #E2E5E9; cursor: pointer; transition: border-color 140ms ease, color 140ms ease; } .ds-btn-secondary:hover { border-color: #0A5C44; color: #084a37; } .ds-btn-secondary:focus-visible { outline: 3px solid rgba(10,92,68,0.3); outline-offset: 2px; }"
+    },
+    {
+      "name": "Navbar CTA Pill",
+      "kind": "button",
+      "refersTo": "button-cta-pill",
+      "description": "Esclusivo alla navbar. Verde Foglia, pill. Non replicare altrove.",
+      "html": "<button class=\"ds-btn-pill\">Parliamone!</button>",
+      "css": ".ds-btn-pill { display: inline-flex; align-items: center; font-family: 'DM Sans', sans-serif; font-size: 13px; font-weight: 600; color: #0A5C44; background: #2ECC71; padding: 8px 16px; border-radius: 999px; border: none; cursor: pointer; transition: filter 140ms ease, transform 100ms ease; } .ds-btn-pill:hover { filter: brightness(1.07); } .ds-btn-pill:active { transform: scale(0.97); }"
+    },
+    {
+      "name": "Navbar",
+      "kind": "nav",
+      "refersTo": "button-cta-pill",
+      "description": "Pill floating centrata. Logo sinistra, CTA destra. Ambient High shadow.",
+      "html": "<header class=\"ds-navbar\"><span class=\"ds-navbar-logo\">Digital Eco</span><button class=\"ds-btn-pill\">Parliamone!</button></header>",
+      "css": ".ds-navbar { display: flex; align-items: center; justify-content: space-between; height: 56px; background: #F1F3F5; border: 1px solid #C8CDD4; border-radius: 28px; padding: 6px 8px 6px 16px; box-shadow: 0 12px 32px rgba(26,26,46,0.12); gap: 48px; } .ds-navbar-logo { font-family: 'Libre Baskerville', serif; font-size: 15px; font-weight: 700; color: #1A1A2E; }"
+    },
+    {
+      "name": "Project Card",
+      "kind": "card",
+      "refersTo": "button-secondary",
+      "description": "Card progetto a larghezza piena. Layout 2 colonne. Immagine + testo alternati.",
+      "html": "<article class=\"ds-project-card\"><div class=\"ds-project-img\"></div><div class=\"ds-project-content\"><h3 class=\"ds-project-title\">Nome Progetto</h3><p class=\"ds-project-desc\">Descrizione del progetto realizzato per il cliente.</p><a class=\"ds-project-link\" href=\"#\">Scopri il progetto →</a></div></article>",
+      "css": ".ds-project-card { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; padding: 64px 0; border-bottom: 1px solid #E2E5E9; align-items: center; } .ds-project-img { aspect-ratio: 4/3; background: #F1F3F5; border-radius: 12px; overflow: hidden; transition: transform 400ms cubic-bezier(0.16,1,0.3,1); } .ds-project-img:hover { transform: scale(1.02); } .ds-project-title { font-family: 'Libre Baskerville', serif; font-size: clamp(1.5rem,2.5vw,2.25rem); font-weight: 700; font-style: italic; color: #1A1A2E; margin-bottom: 12px; line-height: 1.2; } .ds-project-desc { font-family: 'DM Sans', sans-serif; font-size: 16px; color: #6C757D; line-height: 1.7; margin-bottom: 24px; } .ds-project-link { font-family: 'DM Sans', sans-serif; font-size: 13px; font-weight: 600; color: #0A5C44; text-decoration: none; }"
+    },
+    {
+      "name": "Text Input",
+      "kind": "input",
+      "refersTo": "button-primary",
+      "description": "Campo form. Sfondo offset, focus verde primario.",
+      "html": "<div class=\"ds-field\"><label class=\"ds-label\" for=\"f1\">Nome</label><input class=\"ds-input\" id=\"f1\" type=\"text\" placeholder=\"Il tuo nome\"></div>",
+      "css": ".ds-field { display: flex; flex-direction: column; gap: 6px; } .ds-label { font-family: 'DM Sans', sans-serif; font-size: 14px; font-weight: 500; color: #1A1A2E; } .ds-input { background: #F1F3F5; border: 1px solid #E2E5E9; border-radius: 8px; padding: 12px 16px; font-family: 'DM Sans', sans-serif; font-size: 15px; color: #1A1A2E; transition: border-color 140ms ease, box-shadow 140ms ease; } .ds-input::placeholder { color: #ADB5BD; } .ds-input:focus { outline: none; border-color: #0A5C44; box-shadow: 0 0 0 3px rgba(10,92,68,0.12); }"
+    }
+  ],
+  "narrative": {
+    "northStar": "Lo Studio dell'Artigiano Digitale",
+    "overview": "Digital Eco si presenta come uno studio dove ogni decisione visiva è intenzionale e ogni elemento ha guadagnato il proprio posto. Il sistema rifiuta l'ornamento gratuito: la raffinatezza emerge dalla disciplina, non dalla decorazione. La palette è radicata nel Mediterraneo: verde oliva profondo, superfici carta, tipografia che porta il peso della tradizione editoriale italiana.",
+    "keyCharacteristics": [
+      "Serif per display e titoli, sans per body e label",
+      "Spazio abbondante come segnale di qualità",
+      "Verde come firma, non decorazione",
+      "Ombre diffuse e basse, mai drammatiche",
+      "Gerarchia tipografica con contrasto forte tra livelli"
+    ],
+    "rules": [
+      { "name": "La Regola della Firma Verde",     "body": "Il verde primario compare su ≤10% di qualsiasi schermata. La sua rarità è il punto.", "section": "colors" },
+      { "name": "La Regola dell'Offset Minimo",    "body": "Nessuna superficie è puro #fff isolata. Carta Italiana come base, Superficie come elevazione.", "section": "colors" },
+      { "name": "La Regola del Contrasto di Registro", "body": "Display e Headline usano Baskerville. Body e Label usano DM Sans. Non mescolare.", "section": "typography" },
+      { "name": "La Regola dell'Italic come Accento", "body": "L'italic di Baskerville non è enfasi generica — è calore, è la parola che il brand vuole che tu ricordi.", "section": "typography" },
+      { "name": "La Regola Flat-by-Default",       "body": "Le superfici sono piatte a riposo. Le ombre appaiono come risposta allo stato.", "section": "elevation" }
+    ],
+    "dos": [
+      "Usare Libre Baskerville italic per la parola chiave in ogni headline principale",
+      "Lasciare spazio — padding di sezione minimo 96px verticale",
+      "Usare Verde Oliva Scuro come momento, non come sfondo",
+      "Alternare immagine sinistra/destra nelle card progetto",
+      "Applicare ombre solo come risposta allo stato"
+    ],
+    "donts": [
+      "Non usare gradienti viola su sfondo bianco, card identiche in griglia infinita, font Inter ovunque",
+      "Non replicare l'estetica Allianz Bank: sovraccarico, corporate grigio, nessuna gerarchia",
+      "Non usare il template SaaS: big number + small label + supporting stats + gradient accent",
+      "Non usare Verde Foglia come sfondo di sezione o elemento dominante",
+      "Non usare border-left colorato come decorazione su card o list item",
+      "Non usare background-clip text con gradiente",
+      "Non usare Libre Baskerville per il body text"
+    ]
+  }
+}

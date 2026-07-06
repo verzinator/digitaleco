@@ -96,49 +96,58 @@ export default function ImageHero() {
                 {/* H1 */}
                 <h1 style={{ fontFamily: 'var(--font-display)', margin: 0, padding: 0 }}>
                   <span className="sr-only">Digital Eco — Agenzia di Comunicazione, Web Design e Advertising Digitale a Venezia</span>
-                  {['Make.', 'Every project.', 'Better.'].map((line, lineIdx) => {
-                    const words = line.split(' ')
-                    const wordsBefore = ['Make.', 'Every project.', 'Better.']
-                      .slice(0, lineIdx)
-                      .reduce((acc, l) => acc + l.split(' ').length, 0)
+                  {(() => {
+                    const lines = ['Make.', 'Every project.', 'Better.']
+                    let charCount = 0
 
-                    return (
-                      <div
-                        key={lineIdx}
-                        style={{
-                          display: 'flex',
-                          flexWrap: 'wrap',
-                          gap: 'clamp(8px, 1.5vw, 20px)',
-                          clipPath: 'inset(-10% -10% -20% -10%)',
-                        }}
-                      >
-                        {words.map((word, wordIdx) => (
-                          <motion.span
-                            key={wordIdx}
-                            initial={rm ? false : { opacity: 0, y: '60%' }}
-                            animate={{ opacity: 1, y: 0 }}
-                            transition={{
-                              duration: 0.8,
-                              delay: SPLASH_DURATION + (wordsBefore + wordIdx) * 0.15,
-                              ease: EASE,
-                            }}
-                            style={{
-                              display: 'block',
-                              fontFamily: 'var(--font-display)',
-                              fontSize: 'clamp(44px, 9vw, 140px)',
-                              fontWeight: 400,
-                              fontStyle: 'italic',
-                              letterSpacing: '-0.04em',
-                              lineHeight: 0.95,
-                              color: '#FFFFFF',
-                            }}
-                          >
-                            {word}
-                          </motion.span>
-                        ))}
-                      </div>
-                    )
-                  })}
+                    return lines.map((line, lineIdx) => {
+                      const chars = line.split('')
+
+                      return (
+                        <div
+                          key={lineIdx}
+                          style={{
+                            display: 'flex',
+                            flexWrap: 'wrap',
+                            clipPath: 'inset(-10% -10% -20% -10%)',
+                          }}
+                        >
+                          {chars.map((char, charIdx) => {
+                            const isSpace = char === ' '
+                            const delay = SPLASH_DURATION + charCount * 0.04
+                            charCount++
+
+                            return (
+                              <motion.span
+                                key={charIdx}
+                                initial={rm ? false : { opacity: 0, y: '100%' }}
+                                animate={{ opacity: 1, y: 0 }}
+                                transition={{
+                                  duration: 0.6,
+                                  delay,
+                                  ease: EASE,
+                                }}
+                                aria-hidden="true"
+                                style={{
+                                  display: 'inline-block',
+                                  fontFamily: 'var(--font-display)',
+                                  fontSize: 'clamp(44px, 9vw, 140px)',
+                                  fontWeight: 400,
+                                  fontStyle: 'italic',
+                                  letterSpacing: '-0.04em',
+                                  lineHeight: 0.95,
+                                  color: '#FFFFFF',
+                                  ...(isSpace ? { width: 'clamp(8px, 1.5vw, 20px)' } : {}),
+                                }}
+                              >
+                                {isSpace ? '\u00A0' : char}
+                              </motion.span>
+                            )
+                          })}
+                        </div>
+                      )
+                    })
+                  })()}
                 </h1>
 
                 {/* CTA button */}

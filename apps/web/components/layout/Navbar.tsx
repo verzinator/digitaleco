@@ -3,9 +3,6 @@
 import React from 'react'
 import Image from 'next/image'
 
-const BG = '#F1F3F5'
-const STROKE = '#C8CDD4'
-
 export default function Navbar() {
   function cta() {
     const el = document.getElementById('consulenza')
@@ -13,64 +10,70 @@ export default function Navbar() {
   }
 
   return (
-    <header
-      style={{
-        position: 'fixed',
-        top: '20px',
-        left: '50%',
-        transform: 'translateX(-50%)',
-        height: '44px',
-        width: 'calc(100% - 24px)',
-        maxWidth: '380px',
-        background: BG,
-        border: `1px solid ${STROKE}`,
-        borderRadius: '22px',
-        boxShadow: '0 2px 20px rgba(0,0,0,0.08)',
-        zIndex: 9999,
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'space-between',
-        padding: '4px 6px 4px 14px',
-        gap: '12px',
-      }}
-    >
-      {/* Logo */}
-      <a
-        href="/"
-        aria-label="Torna alla home"
-        style={{
-          display: 'flex',
-          alignItems: 'center',
-          textDecoration: 'none',
-        }}
-      >
-        <Image src="/logo-digital-eco.png" alt="Digital Eco" width={120} height={30} style={{ height: '24px', width: 'auto', filter: 'brightness(0)' }} />
-      </a>
+    <>
+      <style>{`
+        .nav-pill {
+          position: fixed;
+          top: 16px;
+          left: 50%;
+          transform: translateX(-50%);
+          height: 56px;
+          width: calc(100% - 24px);
+          max-width: 420px;
+          background: rgba(255, 255, 255, 0.85);
+          backdrop-filter: blur(16px);
+          -webkit-backdrop-filter: blur(16px);
+          border: 1px solid rgba(26, 26, 46, 0.06);
+          border-radius: 28px;
+          box-shadow: 0 4px 24px rgba(0, 0, 0, 0.06), 0 1px 2px rgba(0, 0, 0, 0.04);
+          z-index: 9999;
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          padding: 6px 6px 6px 20px;
+          gap: 12px;
+        }
+        .nav-cta {
+          background: var(--color-primary);
+          color: #F8F9FA;
+          border: none;
+          padding: 10px 22px;
+          border-radius: 22px;
+          font-size: 14px;
+          font-family: var(--font-body);
+          font-weight: 500;
+          letter-spacing: 0.01em;
+          cursor: pointer;
+          white-space: nowrap;
+          transition: background 200ms ease, transform 120ms ease;
+        }
+        .nav-cta:hover {
+          background: var(--color-primary-hover);
+        }
+        .nav-cta:active {
+          transform: scale(0.97);
+        }
+      `}</style>
+      <header className="nav-pill">
+        {/* Logo */}
+        <a
+          href="/"
+          aria-label="Torna alla home"
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            textDecoration: 'none',
+          }}
+        >
+          <Image src="/logo-digital-eco.png" alt="Digital Eco" width={120} height={30} style={{ height: '30px', width: 'auto', filter: 'brightness(0)' }} />
+        </a>
 
-      {/* CTA Button */}
-      <button
-        onClick={cta}
-        style={{
-          background: 'var(--color-accent)',
-          color: 'var(--color-primary)',
-          border: 'none',
-          padding: '6px 14px',
-          borderRadius: '999px',
-          fontSize: '12px',
-          fontFamily: 'var(--font-body)',
-          fontWeight: 600,
-          cursor: 'pointer',
-          transition: 'filter 140ms ease, transform 100ms ease',
-          whiteSpace: 'nowrap',
-        }}
-        onMouseEnter={e => (e.currentTarget.style.filter = 'brightness(1.07)')}
-        onMouseLeave={e => (e.currentTarget.style.filter = 'none')}
-        onMouseDown={e => (e.currentTarget.style.transform = 'scale(0.97)')}
-        onMouseUp={e => (e.currentTarget.style.transform = 'scale(1)')}
-      >
-        Parliamone!
-      </button>
-    </header>
+        {/* CTA Button */}
+        <button onClick={cta} className="nav-cta">
+          Parliamone
+        </button>
+      </header>
+    </>
   )
 }
 

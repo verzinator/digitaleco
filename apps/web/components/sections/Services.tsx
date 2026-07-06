@@ -46,9 +46,13 @@ function ServiceCard({
   index: number
 }) {
   const Illustration = service.illustration
+  const rm = useReducedMotion()
+  const cardRef = useRef<HTMLDivElement>(null)
+  const isInView = useInView(cardRef, { once: true, margin: '-50px' })
 
   return (
     <div
+      ref={cardRef}
       style={{
         background: '#222824',
         borderRadius: '20px',
@@ -103,6 +107,7 @@ function ServiceCard({
 
       {/* Illustration */}
       <div
+        className={!rm && isInView ? 'svg-draw-active' : ''}
         style={{
           width: '100%',
           maxWidth: '200px',
@@ -267,6 +272,42 @@ export default function Services() {
 
       {/* Marquee — JS-driven infinite scroll */}
       <Marquee />
+
+      {/* SVG draw animation styles */}
+      <style>{`
+        @keyframes svg-draw {
+          to { stroke-dashoffset: 0; }
+        }
+        .svg-draw-active path,
+        .svg-draw-active line,
+        .svg-draw-active circle,
+        .svg-draw-active rect,
+        .svg-draw-active polyline {
+          stroke-dasharray: 500;
+          stroke-dashoffset: 500;
+          animation: svg-draw 3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+        .svg-draw-active path:nth-child(2) { animation-delay: 0.08s; }
+        .svg-draw-active path:nth-child(3) { animation-delay: 0.16s; }
+        .svg-draw-active path:nth-child(4) { animation-delay: 0.24s; }
+        .svg-draw-active line:nth-of-type(1) { animation-delay: 0.1s; }
+        .svg-draw-active line:nth-of-type(2) { animation-delay: 0.18s; }
+        .svg-draw-active line:nth-of-type(3) { animation-delay: 0.26s; }
+        .svg-draw-active line:nth-of-type(4) { animation-delay: 0.34s; }
+        .svg-draw-active line:nth-of-type(5) { animation-delay: 0.42s; }
+        .svg-draw-active circle:nth-of-type(1) { animation-delay: 0.12s; }
+        .svg-draw-active circle:nth-of-type(2) { animation-delay: 0.2s; }
+        .svg-draw-active circle:nth-of-type(3) { animation-delay: 0.28s; }
+        .svg-draw-active circle:nth-of-type(4) { animation-delay: 0.36s; }
+        .svg-draw-active circle:nth-of-type(5) { animation-delay: 0.44s; }
+        .svg-draw-active circle:nth-of-type(6) { animation-delay: 0.52s; }
+        .svg-draw-active rect:nth-of-type(1) { animation-delay: 0.06s; }
+        .svg-draw-active rect:nth-of-type(2) { animation-delay: 0.14s; }
+        .svg-draw-active rect:nth-of-type(3) { animation-delay: 0.22s; }
+        .svg-draw-active rect:nth-of-type(4) { animation-delay: 0.3s; }
+        .svg-draw-active rect:nth-of-type(5) { animation-delay: 0.38s; }
+        .svg-draw-active rect:nth-of-type(6) { animation-delay: 0.46s; }
+      `}</style>
     </section>
   )
 }
