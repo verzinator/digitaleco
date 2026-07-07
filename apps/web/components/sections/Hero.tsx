@@ -35,7 +35,7 @@ export default function Hero() {
       aria-label="Chi siamo"
       style={{
         background: 'var(--color-bg)',
-        paddingBlock: 'clamp(96px, 14vw, 200px)',
+        paddingBlock: 'clamp(64px, 8vw, 120px)',
         paddingInline: 'clamp(24px, 5vw, 80px)',
       }}
     >

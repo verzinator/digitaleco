@@ -127,11 +127,11 @@ export default function ContactForm() {
       id="consulenza"
       aria-labelledby="contact-title"
       style={{
-        background: 'var(--color-primary)',
+        background: 'var(--color-bg)',
         padding: 'clamp(80px, 10vw, 140px) clamp(24px, 4vw, 48px)',
       }}
     >
-      <div style={{ maxWidth: '1080px', margin: '0 auto' }}>
+      <div style={{ maxWidth: '1400px', margin: '0 auto' }}>
         <div
           style={{
             display: 'grid',
@@ -171,18 +171,18 @@ export default function ContactForm() {
                 fontStyle: 'italic',
                 lineHeight: 1.05,
                 letterSpacing: '-0.03em',
-                color: 'var(--color-text-inverse)',
+                color: 'var(--color-text)',
                 margin: '0 0 clamp(20px, 3vw, 32px) 0',
               }}
             >
-              Parliamone. È gratis.
+              Parliamone. <em style={{ fontStyle: 'italic', color: 'var(--color-accent)' }}>È gratis.</em>
             </h2>
 
             <p
               style={{
                 fontFamily: 'var(--font-body)',
                 fontSize: 'clamp(15px, 1.1vw + 0.2rem, 18px)',
-                color: 'rgba(248,249,250,0.7)',
+                color: 'var(--color-text-muted)',
                 lineHeight: 1.7,
                 margin: '0 0 clamp(32px, 4vw, 48px) 0',
                 maxWidth: '420px',
@@ -220,7 +220,7 @@ export default function ContactForm() {
                       fontFamily: 'var(--font-body)',
                       fontSize: '14px',
                       fontWeight: 500,
-                      color: 'rgba(248,249,250,0.85)',
+                      color: 'var(--color-text)',
                       letterSpacing: '0.01em',
                     }}
                   >
@@ -238,9 +238,10 @@ export default function ContactForm() {
             transition={{ duration: 0.7, delay: 0.12, ease: EASE }}
             style={{
               background: 'var(--color-surface)',
-              borderRadius: 'var(--radius-lg)',
+              borderRadius: '32px',
               padding: 'clamp(28px, 4vw, 44px)',
-              boxShadow: '0 24px 48px rgba(0,0,0,0.15)',
+              border: '1px solid oklch(from #1A1A2E l c h / 0.08)',
+              boxShadow: '0 4px 24px oklch(from #1A1A2E l c h / 0.05)',
             }}
           >
             {submitState === 'success' ? (

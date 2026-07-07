@@ -40,8 +40,8 @@ function tokenizeWords(input: string): WordToken[] {
 }
 
 const PARAGRAPHS = [
-  'La tua *azienda* merita una *presenza digitale* costruita con cura. Non template, non scorciatoie: *strategia su misura* e *artigianato digitale.*',
-  'I progetti che realizziamo portano *risultati:* più *visibilità,* più *clienti,* più *fatturato.* Misuriamo tutto, *ottimizziamo sempre.*',
+  'Non siamo quelli dei template. Siamo quelli che si siedono al tuo *tavolo,* capiscono dove vuoi arrivare e costruiscono il percorso per portarti lì.',
+  'Digital Eco nasce per dare alle imprese italiane una comunicazione che *funziona* davvero. Fatta bene, pensata meglio, misurata *sempre.*',
 ]
 
 function ScrollParagraph({
@@ -89,14 +89,20 @@ function WordSpan({
   end: number
 }) {
   const opacity = useTransform(scrollYProgress, [start, end], [0.15, 1])
+  const color = useTransform(
+    scrollYProgress,
+    [start, end],
+    token.emphasis ? ['#FFFFFF', '#0A8F5C'] : ['#FFFFFF', '#FFFFFF']
+  )
 
   return (
     <>
       <motion.span
         style={{
+          color: token.emphasis ? color : undefined,
           opacity,
           display: 'inline',
-          willChange: 'opacity',
+          willChange: 'opacity, color',
           fontFamily: token.emphasis ? 'var(--font-display)' : 'var(--font-body)',
           fontStyle: token.emphasis ? 'italic' : 'normal',
           fontWeight: token.emphasis ? 400 : 300,
@@ -132,7 +138,7 @@ export default function ScrollReveal() {
       ref={containerRef}
       aria-labelledby="approach-title"
       style={{
-        background: '#062B1F',
+        background: '#0F1410',
         color: '#FFFFFF',
         minHeight: '200vh',
         position: 'relative',
@@ -165,6 +171,7 @@ export default function ScrollReveal() {
                       fontFamily: t.emphasis ? 'var(--font-display)' : 'var(--font-body)',
                       fontStyle: t.emphasis ? 'italic' : 'normal',
                       fontWeight: t.emphasis ? 400 : 300,
+                      color: t.emphasis ? 'var(--color-accent)' : undefined,
                     }}>
                       {t.text}
                     </span>

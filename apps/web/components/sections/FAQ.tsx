@@ -50,11 +50,11 @@ function AccordionItem({ item, index, open, onToggle }: {
       {/* Single wrapper with consistent 1px border + box-shadow for 2px effect when open */}
       <div style={{
         borderRadius: '16px',
-        border: '1px solid var(--color-divider)',
-        boxShadow: open ? '0 0 0 1px #999' : 'none',
+        border: '1px solid rgba(255,255,255,0.06)',
+        boxShadow: open ? '0 0 0 1px rgba(255,255,255,0.4)' : 'none',
         transition: 'box-shadow 0.3s ease',
         overflow: 'hidden',
-        background: '#FFFFFF',
+        background: 'rgba(255,255,255,0.06)',
       }}>
         <button
           onClick={onToggle}
@@ -67,7 +67,7 @@ function AccordionItem({ item, index, open, onToggle }: {
             gap: '24px',
             background: 'transparent',
             border: 'none',
-            padding: 'clamp(18px, 2vw, 24px) clamp(20px, 2.5vw, 32px)',
+            padding: 'clamp(22px, 2.5vw, 28px) clamp(24px, 3vw, 36px)',
             cursor: 'pointer',
             textAlign: 'left',
             outline: 'none',
@@ -75,9 +75,9 @@ function AccordionItem({ item, index, open, onToggle }: {
         >
           <span style={{
             fontFamily: 'var(--font-body)',
-            fontSize: 'clamp(14px, 1.1vw, 16px)',
+            fontSize: 'clamp(17px, 1.3vw, 19px)',
             fontWeight: 500,
-            color: 'var(--color-text)',
+            color: 'rgba(255,255,255,0.9)',
             lineHeight: 1.4,
           }}>
             {item.q}
@@ -94,7 +94,7 @@ function AccordionItem({ item, index, open, onToggle }: {
               justifyContent: 'center',
               fontSize: '20px',
               fontWeight: 300,
-              color: 'var(--color-text-muted)',
+              color: 'rgba(255,255,255,0.4)',
               lineHeight: 1,
             }}
           >
@@ -111,12 +111,12 @@ function AccordionItem({ item, index, open, onToggle }: {
               style={{ overflow: 'hidden' }}
             >
               <div style={{
-                padding: '0 clamp(20px, 2.5vw, 32px) clamp(18px, 2vw, 24px)',
+                padding: '0 clamp(24px, 3vw, 36px) clamp(22px, 2.5vw, 28px)',
               }}>
                 <p style={{
                   fontFamily: 'var(--font-body)',
-                  fontSize: 'clamp(13px, 1vw, 15px)',
-                  color: 'var(--color-text-muted)',
+                  fontSize: 'clamp(16px, 1.2vw, 17px)',
+                  color: 'rgba(255,255,255,0.5)',
                   lineHeight: 1.7,
                   margin: 0,
                   maxWidth: '60ch',
@@ -140,7 +140,7 @@ export default function FAQ() {
     <section
       aria-labelledby="faq-title"
       style={{
-        background: 'var(--color-surface-offset)',
+        background: '#0A3D2E',
         padding: 'clamp(64px, 8vw, 120px) clamp(24px, 4vw, 48px)',
       }}
     >
@@ -183,7 +183,7 @@ export default function FAQ() {
               fontStyle: 'italic',
               lineHeight: 1.1,
               letterSpacing: '-0.035em',
-              color: 'var(--color-text)',
+              color: 'var(--color-text-inverse)',
               margin: 0,
             }}
           >
@@ -191,7 +191,7 @@ export default function FAQ() {
           </motion.h2>
 
           {/* Accordion */}
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 'clamp(10px, 1.2vw, 16px)' }}>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 'clamp(16px, 2vw, 24px)' }}>
             {FAQS.map((item, i) => (
               <AccordionItem
                 key={i}

@@ -33,7 +33,7 @@ export default function ImageHero() {
       ref={sectionRef}
       aria-label="Digital Eco"
       style={{
-        height: '180svh',
+        height: '140svh',
         background: 'var(--color-bg)',
       }}
     >
