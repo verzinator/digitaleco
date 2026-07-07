@@ -78,7 +78,7 @@ function ServiceCard({
       <h3
         style={{
           fontFamily: 'var(--font-display)',
-          fontSize: 'clamp(1.4rem, 1rem + 1.5vw, 2rem)',
+          fontSize: 'clamp(1.6rem, 1rem + 1.8vw, 2.2rem)',
           fontWeight: 400,
           fontStyle: 'italic',
           letterSpacing: '-0.02em',
@@ -94,7 +94,7 @@ function ServiceCard({
       <p
         style={{
           fontFamily: 'var(--font-body)',
-          fontSize: '13px',
+          fontSize: '14px',
           fontWeight: 400,
           color: 'rgba(248,249,250,0.45)',
           letterSpacing: '0.01em',
@@ -229,7 +229,7 @@ export default function Services() {
           zIndex: 0,
         }}
       />
-      <div style={{ maxWidth: '1200px', margin: '0 auto', position: 'relative', zIndex: 1, padding: '0 clamp(24px, 4vw, 48px)' }}>
+      <div style={{ maxWidth: '1400px', margin: '0 auto', position: 'relative', zIndex: 1, padding: '0 clamp(24px, 4vw, 48px)' }}>
         {/* Header */}
         <motion.div
           initial={rm ? false : { opacity: 0, y: 20 }}

@@ -178,11 +178,11 @@ export default function FAQ() {
             transition={{ duration: 0.6, ease: EASE }}
             style={{
               fontFamily: 'var(--font-display)',
-              fontSize: 'clamp(28px, 3.5vw, 44px)',
+              fontSize: 'clamp(2rem, 1rem + 3.5vw, 3.5rem)',
               fontWeight: 400,
               fontStyle: 'italic',
-              lineHeight: 1.15,
-              letterSpacing: '-0.03em',
+              lineHeight: 1.1,
+              letterSpacing: '-0.035em',
               color: 'var(--color-text)',
               margin: 0,
             }}

@@ -215,14 +215,14 @@ export default function Projects() {
             style={{
               fontFamily: 'var(--font-display)',
               fontStyle: 'italic',
-              fontSize: 'clamp(2rem, 1rem + 3.5vw, 4rem)',
-              lineHeight: 1.05,
+              fontSize: 'clamp(2rem, 1rem + 3.5vw, 3.5rem)',
+              lineHeight: 1.1,
               letterSpacing: '-0.035em',
               color: 'var(--color-text)',
             }}
           >
             Quello che abbiamo fatto{' '}
-            <em style={{ fontStyle: 'italic', color: 'var(--color-primary)' }}>parla per noi</em>
+            <em style={{ fontStyle: 'italic', color: 'var(--color-accent)' }}>parla per noi</em>
           </h2>
         </motion.div>
 

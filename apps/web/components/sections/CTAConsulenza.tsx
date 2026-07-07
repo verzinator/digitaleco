@@ -19,7 +19,7 @@ export default function CTAConsulenza() {
       aria-labelledby="cta-title"
       style={{
         background: 'var(--color-bg)',
-        padding: 'clamp(32px, 5vw, 80px) clamp(20px, 4vw, 48px)',
+        padding: 'clamp(32px, 5vw, 80px) clamp(24px, 4vw, 48px)',
       }}
     >
       <motion.div
@@ -28,7 +28,7 @@ export default function CTAConsulenza() {
         viewport={{ once: true, margin: '-60px' }}
         transition={{ duration: 0.7, ease: EASE }}
         style={{
-          maxWidth: '1200px',
+          maxWidth: '1400px',
           margin: '0 auto',
           background: 'var(--color-primary)',
           borderRadius: 'clamp(16px, 2vw, 28px)',
@@ -54,9 +54,9 @@ export default function CTAConsulenza() {
             style={{
               fontFamily: 'var(--font-display)',
               fontStyle: 'italic',
-              fontSize: 'clamp(1.8rem, 1rem + 3vw, 3.4rem)',
+              fontSize: 'clamp(2rem, 1rem + 3.5vw, 3.5rem)',
               lineHeight: 1.1,
-              letterSpacing: '-0.03em',
+              letterSpacing: '-0.035em',
               color: '#FFFFFF',
               marginBottom: 'clamp(16px, 2vw, 28px)',
             }}
