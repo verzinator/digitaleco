@@ -3,13 +3,14 @@
 import { useState, useEffect, useRef } from 'react'
 import Image from 'next/image'
 
-const HOLD_AFTER_COMPLETE_MS = 500
-const EXIT_DURATION_MS = 900
+const HOLD_AFTER_COMPLETE_MS = 400
+const EXIT_DURATION_MS = 1000
 
 export default function SplashScreen() {
   const [progress, setProgress] = useState(0)
   const [phase, setPhase] = useState<'logo' | 'loading' | 'exit' | 'done'>('logo')
   const prefersReducedMotion = useRef(false)
+  const rm = prefersReducedMotion.current
 
   // Check reduced motion preference
   useEffect(() => {
@@ -25,7 +26,7 @@ export default function SplashScreen() {
   // Logo reveal → loading transition
   useEffect(() => {
     if (phase !== 'logo') return
-    const timeout = setTimeout(() => setPhase('loading'), 800)
+    const timeout = setTimeout(() => setPhase('loading'), 1200)
     return () => clearTimeout(timeout)
   }, [phase])
 
@@ -41,10 +42,10 @@ export default function SplashScreen() {
         }
         const increment =
           prev < 30
-            ? Math.random() * 6 + 2
+            ? Math.random() * 4 + 1.5
             : prev < 70
-              ? Math.random() * 10 + 4
-              : Math.random() * 20 + 8
+              ? Math.random() * 6 + 3
+              : Math.random() * 12 + 5
         return Math.min(prev + increment, 100)
       })
     }, 100)
@@ -63,7 +64,7 @@ export default function SplashScreen() {
   // Remove from DOM after exit animation
   useEffect(() => {
     if (phase === 'exit') {
-      const timeout = setTimeout(() => setPhase('done'), EXIT_DURATION_MS)
+      const timeout = setTimeout(() => setPhase('done'), EXIT_DURATION_MS + 100)
       return () => clearTimeout(timeout)
     }
   }, [phase])
@@ -71,13 +72,18 @@ export default function SplashScreen() {
   if (phase === 'done') return null
 
   const showBar = phase === 'loading' || phase === 'exit'
+  const isExit = phase === 'exit'
 
   return (
     <>
       <style>{`
-        @keyframes splash-line-shimmer {
+        @keyframes splash-shimmer {
           0% { transform: translateX(-100%); }
-          100% { transform: translateX(200%); }
+          100% { transform: translateX(250%); }
+        }
+        @keyframes splash-glow {
+          0%, 100% { opacity: 0.03; transform: scale(1); }
+          50% { opacity: 0.07; transform: scale(1.1); }
         }
       `}</style>
 
@@ -91,34 +97,54 @@ export default function SplashScreen() {
           flexDirection: 'column',
           alignItems: 'center',
           justifyContent: 'center',
-          backgroundColor: 'oklch(0.35 0.08 165)',
-          transform: phase === 'exit' ? 'translateY(-100%)' : 'translateY(0)',
-          transition:
-            phase === 'exit'
-              ? `transform ${EXIT_DURATION_MS}ms cubic-bezier(0.76, 0, 0.24, 1)`
-              : 'none',
-          willChange: phase === 'exit' ? 'transform' : 'auto',
+          backgroundColor: 'oklch(0.22 0.05 165)',
+          opacity: isExit ? 0 : 1,
+          transition: isExit
+            ? `opacity ${EXIT_DURATION_MS}ms cubic-bezier(0.76, 0, 0.24, 1)`
+            : 'none',
+          willChange: isExit ? 'opacity' : 'auto',
         }}
       >
+        {/* Ambient glow behind logo */}
+        <div
+          style={{
+            position: 'absolute',
+            width: '400px',
+            height: '400px',
+            borderRadius: '50%',
+            background: 'radial-gradient(circle, rgba(46,204,113,0.12) 0%, transparent 70%)',
+            animation: rm ? 'none' : 'splash-glow 3s ease-in-out infinite',
+            pointerEvents: 'none',
+          }}
+        />
+
         {/* Logo */}
         <div
           style={{
-            marginBottom: '2.5rem',
-            opacity: phase === 'logo' && !prefersReducedMotion.current ? 0 : 1,
-            transform: phase === 'logo' && !prefersReducedMotion.current ? 'scale(0.92)' : 'scale(1)',
-            transition: prefersReducedMotion.current
+            marginBottom: '1.2rem',
+            position: 'relative',
+            zIndex: 1,
+            opacity: phase === 'logo' && !rm ? 0 : 1,
+            transform: (() => {
+              if (phase === 'logo' && !rm) return 'scale(0.85) translateY(8px)'
+              if (isExit && !rm) return 'scale(1.08)'
+              return 'scale(1) translateY(0)'
+            })(),
+            transition: rm
               ? 'none'
-              : 'opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1), transform 0.6s cubic-bezier(0.16, 1, 0.3, 1)',
+              : isExit
+                ? `opacity ${EXIT_DURATION_MS}ms ease, transform ${EXIT_DURATION_MS}ms cubic-bezier(0.16, 1, 0.3, 1)`
+                : 'opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1), transform 0.7s cubic-bezier(0.16, 1, 0.3, 1)',
           }}
         >
           <Image
             src="/logo-digital-eco.png"
             alt="Digital Eco"
-            width={180}
-            height={60}
+            width={200}
+            height={67}
             priority
             style={{
-              width: 'clamp(120px, 20vw, 180px)',
+              width: 'clamp(140px, 22vw, 200px)',
               height: 'auto',
               objectFit: 'contain',
               filter: 'brightness(0) invert(1)',
@@ -129,25 +155,30 @@ export default function SplashScreen() {
         {/* Loading bar */}
         <div
           style={{
-            width: 'clamp(180px, 30vw, 280px)',
+            position: 'relative',
+            zIndex: 1,
+            width: 'clamp(160px, 25vw, 240px)',
             height: '2px',
-            backgroundColor: 'oklch(0.95 0.005 165 / 0.15)',
+            backgroundColor: 'rgba(255, 255, 255, 0.08)',
             borderRadius: '1px',
             overflow: 'hidden',
-            opacity: showBar ? 1 : 0,
-            transition: 'opacity 0.5s ease',
-            position: 'relative',
+            opacity: showBar ? (isExit ? 0 : 1) : 0,
+            transform: showBar ? 'scaleX(1)' : 'scaleX(0.8)',
+            transition: isExit
+              ? `opacity 400ms ease`
+              : 'opacity 0.5s ease, transform 0.5s cubic-bezier(0.16, 1, 0.3, 1)',
           }}
         >
-          {/* Progress fill */}
+          {/* Progress fill — accent green gradient */}
           <div
             style={{
               position: 'absolute',
               inset: 0,
               width: `${progress}%`,
-              backgroundColor: 'oklch(0.95 0.005 165 / 0.8)',
+              background: 'linear-gradient(90deg, rgba(46,204,113,0.6), rgba(46,204,113,0.9))',
               borderRadius: '1px',
               transition: 'width 0.12s ease-out',
+              boxShadow: '0 0 8px rgba(46,204,113,0.3)',
             }}
           />
           {/* Shimmer */}
@@ -157,15 +188,34 @@ export default function SplashScreen() {
                 position: 'absolute',
                 top: 0,
                 left: 0,
-                width: '40%',
+                width: '30%',
                 height: '100%',
                 background:
-                  'linear-gradient(90deg, transparent, oklch(0.95 0.005 165 / 0.4), transparent)',
-                animation: 'splash-line-shimmer 1.5s ease-in-out infinite',
+                  'linear-gradient(90deg, transparent, rgba(46,204,113,0.5), transparent)',
+                animation: 'splash-shimmer 1.8s ease-in-out infinite',
               }}
             />
           )}
         </div>
+
+        {/* Percentage counter */}
+        <span
+          style={{
+            position: 'relative',
+            zIndex: 1,
+            fontFamily: "'DM Sans', sans-serif",
+            fontSize: '11px',
+            fontWeight: 400,
+            letterSpacing: '0.15em',
+            color: 'rgba(255, 255, 255, 0.25)',
+            marginTop: '1.2rem',
+            opacity: showBar ? (isExit ? 0 : 1) : 0,
+            transition: isExit ? 'opacity 300ms ease' : 'opacity 0.5s ease 0.2s',
+            fontVariantNumeric: 'tabular-nums',
+          }}
+        >
+          {Math.round(progress)}%
+        </span>
       </div>
     </>
   )
