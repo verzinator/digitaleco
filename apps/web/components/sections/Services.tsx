@@ -55,7 +55,7 @@ function ServiceCard({
       ref={cardRef}
       style={{
         background: '#222824',
-        borderRadius: '20px',
+        borderRadius: '32px',
         border: 'none',
         padding: 'clamp(28px, 3vw, 40px) clamp(24px, 2.5vw, 32px)',
         display: 'flex',
@@ -65,13 +65,6 @@ function ServiceCard({
         gap: '0',
         aspectRatio: 'auto',
         overflow: 'hidden',
-        transition: 'border-color 0.4s ease, background 0.4s ease',
-      }}
-      onMouseEnter={e => {
-        e.currentTarget.style.background = '#0A2E22'
-      }}
-      onMouseLeave={e => {
-        e.currentTarget.style.background = '#222824'
       }}
     >
       {/* Title */}

@@ -156,14 +156,23 @@ function ProjectCard({
             {item.description}
           </p>
 
-          {/* CTA link */}
+          {/* CTA */}
           <span
             className="font-body inline-flex items-center gap-2"
             style={{
-              fontSize: '13px',
+              fontSize: 'clamp(13px, 1.1vw, 15px)',
               fontWeight: 600,
               letterSpacing: '0.04em',
-              color: 'var(--color-primary)',
+              color: 'var(--color-text)',
+              background: 'rgba(26, 26, 46, 0.06)',
+              backdropFilter: 'blur(8px)',
+              border: '1px solid rgba(26, 26, 46, 0.12)',
+              height: '44px',
+              padding: '0 clamp(20px, 2vw, 28px)',
+              borderRadius: 'var(--radius-sm)',
+              whiteSpace: 'nowrap',
+              width: 'fit-content',
+              transition: 'background 200ms ease, border-color 200ms ease',
             }}
           >
             Scopri il progetto

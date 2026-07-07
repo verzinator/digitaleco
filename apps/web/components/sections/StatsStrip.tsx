@@ -105,7 +105,7 @@ export default function StatsStrip() {
         <style>{`
           .stats-box {
             background: #222824;
-            border-radius: 20px;
+            border-radius: 32px;
             padding: clamp(32px, 4vw, 48px) clamp(24px, 3vw, 40px);
           }
           .stats-row {
