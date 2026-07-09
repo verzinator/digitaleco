@@ -41,22 +41,20 @@ export default function CustomCursor() {
       const isPointer = mode.current === 'pointer'
       const isProject = mode.current === 'project'
 
-      // Glass effect for text and project modes
-      const useGlass = isText || isProject
-      const glassValue = isProject
-        ? 'blur(6px) contrast(1.05) saturate(1.2)'
-        : 'blur(3px) contrast(1.1) saturate(1.3)'
+      // Glass effect for text mode, solid white for project
+      const useGlass = isText
+      const glassValue = 'blur(3px) contrast(1.1) saturate(1.3)'
       el.style.backdropFilter = useGlass ? glassValue : 'none'
       el.style.setProperty('-webkit-backdrop-filter', useGlass ? glassValue : 'none')
       el.style.background = isProject
-        ? 'rgba(255, 255, 255, 0.5)'
+        ? '#FFFFFF'
         : isPointer
           ? 'rgba(255, 255, 255, 0.08)'
           : 'transparent'
       el.style.borderColor = isText
         ? 'rgba(255, 255, 255, 0.15)'
         : isProject
-          ? 'rgba(255, 255, 255, 0.2)'
+          ? '#FFFFFF'
           : isPointer
             ? 'rgba(255, 255, 255, 0.3)'
             : 'rgba(255, 255, 255, 0.5)'
@@ -182,7 +180,7 @@ export default function CustomCursor() {
             fontSize: '13px',
             fontWeight: 500,
             letterSpacing: '0.06em',
-            color: 'rgba(255, 255, 255, 0.9)',
+            color: '#060D09',
             opacity: 0,
             transition: 'opacity 0.2s ease',
             whiteSpace: 'nowrap',

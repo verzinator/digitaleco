@@ -6,10 +6,10 @@ import Projects from '@/components/sections/Projects'
 import ContactForm from '@/components/sections/ContactForm'
 import FAQ from '@/components/sections/FAQ'
 import StatsStrip from '@/components/sections/StatsStrip'
-import ScrollReveal from '@/components/sections/ScrollReveal'
 import Services from '@/components/sections/Services'
 import SplashScreen from '@/components/ui/SplashScreen'
 import GlobalGradient from '@/components/ui/GlobalGradient'
+import AmbientBlobs from '@/components/ui/AmbientBlobs'
 
 const faqSchema = {
   '@context': 'https://schema.org',
@@ -77,14 +77,27 @@ export default function HomePage() {
       <GlobalGradient />
       <Navbar />
       <main id="main-content" tabIndex={-1}>
-        <ImageHero />
-        <div style={{ background: '#060D09' }}>
+        <div style={{ background: '#060D09', position: 'relative', '--mx': '50%', '--my': '50%' } as React.CSSProperties}>
+          <AmbientBlobs />
+          {/* Dot pattern */}
+          <div
+            aria-hidden="true"
+            style={{
+              position: 'absolute',
+              inset: 0,
+              backgroundImage: 'radial-gradient(rgba(255, 255, 255, 0.07) 1px, transparent 1px)',
+              backgroundSize: '20px 20px',
+              backgroundAttachment: 'fixed',
+              pointerEvents: 'none',
+              zIndex: 1,
+            }}
+          />
+          <ImageHero />
           <Hero />
-          <Projects />
         </div>
+        <Projects />
         <StatsStrip />
         <Services />
-        <ScrollReveal />
         <ContactForm />
         <FAQ />
       </main>

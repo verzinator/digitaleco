@@ -70,17 +70,33 @@ export default function Footer() {
     <footer
       role="contentinfo"
       style={{
-        background: '#052E22',
+        background: '#060D09',
         color: '#FFFFFF',
         overflow: 'hidden',
+        position: 'relative',
       }}
     >
+      {/* Dot pattern */}
+      <div
+        aria-hidden="true"
+        style={{
+          position: 'absolute',
+          inset: 0,
+          backgroundImage: 'radial-gradient(rgba(255, 255, 255, 0.07) 1px, transparent 1px)',
+          backgroundSize: '20px 20px',
+          backgroundAttachment: 'fixed',
+          pointerEvents: 'none',
+          zIndex: 1,
+        }}
+      />
       {/* ── Main content ── */}
       <div
         style={{
           maxWidth: '1200px',
           margin: '0 auto',
           padding: '64px 32px 0',
+          position: 'relative',
+          zIndex: 2,
         }}
       >
         {/* Top row: brand left + columns right */}

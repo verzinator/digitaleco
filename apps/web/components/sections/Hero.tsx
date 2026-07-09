@@ -1,52 +1,108 @@
 'use client'
 
-import { motion, useReducedMotion } from 'framer-motion'
+import { useRef } from 'react'
+import { motion, useReducedMotion, useScroll, useTransform, useSpring } from 'framer-motion'
 
-const EASE = [0.16, 1, 0.3, 1] as const
-
-/* Typographic fragments — alternating serif (display) and sans (body) */
+/* Typographic fragments — base sans (body), key words in serif (display) */
 const headline: { text: string; font: 'display' | 'body' }[] = [
   { text: 'Siamo ', font: 'body' },
-  { text: 'Digital Eco.', font: 'display' },
-  { text: '\n', font: 'body' },
+  { text: 'Digital Eco. ', font: 'display' },
   { text: 'Agenzia di ', font: 'body' },
-  { text: 'comunicazione,', font: 'display' },
-  { text: '\n', font: 'body' },
+  { text: 'comunicazione, ', font: 'display' },
   { text: 'web design ', font: 'display' },
   { text: 'e ', font: 'body' },
-  { text: 'advertising', font: 'display' },
-  { text: '\n', font: 'body' },
+  { text: 'advertising ', font: 'display' },
   { text: 'digitale a ', font: 'body' },
-  { text: 'Venezia.', font: 'display' },
-  { text: '\n', font: 'body' },
+  { text: 'Venezia. ', font: 'display' },
   { text: 'Trasformiamo ', font: 'body' },
-  { text: 'brand locali', font: 'display' },
-  { text: ' in presenze', font: 'body' },
-  { text: '\n', font: 'body' },
-  { text: 'digitali che competono con i ', font: 'body' },
+  { text: 'brand locali ', font: 'display' },
+  { text: 'in presenze digitali che competono con i ', font: 'body' },
   { text: 'grandi.', font: 'display' },
 ]
 
+// Split into words preserving font info
+const words: { text: string; font: 'display' | 'body'; isSpace: boolean }[] = []
+headline.forEach((fragment) => {
+  const parts = fragment.text.split(/(\s+)/)
+  parts.filter(Boolean).forEach((part) => {
+    words.push({ text: part, font: fragment.font, isSpace: part.trim() === '' })
+  })
+})
+const realWords = words.filter((w) => !w.isSpace)
+const totalWords = realWords.length
+
+const MIN_OPACITY = 0.12
+
+function ScrollWord({
+  text,
+  font,
+  wordIndex,
+  scrollProgress,
+}: {
+  text: string
+  font: 'display' | 'body'
+  wordIndex: number
+  scrollProgress: ReturnType<typeof useSpring>
+}) {
+  const isSerif = font === 'display'
+  // Each word has its own reveal window within the scroll range
+  // Spread words across 0.0 → 0.9 of scroll progress
+  const wordStart = (wordIndex / totalWords) * 0.7
+  const wordEnd = wordStart + 0.25
+
+  const opacity = useTransform(
+    scrollProgress,
+    [wordStart, wordEnd],
+    [MIN_OPACITY, 1]
+  )
+
+  return (
+    <motion.span
+      style={{
+        fontFamily: isSerif ? 'var(--font-display)' : 'var(--font-body)',
+        fontStyle: isSerif ? 'italic' : 'normal',
+        fontWeight: isSerif ? 400 : 300,
+        opacity,
+      }}
+    >
+      {text}
+    </motion.span>
+  )
+}
+
 export default function Hero() {
   const rm = useReducedMotion()
+  const sectionRef = useRef<HTMLDivElement>(null)
+
+  const { scrollYProgress } = useScroll({
+    target: sectionRef,
+    // start revealing when section top hits bottom of viewport
+    // finish when section bottom hits top of viewport
+    offset: ['start end', 'end 0.3'],
+  })
+
+  const smoothProgress = useSpring(scrollYProgress, {
+    damping: 50,
+    stiffness: 100,
+    mass: 0.5,
+  })
+
+  let wordIdx = 0
 
   return (
     <section
       aria-label="Chi siamo"
       style={{
-        position: 'relative',
-        background: '#060D09',
-        paddingBlock: 'clamp(64px, 8vw, 120px)',
+        background: 'transparent',
+        paddingBlock: 'clamp(64px, 8vw, 120px) clamp(120px, 16vw, 240px)',
         paddingInline: 'clamp(24px, 5vw, 80px)',
       }}
     >
-      <div style={{ position: 'relative', zIndex: 2, maxWidth: '960px', margin: '0 auto', textAlign: 'left' }}>
-        {/* Typographic statement */}
-        <motion.h2
-          initial={rm ? false : { opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: '-80px' }}
-          transition={{ duration: 0.8, ease: EASE }}
+      <div
+        ref={sectionRef}
+        style={{ position: 'relative', zIndex: 2, maxWidth: '960px', margin: '0 auto', textAlign: 'left' }}
+      >
+        <h2
           style={{
             fontSize: 'clamp(28px, 4vw + 1rem, 68px)',
             lineHeight: 1.15,
@@ -56,51 +112,40 @@ export default function Hero() {
             fontWeight: 400,
           }}
         >
-          {headline.map((fragment, i) => {
-            if (fragment.text === '\n') return <br key={i} />
-
-            const isSerif = fragment.font === 'display'
-            return (
-              <span
-                key={i}
-                style={{
-                  fontFamily: isSerif ? 'var(--font-display)' : 'var(--font-body)',
-                  fontStyle: isSerif ? 'italic' : 'normal',
-                  fontWeight: isSerif ? 400 : 300,
-                }}
-              >
-                {fragment.text}
-              </span>
-            )
-          })}
-        </motion.h2>
-
-        {/* Description paragraph */}
-        <motion.div
-          initial={rm ? false : { opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: '-60px' }}
-          transition={{ duration: 0.7, delay: 0.15, ease: EASE }}
-          style={{
-            marginTop: 'clamp(40px, 5vw, 64px)',
-            maxWidth: '620px',
-            marginLeft: 'auto',
-          }}
-        >
-          <p style={{
-            fontFamily: 'var(--font-body)',
-            fontSize: 'clamp(14px, 1.2vw + 0.2rem, 20px)',
-            color: 'rgba(240, 245, 242, 0.5)',
-            lineHeight: 1.75,
-            textAlign: 'right',
-            margin: 0,
-          }}>
-            Dal sito web alle campagne advertising, costruiamo
-            tutto ciò che serve per portare clienti alla tua azienda.
-            Lavoriamo con artigiani, ristoratori, studi professionali
-            e startup in Veneto e in tutta Italia.
-          </p>
-        </motion.div>
+          <span className="sr-only">
+            {headline.map((f) => f.text).join('')}
+          </span>
+          <span aria-hidden="true">
+            {words.map((item, i) => {
+              if (item.isSpace) return <span key={i}>{item.text}</span>
+              const currentIdx = wordIdx++
+              if (rm) {
+                const isSerif = item.font === 'display'
+                return (
+                  <span
+                    key={i}
+                    style={{
+                      fontFamily: isSerif ? 'var(--font-display)' : 'var(--font-body)',
+                      fontStyle: isSerif ? 'italic' : 'normal',
+                      fontWeight: isSerif ? 400 : 300,
+                    }}
+                  >
+                    {item.text}
+                  </span>
+                )
+              }
+              return (
+                <ScrollWord
+                  key={i}
+                  text={item.text}
+                  font={item.font}
+                  wordIndex={currentIdx}
+                  scrollProgress={smoothProgress}
+                />
+              )
+            })}
+          </span>
+        </h2>
       </div>
     </section>
   )

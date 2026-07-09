@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import { motion, AnimatePresence, useReducedMotion } from 'framer-motion'
+import AmbientBlobs from '@/components/ui/AmbientBlobs'
 
 const EASE: [number, number, number, number] = [0.16, 1, 0.3, 1]
 
@@ -140,11 +141,27 @@ export default function FAQ() {
     <section
       aria-labelledby="faq-title"
       style={{
-        background: '#0A3D2E',
+        background: '#060D09',
         padding: 'clamp(64px, 8vw, 120px) clamp(24px, 4vw, 48px)',
+        position: 'relative',
+        overflow: 'hidden',
       }}
     >
-      <div style={{ maxWidth: '1400px', margin: '0 auto' }}>
+      <AmbientBlobs variant="grey" />
+      {/* Dot pattern */}
+      <div
+        aria-hidden="true"
+        style={{
+          position: 'absolute',
+          inset: 0,
+          backgroundImage: 'radial-gradient(rgba(255, 255, 255, 0.07) 1px, transparent 1px)',
+          backgroundSize: '20px 20px',
+          backgroundAttachment: 'fixed',
+          pointerEvents: 'none',
+          zIndex: 1,
+        }}
+      />
+      <div style={{ maxWidth: '1400px', margin: '0 auto', position: 'relative', zIndex: 2 }}>
         <div className="faq-grid" style={{
           display: 'grid',
           gap: 'clamp(40px, 5vw, 80px)',
