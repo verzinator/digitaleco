@@ -414,9 +414,4 @@ img, video {
   transform: translateY(-2px);
 }
 
-/* Custom Cursor Hiding */
-@media (min-width: 769px) {
-  * {
-    cursor: none !important;
-  }
-}
+/* Custom cursor hiding is handled by CustomCursor component */

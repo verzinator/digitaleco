@@ -34,12 +34,13 @@ export default function Hero() {
     <section
       aria-label="Chi siamo"
       style={{
-        background: 'var(--color-bg)',
+        position: 'relative',
+        background: '#060D09',
         paddingBlock: 'clamp(64px, 8vw, 120px)',
         paddingInline: 'clamp(24px, 5vw, 80px)',
       }}
     >
-      <div style={{ maxWidth: '960px', margin: '0 auto', textAlign: 'left' }}>
+      <div style={{ position: 'relative', zIndex: 2, maxWidth: '960px', margin: '0 auto', textAlign: 'left' }}>
         {/* Typographic statement */}
         <motion.h2
           initial={rm ? false : { opacity: 0, y: 30 }}
@@ -50,7 +51,7 @@ export default function Hero() {
             fontSize: 'clamp(28px, 4vw + 1rem, 68px)',
             lineHeight: 1.15,
             letterSpacing: '-0.03em',
-            color: 'var(--color-text)',
+            color: '#F0F5F2',
             margin: 0,
             fontWeight: 400,
           }}
@@ -74,7 +75,7 @@ export default function Hero() {
           })}
         </motion.h2>
 
-        {/* Description paragraph with inline pill link */}
+        {/* Description paragraph */}
         <motion.div
           initial={rm ? false : { opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -89,7 +90,7 @@ export default function Hero() {
           <p style={{
             fontFamily: 'var(--font-body)',
             fontSize: 'clamp(14px, 1.2vw + 0.2rem, 20px)',
-            color: 'var(--color-text-muted)',
+            color: 'rgba(240, 245, 242, 0.5)',
             lineHeight: 1.75,
             textAlign: 'right',
             margin: 0,
@@ -102,46 +103,5 @@ export default function Hero() {
         </motion.div>
       </div>
     </section>
-  )
-}
-
-/* Inline pill-style link */
-function PillLink({ href, children }: { href: string; children: React.ReactNode }) {
-  const scroll = (e: React.MouseEvent<HTMLAnchorElement>) => {
-    e.preventDefault()
-    document.getElementById(href.replace('#', ''))?.scrollIntoView({ behavior: 'smooth' })
-  }
-
-  return (
-    <a
-      href={href}
-      onClick={scroll}
-      style={{
-        display: 'inline-flex',
-        alignItems: 'center',
-        fontFamily: 'var(--font-body)',
-        fontSize: '10px',
-        fontWeight: 600,
-        letterSpacing: '0.14em',
-        color: 'var(--color-text)',
-        border: '1px solid var(--color-divider)',
-        borderRadius: '999px',
-        padding: '4px 12px',
-        textDecoration: 'none',
-        verticalAlign: 'middle',
-        marginLeft: '4px',
-        transition: 'border-color var(--transition-interactive), color var(--transition-interactive)',
-      }}
-      onMouseEnter={e => {
-        e.currentTarget.style.borderColor = 'var(--color-primary)'
-        e.currentTarget.style.color = 'var(--color-primary)'
-      }}
-      onMouseLeave={e => {
-        e.currentTarget.style.borderColor = 'var(--color-divider)'
-        e.currentTarget.style.color = 'var(--color-text)'
-      }}
-    >
-      {children}
-    </a>
   )
 }

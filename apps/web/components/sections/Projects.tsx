@@ -1,10 +1,8 @@
 'use client'
 
-import { useState } from 'react'
 import { motion, useReducedMotion } from 'framer-motion'
 import Link from 'next/link'
 import Image from 'next/image'
-import { ArrowRight } from 'lucide-react'
 
 const EASE: [number, number, number, number] = [0.16, 1, 0.3, 1]
 
@@ -12,175 +10,180 @@ const projectsData = [
   {
     id: '1',
     title: 'Relais Villa Fontana',
-    category: 'Web · Google Ads',
-    description: 'Sito web e campagna Google Ads per struttura ricettiva di lusso in Toscana.',
-    image: 'https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=1200&q=80',
+    tags: ['Web Design', 'Sviluppo Sito', 'Google Ads', 'SEO'],
+    image: 'https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=1600&q=80',
     slug: 'relais-villa-fontana',
   },
   {
     id: '2',
     title: 'Artigiani del Gusto',
-    category: 'E-Commerce · SEO',
-    description: 'E-commerce con integrazione marketplace per prodotti gastronomici artigianali.',
-    image: 'https://images.unsplash.com/photo-1558769132-cb1aea458c5e?w=1200&q=80',
+    tags: ['E-Commerce', 'Sviluppo Sito', 'SEO'],
+    image: 'https://images.unsplash.com/photo-1558769132-cb1aea458c5e?w=1600&q=80',
     slug: 'artigiani-gusto',
   },
   {
     id: '3',
     title: 'Studio Legale Meroni',
-    category: 'Brand · SEO · Web',
-    description: 'Brand identity, sito istituzionale e strategia SEO per studio legale milanese.',
-    image: 'https://images.unsplash.com/photo-1497366216548-37526070297c?w=1200&q=80',
+    tags: ['Branding', 'Web Design', 'SEO'],
+    image: 'https://images.unsplash.com/photo-1497366216548-37526070297c?w=1600&q=80',
     slug: 'studio-legale-meroni',
   },
 ]
 
-function ProjectCard({
-  item,
-  index,
-}: {
-  item: (typeof projectsData)[0]
-  index: number
-}) {
+function ProjectCard({ item, index }: { item: (typeof projectsData)[0]; index: number }) {
   const rm = useReducedMotion()
-  const isReversed = index % 2 !== 0
-  const [hovered, setHovered] = useState(false)
-
-  const cardRadius = hovered && !rm ? 48 : 32
-  const imgRadius = cardRadius - 8
+  const num = String(index + 1).padStart(2, '0')
 
   return (
     <motion.article
-      initial={rm ? false : { opacity: 0, y: 60 }}
+      initial={rm ? false : { opacity: 0, y: 50 }}
       whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: '-100px' }}
-      transition={{
-        duration: 0.9,
-        delay: rm ? 0 : 0.15,
-        ease: EASE,
-      }}
-      onMouseEnter={() => setHovered(true)}
-      onMouseLeave={() => setHovered(false)}
-      className="group bg-surface"
-      style={{
-        overflow: 'hidden',
-        borderRadius: `${cardRadius}px`,
-        border: '1px solid oklch(from #1A1A2E l c h / 0.08)',
-        boxShadow: hovered ? '0 16px 48px oklch(from #1A1A2E l c h / 0.10)' : '0 4px 24px oklch(from #1A1A2E l c h / 0.05)',
-        transition: 'border-radius 400ms cubic-bezier(0.16, 1, 0.3, 1), box-shadow 400ms cubic-bezier(0.16, 1, 0.3, 1)',
-      }}
+      viewport={{ once: true, margin: '-60px' }}
+      transition={{ duration: 0.9, delay: 0.05, ease: EASE }}
     >
       <Link
         href={`/portfolio/${item.slug}`}
-        className={`grid grid-cols-1 md:grid-cols-[1fr_1fr] no-underline text-inherit ${isReversed ? 'md:[direction:rtl]' : ''}`}
-        style={{ padding: '8px' }}
+        className="group"
+        style={{ textDecoration: 'none', color: 'inherit', display: 'block' }}
       >
-        {/* Image */}
-        <div
-          className="relative aspect-square md:aspect-square overflow-hidden [direction:ltr]"
+        {/* Info bar above image — number + title left, tags right */}
+        <div className="project-info-bar" style={{
+          display: 'flex',
+          alignItems: 'baseline',
+          justifyContent: 'space-between',
+          gap: 'clamp(16px, 3vw, 32px)',
+          paddingBottom: 'clamp(8px, 1vw, 12px)',
+          marginBottom: 'clamp(8px, 1vw, 12px)',
+        }}>
+          <style>{`
+            .project-info-bar {
+              flex-wrap: nowrap;
+            }
+            @media (max-width: 640px) {
+              .project-info-bar {
+                flex-wrap: wrap !important;
+              }
+            }
+          `}</style>
+
+          <div style={{ display: 'flex', alignItems: 'baseline', gap: 'clamp(12px, 2vw, 24px)', minWidth: 0 }}>
+            {/* Number */}
+            <span style={{
+              fontFamily: 'var(--font-body)',
+              fontSize: 'clamp(11px, 0.9vw, 13px)',
+              fontWeight: 400,
+              color: 'rgba(240, 245, 242, 0.3)',
+              letterSpacing: '0.08em',
+              flexShrink: 0,
+            }}>
+              {num}
+            </span>
+
+            {/* Title */}
+            <h3 style={{
+              fontFamily: 'var(--font-display)',
+              fontSize: 'clamp(1.4rem, 1rem + 1.8vw, 2.2rem)',
+              fontWeight: 400,
+              fontStyle: 'italic',
+              letterSpacing: '-0.02em',
+              color: '#F0F5F2',
+              lineHeight: 1.2,
+              margin: 0,
+              transition: 'color 0.3s ease',
+            }}>
+              {item.title}
+            </h3>
+          </div>
+
+          {/* Tags — pill style */}
+          <div style={{
+            display: 'flex',
+            gap: '8px',
+            flexWrap: 'wrap',
+            flexShrink: 0,
+          }}>
+            {item.tags.map((tag) => (
+              <span
+                key={tag}
+                style={{
+                  fontFamily: 'var(--font-body)',
+                  fontSize: 'clamp(10px, 0.8vw, 12px)',
+                  fontWeight: 500,
+                  color: 'rgba(240, 245, 242, 0.6)',
+                  letterSpacing: '0.02em',
+                  whiteSpace: 'nowrap',
+                  padding: '5px 12px',
+                  borderRadius: '999px',
+                  border: '1px solid rgba(240, 245, 242, 0.12)',
+                  background: 'rgba(240, 245, 242, 0.04)',
+                }}
+              >
+                {tag}
+              </span>
+            ))}
+          </div>
+        </div>
+
+        {/* Animated line — reveals left to right on scroll */}
+        <motion.div
+          initial={{ scaleX: 0 }}
+          whileInView={{ scaleX: 1 }}
+          viewport={{ once: true, margin: '-40px' }}
+          transition={{ duration: 0.8, ease: EASE }}
           style={{
-            borderRadius: `${imgRadius}px`,
-            transition: 'border-radius 400ms cubic-bezier(0.16, 1, 0.3, 1)',
+            height: '1px',
+            background: 'rgba(240, 245, 242, 0.1)',
+            transformOrigin: 'left',
+            marginBottom: 'clamp(8px, 1vw, 12px)',
+          }}
+        />
+
+        {/* Image — full width, taller on mobile */}
+        <div
+          data-cursor="project"
+          className="project-image-container"
+          style={{
+            position: 'relative',
+            width: '100%',
+            aspectRatio: '16 / 9',
+            borderRadius: '8px',
+            overflow: 'hidden',
           }}
         >
+          <style>{`
+            @media (max-width: 640px) {
+              .project-image-container {
+                aspect-ratio: 4 / 3 !important;
+              }
+            }
+          `}</style>
           <motion.div
-            className="w-full h-full"
-            whileHover={rm ? {} : {
-              scale: 1.04,
-              transition: { duration: 0.6, ease: EASE },
-            }}
+            style={{ width: '100%', height: '100%' }}
+            whileHover={rm ? {} : { scale: 1.03 }}
+            transition={{ duration: 0.6, ease: EASE }}
           >
             <Image
               src={item.image}
               alt={`Progetto ${item.title}`}
               fill
-              sizes="(min-width: 768px) 55vw, 100vw"
-              className="object-cover"
+              sizes="100vw"
+              style={{ objectFit: 'cover' }}
             />
           </motion.div>
-        </div>
 
-        {/* Content */}
-        <div
-          className="flex flex-col justify-center [direction:ltr]"
-          style={{
-            padding: 'clamp(40px, 5vw, 64px) clamp(36px, 5vw, 72px)',
-          }}
-        >
-          {/* Category eyebrow */}
-          <p
-            className="font-body"
+          {/* Subtle bottom gradient for depth */}
+          <div
+            aria-hidden="true"
             style={{
-              fontSize: '10px',
-              fontWeight: 600,
-              letterSpacing: '0.22em',
-              textTransform: 'uppercase',
-              color: 'var(--color-primary)',
-              marginBottom: '16px',
+              position: 'absolute',
+              bottom: 0,
+              left: 0,
+              right: 0,
+              height: '30%',
+              background: 'linear-gradient(to top, rgba(6, 13, 9, 0.4) 0%, transparent 100%)',
+              pointerEvents: 'none',
             }}
-          >
-            {item.category}
-          </p>
-
-          {/* Title */}
-          <h3
-            className="font-display"
-            style={{
-              fontSize: 'clamp(2rem, 1.2rem + 3vw, 3.5rem)',
-              fontWeight: 400,
-              fontStyle: 'italic',
-              letterSpacing: '-0.02em',
-              color: 'var(--color-text)',
-              lineHeight: 1.15,
-              marginBottom: '16px',
-            }}
-          >
-            {item.title}
-          </h3>
-
-          {/* Description */}
-          <p
-            className="font-body"
-            style={{
-              fontSize: 'var(--text-base)',
-              color: 'var(--color-text-muted)',
-              lineHeight: 1.7,
-              maxWidth: '440px',
-              marginBottom: '28px',
-              display: '-webkit-box',
-              WebkitLineClamp: 3,
-              WebkitBoxOrient: 'vertical',
-              overflow: 'hidden',
-            }}
-          >
-            {item.description}
-          </p>
-
-          {/* CTA */}
-          <span
-            className="font-body inline-flex items-center gap-2"
-            style={{
-              fontSize: 'clamp(13px, 1.1vw, 15px)',
-              fontWeight: 600,
-              letterSpacing: '0.04em',
-              color: 'var(--color-text)',
-              background: 'rgba(26, 26, 46, 0.06)',
-              backdropFilter: 'blur(8px)',
-              border: '1px solid rgba(26, 26, 46, 0.12)',
-              height: '44px',
-              padding: '0 clamp(20px, 2vw, 28px)',
-              borderRadius: 'var(--radius-sm)',
-              whiteSpace: 'nowrap',
-              width: 'fit-content',
-              transition: 'background 200ms ease, border-color 200ms ease',
-            }}
-          >
-            Scopri il progetto
-            <ArrowRight
-              size={15}
-              className="transition-transform duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:translate-x-1"
-            />
-          </span>
+          />
         </div>
       </Link>
     </motion.article>
@@ -195,18 +198,19 @@ export default function Projects() {
       id="projects"
       aria-labelledby="projects-title"
       style={{
-        background: 'var(--color-bg)',
+        position: 'relative',
+        background: '#060D09',
         paddingBlock: 'clamp(80px, 10vw, 160px)',
       }}
     >
-      <div style={{ maxWidth: '1400px', margin: '0 auto', padding: '0 clamp(24px, 4vw, 48px)' }}>
+      <div style={{ position: 'relative', zIndex: 2, maxWidth: '1400px', margin: '0 auto', padding: '0 clamp(24px, 4vw, 48px)' }}>
         {/* Header */}
         <motion.div
           initial={rm ? false : { opacity: 0, y: 24 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: '-60px' }}
           transition={{ duration: 0.6, ease: EASE }}
-          style={{ marginBottom: 'clamp(48px, 6vw, 80px)' }}
+          style={{ marginBottom: 'clamp(80px, 12vw, 180px)' }}
         >
           <p style={{
             fontFamily: 'var(--font-body)',
@@ -214,7 +218,7 @@ export default function Projects() {
             fontWeight: 600,
             letterSpacing: '0.25em',
             textTransform: 'uppercase',
-            color: 'var(--color-primary)',
+            color: 'var(--color-accent)',
             marginBottom: '12px',
           }}>
             Portfolio lavori
@@ -227,7 +231,7 @@ export default function Projects() {
               fontSize: 'clamp(2rem, 1rem + 3.5vw, 3.5rem)',
               lineHeight: 1.1,
               letterSpacing: '-0.035em',
-              color: 'var(--color-text)',
+              color: '#F0F5F2',
             }}
           >
             Quello che abbiamo fatto{' '}
@@ -235,8 +239,8 @@ export default function Projects() {
           </h2>
         </motion.div>
 
-        {/* Stacked cards */}
-        <div className="flex flex-col" style={{ gap: 'clamp(64px, 8vw, 120px)' }}>
+        {/* Project list */}
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 'clamp(80px, 10vw, 140px)' }}>
           {projectsData.map((item, i) => (
             <ProjectCard key={item.id} item={item} index={i} />
           ))}

@@ -9,6 +9,7 @@ import StatsStrip from '@/components/sections/StatsStrip'
 import ScrollReveal from '@/components/sections/ScrollReveal'
 import Services from '@/components/sections/Services'
 import SplashScreen from '@/components/ui/SplashScreen'
+import GlobalGradient from '@/components/ui/GlobalGradient'
 
 const faqSchema = {
   '@context': 'https://schema.org',
@@ -73,13 +74,16 @@ export default function HomePage() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
       />
       <SplashScreen />
+      <GlobalGradient />
       <Navbar />
       <main id="main-content" tabIndex={-1}>
         <ImageHero />
-        <Hero />
+        <div style={{ background: '#060D09' }}>
+          <Hero />
+          <Projects />
+        </div>
         <StatsStrip />
         <Services />
-        <Projects />
         <ScrollReveal />
         <ContactForm />
         <FAQ />
