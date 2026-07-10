@@ -1,148 +1,85 @@
 'use client'
 
-import { useState } from 'react'
-import { motion, AnimatePresence, useReducedMotion } from 'framer-motion'
+import { useRef } from 'react'
+import { motion, useScroll, useTransform, useReducedMotion } from 'framer-motion'
+import Image from 'next/image'
 import AmbientBlobs from '@/components/ui/AmbientBlobs'
 
-const EASE: [number, number, number, number] = [0.16, 1, 0.3, 1]
-
-const FAQS = [
-  {
-    q: 'Quanto costa realizzare un sito web a Venezia?',
-    a: 'Il costo varia in base alle funzionalità: un sito vetrina parte da circa 2.000€, un e-commerce da 4.000€. Offriamo una consulenza gratuita per definire un preventivo su misura per le tue esigenze.',
-  },
-  {
-    q: 'Quali servizi di comunicazione digitale offrite?',
-    a: 'Offriamo web design e sviluppo siti, e-commerce, gestione social media, campagne Google Ads e Meta Ads, ottimizzazione SEO, branding, comunicazione aziendale e consulenza strategica digitale.',
-  },
-  {
-    q: 'In quanto tempo viene consegnato un sito web?',
-    a: 'Un sito vetrina viene consegnato in 3-4 settimane, un e-commerce in 6-8 settimane. Definiamo tempistiche precise durante la consulenza iniziale gratuita.',
-  },
-  {
-    q: 'Lavorate solo con aziende di Venezia e del Veneto?',
-    a: 'La nostra sede è a Venezia ma lavoriamo con clienti in tutta Italia, sia in presenza che da remoto. Abbiamo esperienza con PMI, startup e professionisti nei settori artigianato, food, moda e turismo.',
-  },
-  {
-    q: 'Come funziona la consulenza digitale gratuita?',
-    a: 'Compili il form di contatto, ti ricontattiamo entro 24 ore per una call conoscitiva. Analizziamo insieme il tuo progetto, i tuoi obiettivi e il tuo pubblico, e ti proponiamo una strategia digitale personalizzata senza impegno.',
-  },
-  {
-    q: 'Gestite anche le campagne pubblicitarie online?',
-    a: 'Sì, gestiamo campagne Google Ads, Meta Ads (Facebook e Instagram) e advertising su TikTok. Ci occupiamo di strategia, creazione annunci, ottimizzazione e reportistica mensile dei risultati.',
-  },
+const LINES = [
+  { text: 'Comunicazione', dir: 1 },
+  { text: 'Web Design', dir: -1 },
+  { text: 'Advertising', dir: 1 },
+  { text: 'Strategia', dir: -1 },
 ]
 
-function AccordionItem({ item, index, open, onToggle }: {
-  item: typeof FAQS[0]
-  index: number
-  open: boolean
-  onToggle: () => void
-}) {
+const IMAGES = [
+  'https://images.unsplash.com/photo-1600880292203-757bb62b4baf?w=800&q=80',
+  'https://images.unsplash.com/photo-1497366216548-37526070297c?w=1200&q=80',
+  'https://images.unsplash.com/photo-1542744173-8e7e53415bb0?w=800&q=80',
+]
+
+function ScrollLine({ text, dir, scrollYProgress }: { text: string; dir: number; scrollYProgress: ReturnType<typeof useScroll>['scrollYProgress'] }) {
   const rm = useReducedMotion()
+  const x = useTransform(scrollYProgress, [0, 1], rm ? [0, 0] : [dir * -80, dir * 80])
+  const opacity = useTransform(scrollYProgress, [0.25, 0.5], rm ? [1, 1] : [0, 1])
 
   return (
-    <motion.div
-      initial={rm ? false : { opacity: 0, y: 16 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: '-40px' }}
-      transition={{ duration: 0.5, delay: index * 0.08, ease: EASE }}
+    <motion.p
+      style={{
+        x,
+        opacity,
+        fontFamily: 'var(--font-display)',
+        fontStyle: 'italic',
+        fontSize: 'clamp(3rem, 2rem + 5vw, 7rem)',
+        fontWeight: 400,
+        color: '#FFFFFF',
+        letterSpacing: '-0.03em',
+        lineHeight: 1.05,
+        margin: 0,
+        whiteSpace: 'nowrap',
+        textAlign: 'center',
+        textShadow: '0 4px 30px rgba(0,0,0,0.5)',
+      }}
     >
-      {/* Single wrapper with consistent 1px border + box-shadow for 2px effect when open */}
-      <div style={{
-        borderRadius: '16px',
-        border: '1px solid rgba(255,255,255,0.06)',
-        boxShadow: open ? '0 0 0 1px rgba(255,255,255,0.4)' : 'none',
-        transition: 'box-shadow 0.3s ease',
-        overflow: 'hidden',
-        background: 'rgba(255,255,255,0.06)',
-      }}>
-        <button
-          onClick={onToggle}
-          aria-expanded={open}
-          style={{
-            width: '100%',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'space-between',
-            gap: '24px',
-            background: 'transparent',
-            border: 'none',
-            padding: 'clamp(22px, 2.5vw, 28px) clamp(24px, 3vw, 36px)',
-            cursor: 'pointer',
-            textAlign: 'left',
-            outline: 'none',
-          }}
-        >
-          <span style={{
-            fontFamily: 'var(--font-body)',
-            fontSize: 'clamp(17px, 1.3vw, 19px)',
-            fontWeight: 500,
-            color: 'rgba(255,255,255,0.9)',
-            lineHeight: 1.4,
-          }}>
-            {item.q}
-          </span>
-          <motion.span
-            animate={{ rotate: open ? 45 : 0 }}
-            transition={{ duration: 0.3, ease: EASE }}
-            style={{
-              flexShrink: 0,
-              width: '28px',
-              height: '28px',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              fontSize: '20px',
-              fontWeight: 300,
-              color: 'rgba(255,255,255,0.4)',
-              lineHeight: 1,
-            }}
-          >
-            +
-          </motion.span>
-        </button>
-        <AnimatePresence initial={false}>
-          {open && (
-            <motion.div
-              initial={{ height: 0, opacity: 0 }}
-              animate={{ height: 'auto', opacity: 1 }}
-              exit={{ height: 0, opacity: 0 }}
-              transition={{ duration: 0.4, ease: [0.25, 1, 0.5, 1] }}
-              style={{ overflow: 'hidden' }}
-            >
-              <div style={{
-                padding: '0 clamp(24px, 3vw, 36px) clamp(22px, 2.5vw, 28px)',
-              }}>
-                <p style={{
-                  fontFamily: 'var(--font-body)',
-                  fontSize: 'clamp(16px, 1.2vw, 17px)',
-                  color: 'rgba(255,255,255,0.5)',
-                  lineHeight: 1.7,
-                  margin: 0,
-                  maxWidth: '60ch',
-                }}>
-                  {item.a}
-                </p>
-              </div>
-            </motion.div>
-          )}
-        </AnimatePresence>
-      </div>
-    </motion.div>
+      {text}
+    </motion.p>
   )
 }
 
-export default function FAQ() {
+function ImageWithOverlay({ src, alt, sizes, overlayOpacity }: { src: string; alt: string; sizes: string; overlayOpacity: ReturnType<typeof useTransform> }) {
+  return (
+    <>
+      <Image src={src} alt={alt} fill sizes={sizes} style={{ objectFit: 'cover' }} />
+      <motion.div
+        style={{
+          position: 'absolute',
+          inset: 0,
+          background: '#060D09',
+          opacity: overlayOpacity,
+          pointerEvents: 'none',
+        }}
+      />
+    </>
+  )
+}
+
+export default function ShowcaseSection() {
   const rm = useReducedMotion()
-  const [openIndex, setOpenIndex] = useState<number | null>(null)
+  const sectionRef = useRef<HTMLElement>(null)
+
+  const { scrollYProgress } = useScroll({
+    target: sectionRef,
+    offset: ['start end', 'end start'],
+  })
+
+  const overlayOpacity = useTransform(scrollYProgress, [0.2, 0.5], rm ? [0, 0] : [0, 0.65])
 
   return (
     <section
-      aria-labelledby="faq-title"
+      ref={sectionRef}
+      aria-label="Showcase"
       style={{
-        background: '#060D09',
-        padding: 'clamp(64px, 8vw, 120px) clamp(24px, 4vw, 48px)',
+        padding: 'clamp(100px, 12vw, 200px) clamp(24px, 4vw, 48px)',
         position: 'relative',
         overflow: 'hidden',
       }}
@@ -154,69 +91,90 @@ export default function FAQ() {
         style={{
           position: 'absolute',
           inset: 0,
-          backgroundImage: 'radial-gradient(rgba(255, 255, 255, 0.07) 1px, transparent 1px)',
+          backgroundImage: `url("data:image/svg+xml,%3Csvg width='20' height='20' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='10' cy='10' r='1' fill='%23ffffff12'/%3E%3C/svg%3E")`,
           backgroundSize: '20px 20px',
-          backgroundAttachment: 'fixed',
           pointerEvents: 'none',
           zIndex: 1,
         }}
       />
+
+      <style>{`
+        .showcase-side-img {
+          display: none;
+        }
+        @media (min-width: 1024px) {
+          .showcase-side-img {
+            display: block;
+          }
+        }
+      `}</style>
+
       <div style={{ maxWidth: '1400px', margin: '0 auto', position: 'relative', zIndex: 2 }}>
-        <div className="faq-grid" style={{
-          display: 'grid',
-          gap: 'clamp(40px, 5vw, 80px)',
-          alignItems: 'start',
-        }}>
-          <style>{`
-            .faq-grid {
-              grid-template-columns: 1fr;
-            }
-            .faq-title {
-              position: static;
-            }
-            @media (min-width: 768px) {
-              .faq-grid {
-                grid-template-columns: clamp(200px, 25vw, 320px) 1fr;
-              }
-              .faq-title {
-                position: sticky;
-                top: clamp(80px, 10vw, 120px);
-              }
-            }
-          `}</style>
+        <div style={{ position: 'relative' }}>
+          {/* Images row — all same height via stretch */}
+          <div style={{
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            gap: 'clamp(16px, 2vw, 32px)',
+          }}>
+            {/* Left image — desktop only */}
+            <div
+              className="showcase-side-img"
+              style={{
+                position: 'relative',
+                width: '260px',
+                flexShrink: 0,
+                aspectRatio: '3 / 4',
+                borderRadius: '4px',
+                overflow: 'hidden',
+              }}
+            >
+              <ImageWithOverlay src={IMAGES[0]} alt="Lavoro creativo" sizes="200px" overlayOpacity={overlayOpacity} />
+            </div>
 
-          {/* Title */}
-          <motion.h2
-            className="faq-title"
-            id="faq-title"
-            initial={rm ? false : { opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: '-40px' }}
-            transition={{ duration: 0.6, ease: EASE }}
-            style={{
-              fontFamily: 'var(--font-display)',
-              fontSize: 'clamp(2rem, 1rem + 3.5vw, 3.5rem)',
-              fontWeight: 400,
-              fontStyle: 'italic',
-              lineHeight: 1.1,
-              letterSpacing: '-0.035em',
-              color: 'var(--color-text-inverse)',
-              margin: 0,
-            }}
-          >
-            Le domande che ci fanno tutti
-          </motion.h2>
+            {/* Center image */}
+            <div style={{
+              position: 'relative',
+              width: '100%',
+              maxWidth: '420px',
+              aspectRatio: '3 / 4',
+              borderRadius: '4px',
+              overflow: 'hidden',
+            }}>
+              <ImageWithOverlay src={IMAGES[1]} alt="Team al lavoro" sizes="420px" overlayOpacity={overlayOpacity} />
+            </div>
 
-          {/* Accordion */}
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 'clamp(16px, 2vw, 24px)' }}>
-            {FAQS.map((item, i) => (
-              <AccordionItem
-                key={i}
-                item={item}
-                index={i}
-                open={openIndex === i}
-                onToggle={() => setOpenIndex(openIndex === i ? null : i)}
-              />
+            {/* Right image — desktop only */}
+            <div
+              className="showcase-side-img"
+              style={{
+                position: 'relative',
+                width: '260px',
+                flexShrink: 0,
+                aspectRatio: '3 / 4',
+                borderRadius: '4px',
+                overflow: 'hidden',
+              }}
+            >
+              <ImageWithOverlay src={IMAGES[2]} alt="Riunione strategica" sizes="200px" overlayOpacity={overlayOpacity} />
+            </div>
+          </div>
+
+          {/* Text overlaid — appears with overlay */}
+          <div style={{
+            position: 'absolute',
+            inset: 0,
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            justifyContent: 'center',
+            gap: 'clamp(4px, 1vw, 12px)',
+            zIndex: 5,
+            pointerEvents: 'none',
+          }}>
+            {LINES.map((line, i) => (
+              <ScrollLine key={i} text={line.text} dir={line.dir} scrollYProgress={scrollYProgress} />
             ))}
           </div>
         </div>

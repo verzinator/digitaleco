@@ -231,19 +231,6 @@ export default function Services() {
           transition={{ duration: 0.6, ease: EASE }}
           style={{ marginBottom: 'clamp(48px, 6vw, 72px)' }}
         >
-          <p
-            style={{
-              fontFamily: 'var(--font-body)',
-              fontSize: '10px',
-              fontWeight: 600,
-              letterSpacing: '0.25em',
-              textTransform: 'uppercase',
-              color: 'var(--color-accent)',
-              marginBottom: '12px',
-            }}
-          >
-            Cosa facciamo
-          </p>
           <h2
             id="services-title"
             style={{
@@ -254,10 +241,11 @@ export default function Services() {
               letterSpacing: '-0.035em',
               color: '#F8F9FA',
               margin: 0,
+              textAlign: 'center',
             }}
           >
-            Ogni servizio, un{' '}
-            <em style={{ fontStyle: 'italic', color: 'var(--color-accent)' }}>risultato</em>
+            Strategie concrete,{' '}
+            <em style={{ fontStyle: 'italic', color: 'var(--color-accent)' }}>risultati reali</em>
           </h2>
         </motion.div>
 

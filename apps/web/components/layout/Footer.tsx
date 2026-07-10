@@ -70,7 +70,6 @@ export default function Footer() {
     <footer
       role="contentinfo"
       style={{
-        background: '#060D09',
         color: '#FFFFFF',
         overflow: 'hidden',
         position: 'relative',
@@ -82,9 +81,8 @@ export default function Footer() {
         style={{
           position: 'absolute',
           inset: 0,
-          backgroundImage: 'radial-gradient(rgba(255, 255, 255, 0.07) 1px, transparent 1px)',
+          backgroundImage: `url("data:image/svg+xml,%3Csvg width='20' height='20' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='10' cy='10' r='1' fill='%23ffffff12'/%3E%3C/svg%3E")`,
           backgroundSize: '20px 20px',
-          backgroundAttachment: 'fixed',
           pointerEvents: 'none',
           zIndex: 1,
         }}
