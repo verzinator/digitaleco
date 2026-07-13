@@ -46,7 +46,7 @@ function ScrollLine({ text, dir, scrollYProgress }: { text: string; dir: number;
   )
 }
 
-function ImageWithOverlay({ src, alt, sizes, overlayOpacity }: { src: string; alt: string; sizes: string; overlayOpacity: ReturnType<typeof useTransform> }) {
+function ImageWithOverlay({ src, alt, sizes, overlayOpacity }: { src: string; alt: string; sizes: string; overlayOpacity: ReturnType<typeof useTransform<number, number>> }) {
   return (
     <>
       <Image src={src} alt={alt} fill sizes={sizes} style={{ objectFit: 'cover' }} />
