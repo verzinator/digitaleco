@@ -6,10 +6,10 @@ import Image from 'next/image'
 import AmbientBlobs from '@/components/ui/AmbientBlobs'
 
 const LINES = [
-  { text: 'Comunicazione', dir: 1 },
-  { text: 'Web Design', dir: -1 },
-  { text: 'Advertising', dir: 1 },
-  { text: 'Strategia', dir: -1 },
+  { text: 'Le idee hanno', dir: 1 },
+  { text: 'bisogno di uno', dir: -1 },
+  { text: 'spazio per', dir: 1 },
+  { text: 'crescere.', dir: -1 },
 ]
 
 const IMAGES = [
@@ -24,10 +24,11 @@ function ScrollLine({ text, dir, scrollYProgress }: { text: string; dir: number;
   const opacity = useTransform(scrollYProgress, [0.25, 0.5], rm ? [1, 1] : [0, 1])
 
   return (
-    <motion.p
+    <motion.span
       style={{
         x,
         opacity,
+        display: 'block',
         fontFamily: 'var(--font-display)',
         fontStyle: 'italic',
         fontSize: 'clamp(3rem, 2rem + 5vw, 7rem)',
@@ -35,14 +36,13 @@ function ScrollLine({ text, dir, scrollYProgress }: { text: string; dir: number;
         color: '#FFFFFF',
         letterSpacing: '-0.03em',
         lineHeight: 1.05,
-        margin: 0,
         whiteSpace: 'nowrap',
         textAlign: 'center',
         textShadow: '0 4px 30px rgba(0,0,0,0.5)',
       }}
     >
       {text}
-    </motion.p>
+    </motion.span>
   )
 }
 
@@ -102,7 +102,7 @@ export default function ShowcaseSection() {
         .showcase-side-img {
           display: none;
         }
-        @media (min-width: 1024px) {
+        @media (min-width: 1000px) {
           .showcase-side-img {
             display: block;
           }
@@ -126,7 +126,7 @@ export default function ShowcaseSection() {
                 width: '260px',
                 flexShrink: 0,
                 aspectRatio: '3 / 4',
-                borderRadius: '4px',
+                borderRadius: '16px',
                 overflow: 'hidden',
               }}
             >
@@ -139,7 +139,7 @@ export default function ShowcaseSection() {
               width: '100%',
               maxWidth: '420px',
               aspectRatio: '3 / 4',
-              borderRadius: '4px',
+              borderRadius: '24px',
               overflow: 'hidden',
             }}>
               <ImageWithOverlay src={IMAGES[1]} alt="Team al lavoro" sizes="420px" overlayOpacity={overlayOpacity} />
@@ -153,7 +153,7 @@ export default function ShowcaseSection() {
                 width: '260px',
                 flexShrink: 0,
                 aspectRatio: '3 / 4',
-                borderRadius: '4px',
+                borderRadius: '16px',
                 overflow: 'hidden',
               }}
             >
@@ -173,9 +173,11 @@ export default function ShowcaseSection() {
             zIndex: 5,
             pointerEvents: 'none',
           }}>
-            {LINES.map((line, i) => (
-              <ScrollLine key={i} text={line.text} dir={line.dir} scrollYProgress={scrollYProgress} />
-            ))}
+            <h2 style={{ margin: 0, display: 'contents' }}>
+              {LINES.map((line, i) => (
+                <ScrollLine key={i} text={line.text} dir={line.dir} scrollYProgress={scrollYProgress} />
+              ))}
+            </h2>
           </div>
         </div>
       </div>

@@ -6,6 +6,7 @@ import Projects from '@/components/sections/Projects'
 import ContactForm from '@/components/sections/ContactForm'
 import FAQ from '@/components/sections/FAQ'
 import Services from '@/components/sections/Services'
+import Partners from '@/components/sections/Partners'
 import SplashScreen from '@/components/ui/SplashScreen'
 import GlobalGradient from '@/components/ui/GlobalGradient'
 import AmbientBlobs from '@/components/ui/AmbientBlobs'
@@ -39,6 +40,7 @@ export default function HomePage() {
         <ContactForm />
         <div style={{ background: '#060D09', position: 'relative' }}>
           <FAQ />
+          <Partners />
           <Footer />
         </div>
       </main>

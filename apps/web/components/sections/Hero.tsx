@@ -6,18 +6,11 @@ import { motion, useReducedMotion, useScroll, useTransform, useSpring } from 'fr
 /* Typographic fragments — base sans (body), key words in serif (display) */
 const headline: { text: string; font: 'display' | 'body' }[] = [
   { text: 'Siamo ', font: 'body' },
-  { text: 'Digital Eco. ', font: 'display' },
-  { text: 'Agenzia di ', font: 'body' },
-  { text: 'comunicazione, ', font: 'display' },
-  { text: 'web design ', font: 'display' },
-  { text: 'e ', font: 'body' },
-  { text: 'advertising ', font: 'display' },
-  { text: 'digitale a ', font: 'body' },
-  { text: 'Venezia. ', font: 'display' },
-  { text: 'Trasformiamo ', font: 'body' },
-  { text: 'brand locali ', font: 'display' },
-  { text: 'in presenze digitali che competono con i ', font: 'body' },
-  { text: 'grandi.', font: 'display' },
+  { text: 'Digital Eco.', font: 'display' },
+  { text: ' Agenzia di comunicazione, marketing e ', font: 'body' },
+  { text: 'soluzioni AI', font: 'display' },
+  { text: ' a Venezia. Troviamo i tuoi clienti. Comunichiamo ciò che ti distingue. Costruiamo la tua ', font: 'body' },
+  { text: 'crescita.', font: 'display' },
 ]
 
 // Split into words preserving font info

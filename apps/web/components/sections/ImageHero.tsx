@@ -72,7 +72,7 @@ export default function ImageHero() {
   // No fade out — text stays visible
   const lineXValues = [lineX0, lineX1, lineX2]
 
-  const lines = ['Make.', 'Every project.', 'Better.']
+  const lines = ['Marketing.', 'That moves.', 'Business.']
   let charCount = 0
 
   return (
@@ -237,9 +237,9 @@ export default function ImageHero() {
                 }
               `}</style>
               {[
-                { title: 'Con sede a Venezia', sub: 'Operativi in tutta Italia' },
-                { title: 'Comunicazione digitale', sub: 'web design e advertising' },
-                { title: 'Branding, social', sub: 'e strategie di crescita' },
+                { title: 'Troviamo i tuoi clienti', sub: 'Con strategie orientate alla crescita.' },
+                { title: 'Comunichiamo i tuoi distinguo', sub: 'Per valorizzare ciò che ti rende unico.' },
+                { title: 'Ti aiutiamo a vendere di più', sub: 'Con strumenti digitali efficaci.' },
               ].map((item, i) => (
                 <div key={i} className={i === 2 ? 'hero-info-item-2' : undefined}>
                   <p style={{

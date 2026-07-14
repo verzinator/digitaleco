@@ -15,24 +15,12 @@ const contactSchema = z.object({
   email: z.string().email('Inserisci un indirizzo email valido'),
   phone: z.string().optional(),
   company: z.string().optional(),
-  sector: z.string().min(1, 'Seleziona un settore'),
+  city: z.string().min(2, 'Inserisci la tua città'),
   privacy: z.boolean().refine(val => val === true, 'Devi accettare la privacy policy'),
 })
 
 type ContactFormData = z.infer<typeof contactSchema>
 type SubmitState = 'idle' | 'loading' | 'success' | 'error'
-
-const SECTORS = [
-  'Ristorazione',
-  'E-Commerce',
-  'Moda',
-  'Immobiliare',
-  'Salute e Benessere',
-  'Finanza',
-  'Tecnologia',
-  'Turismo',
-  'Altro',
-]
 
 const labelStyle: React.CSSProperties = {
   display: 'block',
@@ -148,20 +136,6 @@ export default function ContactForm() {
             transition={{ duration: 0.7, ease: EASE }}
             style={{ paddingTop: 'clamp(0px, 2vw, 24px)' }}
           >
-            <p
-              style={{
-                fontFamily: 'var(--font-body)',
-                fontSize: '10px',
-                fontWeight: 600,
-                letterSpacing: '0.22em',
-                textTransform: 'uppercase',
-                color: 'var(--color-accent)',
-                margin: '0 0 20px 0',
-              }}
-            >
-              Consulenza gratuita
-            </p>
-
             <h2
               id="contact-title"
               style={{
@@ -175,7 +149,7 @@ export default function ContactForm() {
                 margin: '0 0 clamp(20px, 3vw, 32px) 0',
               }}
             >
-              Parliamone. <em style={{ fontStyle: 'italic', color: 'var(--color-accent)' }}>È gratis.</em>
+              Troviamo i tuoi clienti.<br /><em style={{ fontStyle: 'italic', color: 'var(--color-accent)' }}>Iniziamo dal conoscerti.</em>
             </h2>
 
             <p
@@ -188,15 +162,16 @@ export default function ContactForm() {
                 maxWidth: '420px',
               }}
             >
-              Raccontaci il tuo progetto. Ti ricontattiamo entro 24 ore
-              con idee concrete per far crescere il tuo business. Zero impegno.
+              Ogni azienda ha una storia diversa, obiettivi diversi e punti di forza da valorizzare.
+              <br /><br />
+              Per questo il nostro lavoro inizia sempre da una conversazione. Raccontaci il tuo progetto: analizzeremo le tue esigenze e costruiremo insieme la strategia più adatta per far crescere il tuo business.
             </p>
 
             <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
               {[
-                'Analisi gratuita del tuo progetto',
-                'Preventivo personalizzato in 48h',
-                'Nessun vincolo contrattuale',
+                'Primo confronto conoscitivo gratuito',
+                'Analisi preliminare del progetto',
+                'Strategia e proposta personalizzata',
               ].map((text, i) => (
                 <div
                   key={i}
@@ -326,30 +301,21 @@ export default function ContactForm() {
                     />
                   </div>
 
-                  {/* Sector */}
+                  {/* City */}
                   <div>
-                    <label htmlFor="c-sector" style={labelStyle}>Settore</label>
-                    <select
-                      id="c-sector"
+                    <label htmlFor="c-city" style={labelStyle}>Città e provincia</label>
+                    <input
+                      id="c-city"
+                      type="text"
+                      autoComplete="address-level2"
+                      placeholder="Milano (MI)"
                       style={{
                         ...inputStyle,
-                        appearance: 'none',
-                        backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath d='M3 5l3 3 3-3' fill='none' stroke='%236C757D' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E")`,
-                        backgroundRepeat: 'no-repeat',
-                        backgroundPosition: 'right 16px center',
-                        paddingRight: '40px',
-                        color: 'var(--color-text-muted)',
-                        borderColor: errors.sector ? '#DC2626' : 'var(--color-divider)',
+                        borderColor: errors.city ? '#DC2626' : 'var(--color-divider)',
                       }}
-                      defaultValue=""
-                      {...reg('sector', !!errors.sector)}
-                    >
-                      <option value="" disabled>Seleziona...</option>
-                      {SECTORS.map(s => (
-                        <option key={s} value={s} style={{ color: 'var(--color-text)' }}>{s}</option>
-                      ))}
-                    </select>
-                    {errors.sector && <FieldError message={errors.sector.message!} />}
+                      {...reg('city', !!errors.city)}
+                    />
+                    {errors.city && <FieldError message={errors.city.message!} />}
                   </div>
 
                   {/* Privacy */}

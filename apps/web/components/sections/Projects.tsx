@@ -52,7 +52,7 @@ function ProjectCard({ item, index }: { item: (typeof projectsData)[0]; index: n
   const opacity = useTransform(scrollYProgress, [0, 0.6], rm ? [1, 1] : [0, 1])
   const y = useTransform(scrollYProgress, [0, 1], rm ? [0, 0] : [60, 0])
   // Image parallax — image moves slower than card
-  const imgY = useTransform(scrollYProgress, [0, 1], rm ? [0, 0] : [-30, 30])
+  const imgY = useTransform(scrollYProgress, [0, 1], rm ? [0, 0] : [-20, 20])
 
   return (
     <motion.article
@@ -87,7 +87,7 @@ function ProjectCard({ item, index }: { item: (typeof projectsData)[0]; index: n
             }}
           >
             <motion.div
-              style={{ width: '100%', height: '110%', y: imgY, position: 'absolute', top: '-5%', left: 0 }}
+              style={{ width: '100%', height: '120%', y: imgY, position: 'absolute', top: '-10%', left: 0 }}
               whileHover={rm ? {} : { scale: 1.03 }}
               transition={{ duration: 0.6, ease: EASE }}
             >
@@ -101,15 +101,14 @@ function ProjectCard({ item, index }: { item: (typeof projectsData)[0]; index: n
             </motion.div>
           </div>
 
-          {/* Info below — number+title left, tags right */}
+          {/* Info below */}
           <div className="project-info-bar" style={{
             padding: 'clamp(16px, 2vw, 24px)',
             display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'space-between',
-            gap: '16px',
+            flexDirection: 'column',
+            gap: '12px',
           }}>
-            <div style={{ display: 'flex', alignItems: 'baseline', gap: '12px', minWidth: 0 }}>
+            <div className="project-title-row" style={{ display: 'flex', alignItems: 'baseline', gap: '12px', minWidth: 0 }}>
               <span style={{
                 fontFamily: 'var(--font-body)',
                 fontSize: '20px',
@@ -133,8 +132,32 @@ function ProjectCard({ item, index }: { item: (typeof projectsData)[0]; index: n
               }}>
                 {item.title}
               </h3>
+              <div className="project-tags-desktop" style={{ display: 'flex', gap: '6px', flexWrap: 'wrap', marginLeft: 'auto' }}>
+                {item.tags.map((tag) => (
+                  <span
+                    key={tag}
+                    style={{
+                      fontFamily: 'var(--font-body)',
+                      fontSize: '10px',
+                      fontWeight: 500,
+                      color: 'rgba(255, 255, 255, 0.5)',
+                      letterSpacing: '0.02em',
+                      whiteSpace: 'nowrap',
+                      padding: '3px 8px',
+                      height: '24px',
+                      lineHeight: '16px',
+                      boxSizing: 'border-box',
+                      borderRadius: '999px',
+                      border: '1px solid rgba(255, 255, 255, 0.15)',
+                      background: 'rgba(255, 255, 255, 0.05)',
+                    }}
+                  >
+                    {tag}
+                  </span>
+                ))}
+              </div>
             </div>
-            <div style={{ display: 'flex', gap: '6px', flexWrap: 'wrap', flexShrink: 0 }}>
+            <div className="project-tags-mobile" style={{ display: 'flex', gap: '6px', flexWrap: 'wrap' }}>
               {item.tags.map((tag) => (
                 <span
                   key={tag}
@@ -186,6 +209,20 @@ export default function Projects() {
         }
         .project-card:hover h3 {
           color: rgba(255, 255, 255, 1) !important;
+        }
+        .project-tags-desktop {
+          display: none !important;
+        }
+        .project-tags-mobile {
+          display: flex !important;
+        }
+        @media (min-width: 768px) {
+          .project-tags-desktop {
+            display: flex !important;
+          }
+          .project-tags-mobile {
+            display: none !important;
+          }
         }
       `}</style>
 

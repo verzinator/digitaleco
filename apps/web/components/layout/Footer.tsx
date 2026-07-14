@@ -281,18 +281,19 @@ export default function Footer() {
         </div>
       </div>
 
-      {/* ── Giant brand name ── */}
+      {/* ── Giant brand name — clipped to show only top portion ── */}
       <div
         style={{
           position: 'relative',
-          height: 'clamp(100px, 14vw, 200px)',
+          height: 'clamp(80px, 12vw, 200px)',
           overflow: 'hidden',
+          marginTop: '-16px',
         }}
       >
         <span
           style={{
             fontFamily: 'var(--font-display)',
-            fontSize: 'clamp(120px, 16vw, 280px)',
+            fontSize: 'clamp(80px, 14vw, 240px)',
             fontWeight: 400,
             fontStyle: 'italic',
             letterSpacing: '-0.03em',
@@ -305,7 +306,7 @@ export default function Footer() {
           }}
           aria-hidden="true"
         >
-          DIGITAL ECO
+          Digital Eco
         </span>
       </div>
     </footer>
