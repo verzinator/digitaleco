@@ -38,20 +38,22 @@ export default function Partners() {
         className="partners-box"
       >
         {/* Text */}
-        <p
+        <h3
           style={{
             fontFamily: 'var(--font-display)',
             fontSize: '22px',
             fontStyle: 'italic',
+            fontWeight: 400,
             color: 'rgba(255,255,255,0.5)',
             lineHeight: 1.5,
             whiteSpace: 'nowrap',
             flexShrink: 0,
+            margin: 0,
           }}
           className="partners-text"
         >
           Parte del gruppo
-        </p>
+        </h3>
 
         {/* Logos */}
         <div
@@ -66,14 +68,10 @@ export default function Partners() {
           className="partners-logos"
         >
           {partnerLogos.map((logo, i) => (
-            <motion.img
+            <img
               key={logo.name}
               src={logo.src}
               alt={logo.name}
-              initial={{ opacity: 0, y: 10 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.4, delay: 0.1 + i * 0.08 }}
               style={{
                 height: '28px',
                 width: 'auto',
@@ -81,10 +79,7 @@ export default function Partners() {
                 objectFit: 'contain',
                 opacity: 0.5,
                 filter: 'brightness(0) invert(1)',
-                transition: 'opacity 300ms ease',
               }}
-              onMouseEnter={e => (e.currentTarget.style.opacity = '0.7')}
-              onMouseLeave={e => (e.currentTarget.style.opacity = '0.5')}
             />
           ))}
         </div>
