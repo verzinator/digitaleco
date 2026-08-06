@@ -10,10 +10,10 @@ const EASE: [number, number, number, number] = [0.16, 1, 0.3, 1]
 const projectsData = [
   {
     id: '1',
-    title: 'Relais Villa Fontana',
-    tags: ['Web Design', 'Sviluppo Sito', 'Google Ads', 'SEO'],
-    image: 'https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=1600&q=80',
-    slug: 'relais-villa-fontana',
+    title: 'MasterFor',
+    tags: ['Analisi', 'Comunicazione', 'Trasformazione Digitale'],
+    image: '/progetti/progetto-1-1.jpeg',
+    slug: 'masterfor',
   },
   {
     id: '2',

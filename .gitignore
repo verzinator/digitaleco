@@ -1,0 +1,26 @@
+# Dipendenze
+node_modules/
+
+# Build Next.js
+.next/
+out/
+build/
+
+# File generati
+next-env.d.ts
+*.tsbuildinfo
+
+# Variabili d'ambiente (l'esempio resta versionato)
+.env
+.env*.local
+
+# macOS
+.DS_Store
+
+# Impostazioni locali degli strumenti
+.claude/settings.local.json
+
+# Log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*

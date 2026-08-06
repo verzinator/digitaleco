@@ -388,7 +388,7 @@ export default function ContactForm() {
                       color: 'var(--color-text-inverse)',
                       background: 'var(--color-primary)',
                       border: 'none',
-                      borderRadius: 'var(--radius-sm)',
+                      borderRadius: '100px',
                       cursor: (!isValid || isSubmitting) ? 'not-allowed' : 'pointer',
                       minHeight: '52px',
                       transition: 'background 0.3s ease, transform 0.15s ease, opacity 0.3s ease',

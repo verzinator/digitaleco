@@ -10,6 +10,46 @@ const SIZE_PROJECT = 150
 
 type CursorMode = 'default' | 'text' | 'pointer' | 'project'
 
+/* Colore del cursore su fondo chiaro / scuro */
+const INK_LIGHT_BG = '26, 26, 46' // --color-text
+const INK_DARK_BG = '255, 255, 255'
+const LUMA_THRESHOLD = 0.6
+const BG_SAMPLE_MS = 80
+
+/**
+ * Trova il primo elemento opaco sotto il puntatore e dice se il suo
+ * sfondo è chiaro. Gli elementi con pointer-events:none (il cursore
+ * stesso) sono già esclusi da elementsFromPoint.
+ *
+ * Su foto e gradienti la luminosità non è leggibile dal CSS: in quel
+ * caso si ferma e resta sul cursore bianco, che è la resa voluta sopra
+ * le immagini del sito (tutte scure o mediotonali).
+ */
+function isLightBackgroundAt(x: number, y: number): boolean {
+  const stack = document.elementsFromPoint(x, y)
+
+  for (const el of stack) {
+    const tag = el.tagName
+    if (tag === 'IMG' || tag === 'VIDEO' || tag === 'CANVAS' || tag === 'SVG') return false
+
+    const style = getComputedStyle(el)
+    if (style.backgroundImage !== 'none') return false
+
+    const match = style.backgroundColor.match(/rgba?\(([^)]+)\)/)
+    if (!match) continue
+
+    const parts = match[1].split(',').map((n) => parseFloat(n))
+    const alpha = parts.length > 3 ? parts[3] : 1
+    if (alpha < 0.5) continue // trasparente: guarda sotto
+
+    const [r, g, b] = parts
+    const luma = (0.2126 * r + 0.7152 * g + 0.0722 * b) / 255
+    return luma > LUMA_THRESHOLD
+  }
+
+  return false
+}
+
 export default function CustomCursor() {
   const [isClient, setIsClient] = useState(false)
   const [isVisible, setIsVisible] = useState(false)
@@ -22,6 +62,8 @@ export default function CustomCursor() {
   const targetSize = useRef(SIZE_DEFAULT)
   const mode = useRef<CursorMode>('default')
   const rafRef = useRef(0)
+  const onLightBg = useRef(false)
+  const lastSample = useRef(0)
 
   const animate = useCallback(() => {
     pos.current.x += (target.current.x - pos.current.x) * LERP
@@ -41,34 +83,40 @@ export default function CustomCursor() {
       const isPointer = mode.current === 'pointer'
       const isProject = mode.current === 'project'
 
-      // Glass effect for text mode, solid white for project
+      // Su fondo chiaro il cursore diventa scuro, altrimenti resta bianco
+      const ink = onLightBg.current ? INK_LIGHT_BG : INK_DARK_BG
+
+      // Glass effect for text mode, solid fill for project
       const useGlass = isText
       const glassValue = 'blur(3px) contrast(1.1) saturate(1.3)'
       el.style.backdropFilter = useGlass ? glassValue : 'none'
       el.style.setProperty('-webkit-backdrop-filter', useGlass ? glassValue : 'none')
       el.style.background = isProject
-        ? '#FFFFFF'
+        ? `rgb(${ink})`
         : isPointer
-          ? 'rgba(255, 255, 255, 0.08)'
+          ? `rgba(${ink}, 0.08)`
           : 'transparent'
       el.style.borderColor = isText
-        ? 'rgba(255, 255, 255, 0.15)'
+        ? `rgba(${ink}, 0.15)`
         : isProject
-          ? '#FFFFFF'
+          ? `rgb(${ink})`
           : isPointer
-            ? 'rgba(255, 255, 255, 0.3)'
-            : 'rgba(255, 255, 255, 0.5)'
+            ? `rgba(${ink}, 0.3)`
+            : `rgba(${ink}, 0.5)`
     }
 
     if (dot) {
       const hidesDot = mode.current === 'text' || mode.current === 'project'
       dot.style.transform = `translate(${target.current.x - 3}px, ${target.current.y - 3}px)`
       dot.style.opacity = hidesDot ? '0' : '0.8'
+      dot.style.backgroundColor = `rgba(${onLightBg.current ? INK_LIGHT_BG : INK_DARK_BG}, 0.8)`
     }
 
     if (label) {
       label.style.opacity = mode.current === 'project' ? '1' : '0'
       label.style.transform = `translate(${pos.current.x}px, ${pos.current.y}px) translate(-50%, -50%)`
+      // La label sta dentro il cerchio pieno: va sempre in controtono
+      label.style.color = onLightBg.current ? '#FFFFFF' : '#060D09'
     }
 
     rafRef.current = requestAnimationFrame(animate)
@@ -85,6 +133,13 @@ export default function CustomCursor() {
       target.current = { x: e.clientX, y: e.clientY }
 
       const el = e.target as HTMLElement
+
+      // Campiona la luminosità dello sfondo, non a ogni frame
+      const now = performance.now()
+      if (now - lastSample.current > BG_SAMPLE_MS) {
+        lastSample.current = now
+        onLightBg.current = isLightBackgroundAt(e.clientX, e.clientY)
+      }
 
       // Check for project image (data attribute)
       const isProjectEl = el.closest('[data-cursor="project"]') !== null
