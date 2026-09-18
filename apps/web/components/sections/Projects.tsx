@@ -17,24 +17,17 @@ const projectsData = [
   },
   {
     id: '2',
-    title: 'Artigiani del Gusto',
-    tags: ['E-Commerce', 'Sviluppo Sito', 'SEO'],
-    image: 'https://images.unsplash.com/photo-1558769132-cb1aea458c5e?w=1600&q=80',
-    slug: 'artigiani-gusto',
+    title: 'Villa Irene Cashmere',
+    tags: ['Direzione creativa', 'Lookbook', 'Produzione fotografica'],
+    image: 'https://images.unsplash.com/photo-1490481651871-ab68de25d43d?w=1600&q=80',
+    slug: 'villa-irene-cashmere',
   },
   {
     id: '3',
-    title: 'Studio Legale Meroni',
-    tags: ['Branding', 'Web Design', 'SEO'],
-    image: 'https://images.unsplash.com/photo-1497366216548-37526070297c?w=1600&q=80',
-    slug: 'studio-legale-meroni',
-  },
-  {
-    id: '4',
-    title: 'Bottega del Mare',
-    tags: ['Web Design', 'E-Commerce', 'Social Media'],
-    image: 'https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=1600&q=80',
-    slug: 'bottega-del-mare',
+    title: 'Mondi Piscine',
+    tags: ['Content Creation', 'Social Media', 'Reels'],
+    image: 'https://images.unsplash.com/photo-1572331165267-854da2b10ccc?w=1600&q=80',
+    slug: 'mondi-piscine',
   },
 ]
 

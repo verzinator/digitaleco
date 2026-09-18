@@ -3,6 +3,7 @@
 import { useRef, useEffect, useState } from 'react'
 import { motion, useScroll, useTransform, useInView, useReducedMotion } from 'framer-motion'
 import Navbar from '@/components/layout/Navbar'
+import { openContactDrawer } from '@/components/ui/ContactDrawer'
 import Footer from '@/components/layout/Footer'
 import AmbientBlobs from '@/components/ui/AmbientBlobs'
 import Link from 'next/link'
@@ -42,10 +43,10 @@ const METRICS = [
 
 const RELATED = [
   {
-    title: 'Artigiani del Gusto',
-    tags: ['E-Commerce', 'Sviluppo Sito', 'SEO'],
-    image: 'https://images.unsplash.com/photo-1558769132-cb1aea458c5e?w=1600&q=80',
-    href: '/portfolio',
+    title: 'Villa Irene Cashmere',
+    tags: ['Direzione creativa', 'Lookbook', 'Produzione fotografica'],
+    image: 'https://images.unsplash.com/photo-1490481651871-ab68de25d43d?w=1600&q=80',
+    href: '/portfolio/villa-irene-cashmere',
   },
   {
     title: 'Studio Legale Meroni',
@@ -773,7 +774,12 @@ export default function MasterForPage() {
               </p>
             </div>
 
-            <Link href="/#consulenza" className="cs-cta-btn">
+            <button
+              type="button"
+              onClick={openContactDrawer}
+              className="cs-cta-btn"
+              style={{ border: 'none', cursor: 'pointer' }}
+            >
               Parliamone
               <span aria-hidden="true" className="cs-cta-arrow">
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
@@ -781,7 +787,7 @@ export default function MasterForPage() {
                   <polyline points="12 5 19 12 12 19" />
                 </svg>
               </span>
-            </Link>
+            </button>
           </motion.div>
         </section>
 

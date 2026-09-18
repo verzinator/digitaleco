@@ -2,6 +2,7 @@
 
 import { useEffect, useState, useCallback } from 'react'
 import Image from 'next/image'
+import { openContactDrawer } from '@/components/ui/ContactDrawer'
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false)
@@ -34,8 +35,14 @@ export default function Navbar() {
   }, [checkSection])
 
   function cta() {
+    // Nelle pagine con la sezione consulenza (home, servizi) si scorre;
+    // altrove — es. le pagine progetto — si apre il drawer di contatto.
     const el = document.getElementById('consulenza')
-    if (el) el.scrollIntoView({ behavior: 'smooth' })
+    if (el) {
+      el.scrollIntoView({ behavior: 'smooth' })
+      return
+    }
+    openContactDrawer()
   }
 
   const dark = onLight

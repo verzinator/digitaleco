@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import './globals.css'
 import CustomCursor from '@/components/ui/CustomCursor'
+import ContactDrawer from '@/components/ui/ContactDrawer'
 
 export const metadata: Metadata = {
   title: {
@@ -127,6 +128,7 @@ export default function RootLayout({
         />
         <CustomCursor />
         {children}
+        <ContactDrawer />
       </body>
     </html>
   )
