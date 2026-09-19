@@ -2,9 +2,8 @@
 
 import { useCallback, useEffect, useState } from 'react'
 
-const SESSION_KEY = 'digitaleco-showreel-seen-v6'
-const EXIT_DURATION_MS = 900
-const INTRO_END_SECONDS = 5.45
+const EXIT_DURATION_MS = 700
+const INTRO_END_SECONDS = 3.1
 
 type Phase = 'checking' | 'playing' | 'exit' | 'done'
 
@@ -12,40 +11,60 @@ export default function SplashScreen() {
   const [phase, setPhase] = useState<Phase>('checking')
   const [videoSrc, setVideoSrc] = useState('')
   const [sequenceStarted, setSequenceStarted] = useState(false)
+  const [runId, setRunId] = useState(0)
+
+  /**
+   * Avvia la riproduzione appena il video è pronto. Non si affida a un solo
+   * evento: con il file in cache `canplay` può essere già passato quando
+   * React aggancia gli handler, quindi controlliamo anche `readyState`.
+   */
+  const markReady = useCallback((video: HTMLVideoElement | null) => {
+    if (!video) return
+    setPhase((current) => (current === 'checking' ? 'playing' : current))
+    // play() può essere rifiutato per motivi innocui (AbortError su un
+    // remount, tab non attivo): non è un buon motivo per chiudere l'intro,
+    // di quello si occupa il timer di fallback.
+    void video.play().catch(() => {})
+  }, [])
 
   const finishIntro = useCallback(() => {
     setPhase((current) => {
       if (current === 'exit' || current === 'done') return current
-      try {
-        window.sessionStorage.setItem(SESSION_KEY, 'true')
-      } catch {
-        // The intro still works when storage is unavailable.
-      }
       return 'exit'
     })
   }, [])
 
+  // Lo showreel parte a ogni ingresso in home — refresh, accesso diretto o
+  // ritorno da una pagina progetto — perché il componente è montato solo lì.
+  // Unica eccezione: prefers-reduced-motion.
   useEffect(() => {
     const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
-    let alreadySeen = false
 
-    try {
-      alreadySeen = window.sessionStorage.getItem(SESSION_KEY) === 'true'
-    } catch {
-      // Continue with the intro when storage is unavailable.
-    }
-
-    if (reducedMotion || alreadySeen) {
+    if (reducedMotion) {
       setPhase('done')
       return
     }
 
     const mobile = window.matchMedia('(max-width: 767px), (orientation: portrait)').matches
-    setVideoSrc(mobile ? '/showreel/showreel-mobile.m4v' : '/showreel/showreel-desktop-text.m4v')
+    setVideoSrc(mobile ? '/showreel/showreel-mobile.mp4' : '/showreel/showreel-desktop-text.mp4')
 
-    const fallback = window.setTimeout(finishIntro, 10000)
+    const fallback = window.setTimeout(finishIntro, 5000)
     return () => window.clearTimeout(fallback)
-  }, [finishIntro])
+  }, [finishIntro, runId])
+
+  // Tornando in home con il tasto Indietro la pagina può arrivare dalla
+  // bfcache, senza rimontare: in quel caso l'intro va rilanciata a mano.
+  useEffect(() => {
+    const onPageShow = (event: PageTransitionEvent) => {
+      if (!event.persisted) return
+      if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
+      setSequenceStarted(false)
+      setPhase('checking')
+      setRunId((n) => n + 1)
+    }
+    window.addEventListener('pageshow', onPageShow)
+    return () => window.removeEventListener('pageshow', onPageShow)
+  }, [])
 
   useEffect(() => {
     if (phase === 'done') return
@@ -106,20 +125,23 @@ export default function SplashScreen() {
           box-shadow: inset 0 0 clamp(70px, 12vw, 220px) clamp(20px, 5vw, 90px) rgba(0, 0, 0, 0.48);
           pointer-events: none;
         }
+        @keyframes showreel-fade-in {
+          from { opacity: 0; }
+          to { opacity: 1; }
+        }
         .showreel-intro video {
           width: 100%;
           height: 100%;
           display: block;
           object-fit: cover;
-          opacity: 0;
+          opacity: 1;
+          animation: showreel-fade-in 450ms ease both;
           transform: scale(1.015);
           filter: saturate(0.96);
           transition:
-            opacity 450ms ease,
             transform ${EXIT_DURATION_MS}ms cubic-bezier(0.16, 1, 0.3, 1),
             filter ${EXIT_DURATION_MS}ms ease;
         }
-        .showreel-intro video.is-ready { opacity: 1; }
         .showreel-intro-sequence video {
           transform: translateY(-4vh) scale(1.12);
           filter: saturate(0.9) brightness(0.76);
@@ -142,6 +164,12 @@ export default function SplashScreen() {
 
       {videoSrc && (
         <video
+          key={runId}
+          ref={(video) => {
+            // Il video può essere già pronto al momento del mount (file in cache):
+            // in quel caso l'evento canplay è già passato.
+            if (video && video.readyState >= 2) markReady(video)
+          }}
           src={videoSrc}
           autoPlay
           muted
@@ -150,13 +178,10 @@ export default function SplashScreen() {
           disablePictureInPicture
           disableRemotePlayback
           tabIndex={-1}
-          onCanPlay={(event) => {
-            event.currentTarget.classList.add('is-ready')
-            setPhase((current) => current === 'checking' ? 'playing' : current)
-            void event.currentTarget.play()
-          }}
+          onLoadedData={(event) => markReady(event.currentTarget)}
+          onCanPlay={(event) => markReady(event.currentTarget)}
           onTimeUpdate={(event) => {
-            if (event.currentTarget.currentTime >= 3) setSequenceStarted(true)
+            if (event.currentTarget.currentTime >= 1.7) setSequenceStarted(true)
             if (event.currentTarget.currentTime >= INTRO_END_SECONDS) finishIntro()
           }}
           onEnded={finishIntro}

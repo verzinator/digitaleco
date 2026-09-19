@@ -12,7 +12,7 @@ const projectsData = [
     id: '1',
     title: 'MasterFor',
     tags: ['Analisi', 'Comunicazione', 'Trasformazione Digitale'],
-    image: '/progetti/progetto-1-1.jpeg',
+    image: '/progetti/progetto-1-5.jpeg',
     slug: 'masterfor',
   },
   {

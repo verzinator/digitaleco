@@ -2,6 +2,7 @@
 
 import { useEffect, useState, useCallback } from 'react'
 import Image from 'next/image'
+import Link from 'next/link'
 import { openContactDrawer } from '@/components/ui/ContactDrawer'
 
 export default function Navbar() {
@@ -138,7 +139,7 @@ export default function Navbar() {
         }
       `}</style>
       <header className={`nav-pill ${scrolled ? 'scrolled' : 'at-top'} ${dark ? 'on-light' : 'on-dark'}`}>
-        <a
+        <Link
           href="/"
           aria-label="Torna alla home"
           style={{ display: 'flex', alignItems: 'center', textDecoration: 'none' }}
@@ -155,7 +156,7 @@ export default function Navbar() {
               transition: 'filter 300ms ease',
             }}
           />
-        </a>
+        </Link>
 
         <button
           onClick={cta}

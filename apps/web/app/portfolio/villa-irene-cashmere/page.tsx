@@ -59,14 +59,14 @@ const RELATED = [
   {
     title: 'MasterFor',
     tags: ['Analisi', 'Comunicazione', 'Trasformazione Digitale'],
-    image: '/progetti/progetto-1-1.jpeg',
+    image: '/progetti/progetto-1-5.jpeg',
     href: '/portfolio/masterfor',
   },
   {
-    title: 'Studio Legale Meroni',
-    tags: ['Branding', 'Web Design', 'SEO'],
-    image: 'https://images.unsplash.com/photo-1497366216548-37526070297c?w=1600&q=80',
-    href: '/portfolio',
+    title: 'Mondi Piscine',
+    tags: ['Content Creation', 'Social Media', 'Reels'],
+    image: 'https://images.unsplash.com/photo-1572331165267-854da2b10ccc?w=1600&q=80',
+    href: '/portfolio/mondi-piscine',
   },
 ]
 

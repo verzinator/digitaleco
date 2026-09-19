@@ -45,16 +45,16 @@ const METRICS = [
 
 const RELATED = [
   {
-    title: 'Artigiani del Gusto',
-    tags: ['E-Commerce', 'Sviluppo Sito', 'SEO'],
-    image: 'https://images.unsplash.com/photo-1558769132-cb1aea458c5e?w=1600&q=80',
-    href: '/portfolio',
-  },
-  {
     title: 'MasterFor',
     tags: ['Analisi', 'Comunicazione', 'Trasformazione Digitale'],
-    image: '/progetti/progetto-1-1.jpeg',
+    image: '/progetti/progetto-1-5.jpeg',
     href: '/portfolio/masterfor',
+  },
+  {
+    title: 'Villa Irene Cashmere',
+    tags: ['Direzione creativa', 'Lookbook', 'Produzione fotografica'],
+    image: 'https://images.unsplash.com/photo-1490481651871-ab68de25d43d?w=1600&q=80',
+    href: '/portfolio/villa-irene-cashmere',
   },
 ]
 

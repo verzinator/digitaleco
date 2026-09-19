@@ -3,11 +3,11 @@
 import { motion } from 'framer-motion'
 
 const partnerLogos = [
-  { name: 'Make Consulting', src: '/Make-Consulting-nero.png' },
-  { name: 'Make Consulting', src: '/Make-Consulting-nero.png' },
-  { name: 'Make Consulting', src: '/Make-Consulting-nero.png' },
-  { name: 'Make Consulting', src: '/Make-Consulting-nero.png' },
-  { name: 'Make Consulting', src: '/Make-Consulting-nero.png' },
+  // uno dei cinque originali, lasciato com'era
+  { id: 'consulting', name: 'Make Consulting', src: '/Make-Consulting-nero.png' },
+  // i due aggiunti
+  { id: 'make-1', name: 'Make Finance', src: '/partners/logo-make-1.png' },
+  { id: 'make-2', name: 'Make Consulting', src: '/partners/logo-make-2.png' },
 ]
 
 export default function Partners() {
@@ -67,9 +67,9 @@ export default function Partners() {
           }}
           className="partners-logos"
         >
-          {partnerLogos.map((logo, i) => (
+          {partnerLogos.map((logo) => (
             <img
-              key={logo.name}
+              key={logo.id}
               src={logo.src}
               alt={logo.name}
               style={{

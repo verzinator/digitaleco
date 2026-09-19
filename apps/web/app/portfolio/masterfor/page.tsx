@@ -20,7 +20,7 @@ const PROJECT = {
   year: '2022–2024',
   client: 'MasterFor',
   services: ['Analisi', 'Comunicazione', 'Trasformazione Digitale'],
-  heroImage: '/progetti/progetto-1-5.jpeg',
+  heroImage: '/progetti/progetto-1-1.jpeg',
 }
 
 const GALLERY = [
@@ -49,10 +49,10 @@ const RELATED = [
     href: '/portfolio/villa-irene-cashmere',
   },
   {
-    title: 'Studio Legale Meroni',
-    tags: ['Branding', 'Web Design', 'SEO'],
-    image: 'https://images.unsplash.com/photo-1497366216548-37526070297c?w=1600&q=80',
-    href: '/portfolio',
+    title: 'Mondi Piscine',
+    tags: ['Content Creation', 'Social Media', 'Reels'],
+    image: 'https://images.unsplash.com/photo-1572331165267-854da2b10ccc?w=1600&q=80',
+    href: '/portfolio/mondi-piscine',
   },
 ]
 
@@ -339,7 +339,7 @@ export default function MasterForPage() {
           >
             <img
               src={PROJECT.heroImage}
-              alt="MasterFor, vista d'insieme del progetto"
+              alt="MasterFor, la collaborazione con Fondimpresa per la formazione finanziata"
               style={{
                 width: '100%',
                 height: '115%',
