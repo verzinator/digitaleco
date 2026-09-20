@@ -7,6 +7,20 @@ const INTRO_END_SECONDS = 3.1
 
 type Phase = 'checking' | 'playing' | 'exit' | 'done'
 
+/**
+ * Safari su iOS decide se concedere l'autoplay guardando lo stato del video
+ * quando entra nel documento, e considera solo l'attributo `muted`. React lo
+ * rende come attributo nell'HTML generato dal server, ma quando l'elemento
+ * nasce lato client — come qui, perche' la sorgente si decide dopo il mount —
+ * imposta la sola proprieta'. Senza attributo iOS blocca la riproduzione e
+ * mostra il pulsante di avvio, quindi lo forziamo a mano.
+ */
+function forceMuted(video: HTMLVideoElement) {
+  video.muted = true
+  video.defaultMuted = true
+  if (!video.hasAttribute('muted')) video.setAttribute('muted', '')
+}
+
 export default function SplashScreen() {
   const [phase, setPhase] = useState<Phase>('checking')
   const [videoSrc, setVideoSrc] = useState('')
@@ -20,6 +34,7 @@ export default function SplashScreen() {
    */
   const markReady = useCallback((video: HTMLVideoElement | null) => {
     if (!video) return
+    forceMuted(video)
     setPhase((current) => (current === 'checking' ? 'playing' : current))
     // play() può essere rifiutato per motivi innocui (AbortError su un
     // remount, tab non attivo): non è un buon motivo per chiudere l'intro,
@@ -166,9 +181,12 @@ export default function SplashScreen() {
         <video
           key={runId}
           ref={(video) => {
+            if (!video) return
+            // Prima di tutto il resto: l'autoplay si gioca qui.
+            forceMuted(video)
             // Il video può essere già pronto al momento del mount (file in cache):
             // in quel caso l'evento canplay è già passato.
-            if (video && video.readyState >= 2) markReady(video)
+            if (video.readyState >= 2) markReady(video)
           }}
           src={videoSrc}
           autoPlay

@@ -316,6 +316,11 @@ export default function MasterForPage() {
         }
       `}</style>
 
+      {/* L'hero è l'immagine più grande e la prima che si vede: senza questo
+          il browser la tiene a bassa priorità finché il layout non stabilisce
+          che è nel viewport, e arriva a pagina già disegnata. */}
+      <link rel="preload" as="image" href={PROJECT.heroImage} fetchPriority="high" />
+
       <Navbar />
 
       <main id="main-content" tabIndex={-1}>
@@ -339,6 +344,7 @@ export default function MasterForPage() {
           >
             <img
               src={PROJECT.heroImage}
+              fetchPriority="high"
               alt="MasterFor, la collaborazione con Fondimpresa per la formazione finanziata"
               style={{
                 width: '100%',

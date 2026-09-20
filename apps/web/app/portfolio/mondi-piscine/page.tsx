@@ -126,6 +126,19 @@ function GalleryImage({ src, alt, index }: { src: string; alt: string; index: nu
    Reel verticale — parte e va in loop dal terzo secondo
    ───────────────────────────────────────────── */
 
+/**
+ * iOS concede l'autoplay solo a un video gia' muto quando entra nel documento,
+ * e guarda l'attributo, non la proprieta'. React scrive l'attributo nell'HTML
+ * generato dal server, ma non quando l'elemento nasce lato client: arrivando
+ * qui da un link interno i reel resterebbero fermi con il pulsante di avvio.
+ */
+function forceMuted(video: HTMLVideoElement | null) {
+  if (!video) return
+  video.muted = true
+  video.defaultMuted = true
+  if (!video.hasAttribute('muted')) video.setAttribute('muted', '')
+}
+
 const REEL_START = 3
 const REEL_END_TRIM = 7
 
@@ -148,6 +161,7 @@ function ReelVideo({ src, label, index = 0 }: { src: string; label: string; inde
       }}
     >
       <video
+        ref={forceMuted}
         src={`${src}#t=${REEL_START}`}
         aria-label={label}
         autoPlay
@@ -417,6 +431,11 @@ export default function MondiPiscinePage() {
         }
       `}</style>
 
+      {/* L'hero è l'immagine più grande e la prima che si vede: senza questo
+          il browser la tiene a bassa priorità finché il layout non stabilisce
+          che è nel viewport, e arriva a pagina già disegnata. */}
+      <link rel="preload" as="image" href={PROJECT.heroImage} fetchPriority="high" />
+
       <Navbar />
 
       <main id="main-content" tabIndex={-1}>
@@ -440,6 +459,7 @@ export default function MondiPiscinePage() {
           >
             <img
               src={PROJECT.heroImage}
+              fetchPriority="high"
               alt="Mondi Piscine, vista d'insieme del progetto"
               style={{
                 width: '100%',
@@ -819,6 +839,7 @@ export default function MondiPiscinePage() {
             }}
           >
             <video
+              ref={forceMuted}
               src="/progetti/mondi-piscine/reel-08-1080.m4v#t=3"
               aria-label="Reel realizzato per Mondi Piscine"
               autoPlay

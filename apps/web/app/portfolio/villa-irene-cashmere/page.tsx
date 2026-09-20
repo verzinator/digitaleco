@@ -605,6 +605,11 @@ export default function VillaIreneCashmerePage() {
         }
       `}</style>
 
+      {/* L'hero è l'immagine più grande e la prima che si vede: senza questo
+          il browser la tiene a bassa priorità finché il layout non stabilisce
+          che è nel viewport, e arriva a pagina già disegnata. */}
+      <link rel="preload" as="image" href={PROJECT.heroImage} fetchPriority="high" />
+
       <Navbar />
 
       <main id="main-content" tabIndex={-1}>
@@ -628,6 +633,7 @@ export default function VillaIreneCashmerePage() {
           >
             <img
               src={PROJECT.heroImage}
+              fetchPriority="high"
               alt="Villa Irene Cashmere, i capi della collezione fotografati per il lookbook di stagione"
               style={{
                 width: '100%',
