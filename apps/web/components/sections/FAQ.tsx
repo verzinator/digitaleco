@@ -12,10 +12,11 @@ const LINES = [
   { text: 'crescere.', dir: -1 },
 ]
 
+// Le nostre foto: il networking, la sede, il seminario.
 const IMAGES = [
-  'https://images.unsplash.com/photo-1600880292203-757bb62b4baf?w=800&q=80',
-  'https://images.unsplash.com/photo-1497366216548-37526070297c?w=1200&q=80',
-  'https://images.unsplash.com/photo-1542744173-8e7e53415bb0?w=800&q=80',
+  { src: '/foto/evento-networking.jpg', alt: 'Ospiti durante il momento di networking nella sede Digital Eco' },
+  { src: '/foto/sede-make-group.jpg', alt: 'La sede del gruppo, vista dall\'ingresso' },
+  { src: '/foto/seminario-ai.jpg', alt: 'Il seminario sull\'intelligenza artificiale davanti alla platea' },
 ]
 
 function ScrollLine({ text, dir, scrollYProgress }: { text: string; dir: number; scrollYProgress: ReturnType<typeof useScroll>['scrollYProgress'] }) {
@@ -130,7 +131,7 @@ export default function ShowcaseSection() {
                 overflow: 'hidden',
               }}
             >
-              <ImageWithOverlay src={IMAGES[0]} alt="Lavoro creativo" sizes="200px" overlayOpacity={overlayOpacity} />
+              <ImageWithOverlay src={IMAGES[0].src} alt={IMAGES[0].alt} sizes="200px" overlayOpacity={overlayOpacity} />
             </div>
 
             {/* Center image */}
@@ -142,7 +143,7 @@ export default function ShowcaseSection() {
               borderRadius: '24px',
               overflow: 'hidden',
             }}>
-              <ImageWithOverlay src={IMAGES[1]} alt="Team al lavoro" sizes="420px" overlayOpacity={overlayOpacity} />
+              <ImageWithOverlay src={IMAGES[1].src} alt={IMAGES[1].alt} sizes="420px" overlayOpacity={overlayOpacity} />
             </div>
 
             {/* Right image — desktop only */}
@@ -157,7 +158,7 @@ export default function ShowcaseSection() {
                 overflow: 'hidden',
               }}
             >
-              <ImageWithOverlay src={IMAGES[2]} alt="Riunione strategica" sizes="200px" overlayOpacity={overlayOpacity} />
+              <ImageWithOverlay src={IMAGES[2].src} alt={IMAGES[2].alt} sizes="200px" overlayOpacity={overlayOpacity} />
             </div>
           </div>
 
