@@ -4,7 +4,8 @@ import { useRef, useEffect, useCallback, useState } from 'react'
 import { motion, useReducedMotion, useScroll, useTransform, useSpring } from 'framer-motion'
 
 const EASE: [number, number, number, number] = [0.16, 1, 0.3, 1]
-const SPLASH_DURATION = 3.8
+// Quanto aspetta il titolo prima di salire: un respiro, non più l'attesa dell'intro.
+const INTRO_DELAY = 0.2
 const LERP_FACTOR = 0.06
 
 // Horizontal shift per line on scroll: left, right, left
@@ -153,7 +154,7 @@ export default function ImageHero() {
                   >
                     {chars.map((char, charIdx) => {
                       const isSpace = char === ' '
-                      const delay = SPLASH_DURATION + charCount * 0.04
+                      const delay = INTRO_DELAY + charCount * 0.04
                       charCount++
 
                       return (
@@ -202,7 +203,7 @@ export default function ImageHero() {
             <motion.div
               initial={rm ? false : { opacity: 0 }}
               animate={{ opacity: 1 }}
-              transition={{ duration: 0.8, delay: SPLASH_DURATION + 1, ease: EASE }}
+              transition={{ duration: 0.8, delay: INTRO_DELAY + 1, ease: EASE }}
               className="hero-info-strip"
               style={{
                 display: 'flex',

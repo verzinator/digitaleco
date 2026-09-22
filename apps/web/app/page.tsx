@@ -2,19 +2,18 @@ import Navbar from '@/components/layout/Navbar'
 import Footer from '@/components/layout/Footer'
 import ImageHero from '@/components/sections/ImageHero'
 import Hero from '@/components/sections/Hero'
+import ShowreelBand from '@/components/sections/ShowreelBand'
 import Projects from '@/components/sections/Projects'
 import ContactForm from '@/components/sections/ContactForm'
 import FAQ from '@/components/sections/FAQ'
 import Services from '@/components/sections/Services'
 import Partners from '@/components/sections/Partners'
-import SplashScreen from '@/components/ui/SplashScreen'
 import GlobalGradient from '@/components/ui/GlobalGradient'
 import AmbientBlobs from '@/components/ui/AmbientBlobs'
 
 export default function HomePage() {
   return (
     <>
-      <SplashScreen />
       <GlobalGradient />
       <Navbar />
       <main id="main-content" tabIndex={-1}>
@@ -33,6 +32,7 @@ export default function HomePage() {
             }}
           />
           <ImageHero />
+          <ShowreelBand />
           <Hero />
         </div>
         <Projects />
