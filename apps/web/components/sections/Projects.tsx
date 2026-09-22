@@ -71,7 +71,6 @@ function ProjectCard({ item, index }: { item: (typeof projectsData)[0]; index: n
             style={{
               position: 'relative',
               width: '100%',
-              aspectRatio: '2 / 3',
               overflow: 'hidden',
             }}
           >
@@ -161,6 +160,17 @@ export default function Projects() {
           .projects-grid {
             grid-template-columns: repeat(3, 1fr);
             gap: clamp(24px, 2.5vw, 40px);
+          }
+        }
+        /* Da telefono la card occupa tutta la larghezza: con l'immagine 2:3
+           diventava piu' alta dello schermo. In colonna sta piu' bassa, e
+           torna verticale piena quando le tre card vanno affiancate. */
+        .project-media {
+          aspect-ratio: 4 / 5;
+        }
+        @media (min-width: 900px) {
+          .project-media {
+            aspect-ratio: 2 / 3;
           }
         }
         .project-card:hover .project-card-inner {

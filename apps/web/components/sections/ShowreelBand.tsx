@@ -70,18 +70,45 @@ export default function ShowreelBand() {
     <section
       ref={sectionRef}
       aria-label="Showreel Digital Eco"
+      className="showreel-section"
       style={{
         position: 'relative',
         zIndex: 2,
-        paddingBlock: 'clamp(48px, 7vw, 96px)',
-        paddingInline: 'clamp(24px, 5vw, 80px)',
       }}
     >
+      {/* La forma del riquadro segue la stessa condizione con cui si sceglie il
+          file: orizzontale col montaggio desktop, verticale con quello mobile,
+          che è 608x1080. Sta nel CSS e non nello stato perché così è già giusta
+          al primo disegno, senza un salto di forma dopo il caricamento.
+          Da telefono il riquadro non tiene la proporzione ma l'altezza dello
+          schermo: riempie quasi tutta la pagina, e i pochi pixel ai lati
+          servono solo a far vedere gli angoli arrotondati. */}
+      <style>{`
+        .showreel-section {
+          padding-block: clamp(48px, 7vw, 96px);
+          padding-inline: clamp(24px, 5vw, 80px);
+        }
+        .showreel-frame {
+          aspect-ratio: 16 / 9;
+        }
+        @media (max-width: 767px), (orientation: portrait) {
+          .showreel-section {
+            padding-block: clamp(32px, 8vw, 64px);
+            padding-inline: 12px;
+          }
+          .showreel-frame {
+            aspect-ratio: auto;
+            height: 90svh;
+          }
+        }
+      `}</style>
+
       <motion.div
         initial={rm ? false : { opacity: 0 }}
         whileInView={{ opacity: 1 }}
         viewport={{ once: true, amount: 0.15 }}
         transition={{ duration: 0.9, ease: EASE }}
+        className="showreel-frame"
         style={{
           position: 'relative',
           maxWidth: '1440px',
@@ -90,7 +117,6 @@ export default function ShowreelBand() {
           overflow: 'hidden',
           border: '1px solid rgba(240, 245, 242, 0.08)',
           background: '#030806',
-          aspectRatio: '16 / 9',
           scale: rm ? 1 : scale,
           transformOrigin: 'center',
           willChange: 'transform',
