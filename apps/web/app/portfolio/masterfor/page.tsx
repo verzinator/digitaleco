@@ -7,6 +7,7 @@ import { openContactDrawer } from '@/components/ui/ContactDrawer'
 import Footer from '@/components/layout/Footer'
 import AmbientBlobs from '@/components/ui/AmbientBlobs'
 import Link from 'next/link'
+import { PROJECT_HERO_IMAGES } from '@/lib/projects'
 
 /* ─────────────────────────────────────────────
    Constants
@@ -20,7 +21,7 @@ const PROJECT = {
   year: '2022–2024',
   client: 'MasterFor',
   services: ['Analisi', 'Comunicazione', 'Trasformazione Digitale'],
-  heroImage: '/progetti/progetto-1-1.jpeg',
+  heroImage: PROJECT_HERO_IMAGES.masterfor,
 }
 
 const GALLERY = [

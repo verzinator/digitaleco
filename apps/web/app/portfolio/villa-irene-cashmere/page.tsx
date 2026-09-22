@@ -7,6 +7,7 @@ import { openContactDrawer } from '@/components/ui/ContactDrawer'
 import Footer from '@/components/layout/Footer'
 import AmbientBlobs from '@/components/ui/AmbientBlobs'
 import Link from 'next/link'
+import { PROJECT_HERO_IMAGES } from '@/lib/projects'
 
 /* ─────────────────────────────────────────────
    Constants
@@ -21,7 +22,7 @@ const PROJECT = {
   year: '2024',
   client: 'Villa Irene Cashmere',
   services: ['Direzione creativa', 'Lookbook', 'Produzione fotografica'],
-  heroImage: '/progetti/villa-irene-cashmere/emo-1106.jpg',
+  heroImage: PROJECT_HERO_IMAGES['villa-irene-cashmere'],
 }
 
 const GALLERY = [

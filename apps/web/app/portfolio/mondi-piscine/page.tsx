@@ -7,6 +7,7 @@ import { openContactDrawer } from '@/components/ui/ContactDrawer'
 import Footer from '@/components/layout/Footer'
 import AmbientBlobs from '@/components/ui/AmbientBlobs'
 import Link from 'next/link'
+import { PROJECT_HERO_IMAGES } from '@/lib/projects'
 
 /* ─────────────────────────────────────────────
    Constants
@@ -20,7 +21,7 @@ const PROJECT = {
   year: '2025–2026',
   client: 'Mondi Piscine',
   services: ['Strategia contenuti', 'Produzione video', 'Social media'],
-  heroImage: 'https://images.unsplash.com/photo-1572331165267-854da2b10ccc?w=2000&q=85',
+  heroImage: PROJECT_HERO_IMAGES['mondi-piscine'],
 }
 
 const GALLERY = [

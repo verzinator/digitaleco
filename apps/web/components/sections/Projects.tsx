@@ -1,9 +1,9 @@
 'use client'
 
-import { useRef } from 'react'
-import { motion, useReducedMotion, useScroll, useTransform } from 'framer-motion'
+import { motion, useReducedMotion } from 'framer-motion'
 import Link from 'next/link'
 import Image from 'next/image'
+import { PROJECT_HERO_IMAGES } from '@/lib/projects'
 
 const EASE: [number, number, number, number] = [0.16, 1, 0.3, 1]
 
@@ -12,6 +12,8 @@ const projectsData = [
     id: '1',
     title: 'MasterFor',
     tags: ['Analisi', 'Comunicazione', 'Trasformazione Digitale'],
+    // MasterFor fa eccezione: la card tiene lo scatto in ufficio con la targa,
+    // che nella pagina del progetto non compare.
     image: '/progetti/progetto-1-5.jpeg',
     slug: 'masterfor',
   },
@@ -19,43 +21,33 @@ const projectsData = [
     id: '2',
     title: 'Villa Irene Cashmere',
     tags: ['Direzione creativa', 'Lookbook', 'Produzione fotografica'],
-    image: 'https://images.unsplash.com/photo-1490481651871-ab68de25d43d?w=1600&q=80',
+    image: PROJECT_HERO_IMAGES['villa-irene-cashmere'],
     slug: 'villa-irene-cashmere',
   },
   {
     id: '3',
     title: 'Mondi Piscine',
     tags: ['Content Creation', 'Social Media', 'Reels'],
-    image: 'https://images.unsplash.com/photo-1572331165267-854da2b10ccc?w=1600&q=80',
+    image: PROJECT_HERO_IMAGES['mondi-piscine'],
     slug: 'mondi-piscine',
   },
 ]
 
 function ProjectCard({ item, index }: { item: (typeof projectsData)[0]; index: number }) {
   const rm = useReducedMotion()
-  const num = String(index + 1).padStart(2, '0')
-  const cardRef = useRef<HTMLElement>(null)
-
-  const { scrollYProgress } = useScroll({
-    target: cardRef,
-    offset: ['start end', 'start 0.3'],
-  })
-
-  const scale = useTransform(scrollYProgress, [0, 1], rm ? [1, 1] : [0.92, 1])
-  const opacity = useTransform(scrollYProgress, [0, 0.6], rm ? [1, 1] : [0, 1])
-  const y = useTransform(scrollYProgress, [0, 1], rm ? [0, 0] : [60, 0])
-  // Image parallax — image moves slower than card
-  const imgY = useTransform(scrollYProgress, [0, 1], rm ? [0, 0] : [-20, 20])
 
   return (
     <motion.article
-      ref={cardRef}
-      style={{ scale, opacity, y }}
+      initial={rm ? false : { opacity: 0, y: 32 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: '-80px' }}
+      transition={{ duration: 0.7, ease: EASE, delay: rm ? 0 : index * 0.12 }}
+      style={{ height: '100%' }}
     >
       <Link
         href={`/portfolio/${item.slug}`}
         className="project-card"
-        style={{ textDecoration: 'none', color: 'inherit', display: 'block' }}
+        style={{ textDecoration: 'none', color: 'inherit', display: 'block', height: '100%' }}
       >
         <div
           className="project-card-inner"
@@ -66,32 +58,30 @@ function ProjectCard({ item, index }: { item: (typeof projectsData)[0]; index: n
             borderRadius: '8px',
             border: '1px solid rgba(255, 255, 255, 0.08)',
             overflow: 'hidden',
+            height: '100%',
+            display: 'flex',
+            flexDirection: 'column',
             transition: 'background 0.4s ease, border-color 0.4s ease, box-shadow 0.4s ease',
           }}
         >
-          {/* Image with parallax */}
+          {/* Immagine verticale: è lei a dare il ritmo alla fila */}
           <div
+            className="project-media"
             data-cursor="project"
             style={{
               position: 'relative',
               width: '100%',
-              aspectRatio: '16 / 9',
+              aspectRatio: '2 / 3',
               overflow: 'hidden',
             }}
           >
-            <motion.div
-              style={{ width: '100%', height: '120%', y: imgY, position: 'absolute', top: '-10%', left: 0 }}
-              whileHover={rm ? {} : { scale: 1.03 }}
-              transition={{ duration: 0.6, ease: EASE }}
-            >
-              <Image
-                src={item.image}
-                alt={`Progetto ${item.title}`}
-                fill
-                sizes="1100px"
-                style={{ objectFit: 'cover' }}
-              />
-            </motion.div>
+            <Image
+              src={item.image}
+              alt={`Progetto ${item.title}`}
+              fill
+              sizes="(max-width: 899px) 100vw, 33vw"
+              style={{ objectFit: 'cover' }}
+            />
           </div>
 
           {/* Info below */}
@@ -99,58 +89,24 @@ function ProjectCard({ item, index }: { item: (typeof projectsData)[0]; index: n
             padding: 'clamp(16px, 2vw, 24px)',
             display: 'flex',
             flexDirection: 'column',
-            gap: '12px',
+            gap: '16px',
+            flex: 1,
           }}>
-            <div className="project-title-row" style={{ display: 'flex', alignItems: 'baseline', gap: '12px', minWidth: 0 }}>
-              <span style={{
-                fontFamily: 'var(--font-body)',
-                fontSize: '20px',
-                fontWeight: 400,
-                color: 'rgba(255, 255, 255, 0.2)',
-                letterSpacing: '0.08em',
-                flexShrink: 0,
-              }}>
-                {num}
-              </span>
-              <h3 style={{
-                fontFamily: 'var(--font-display)',
-                fontSize: 'clamp(1.3rem, 0.9rem + 1.2vw, 1.8rem)',
-                fontWeight: 400,
-                fontStyle: 'italic',
-                letterSpacing: '-0.02em',
-                color: 'rgba(255, 255, 255, 0.9)',
-                lineHeight: 1.2,
-                margin: 0,
-                transition: 'color 0.3s ease',
-              }}>
-                {item.title}
-              </h3>
-              <div className="project-tags-desktop" style={{ display: 'flex', gap: '6px', flexWrap: 'wrap', marginLeft: 'auto' }}>
-                {item.tags.map((tag) => (
-                  <span
-                    key={tag}
-                    style={{
-                      fontFamily: 'var(--font-body)',
-                      fontSize: '10px',
-                      fontWeight: 500,
-                      color: 'rgba(255, 255, 255, 0.5)',
-                      letterSpacing: '0.02em',
-                      whiteSpace: 'nowrap',
-                      padding: '3px 8px',
-                      height: '24px',
-                      lineHeight: '16px',
-                      boxSizing: 'border-box',
-                      borderRadius: '999px',
-                      border: '1px solid rgba(255, 255, 255, 0.15)',
-                      background: 'rgba(255, 255, 255, 0.05)',
-                    }}
-                  >
-                    {tag}
-                  </span>
-                ))}
-              </div>
-            </div>
-            <div className="project-tags-mobile" style={{ display: 'flex', gap: '6px', flexWrap: 'wrap' }}>
+            <h3 style={{
+              fontFamily: 'var(--font-display)',
+              fontSize: 'clamp(1.3rem, 0.9rem + 1.2vw, 1.8rem)',
+              fontWeight: 400,
+              fontStyle: 'italic',
+              letterSpacing: '-0.02em',
+              color: 'rgba(255, 255, 255, 0.9)',
+              lineHeight: 1.2,
+              margin: 0,
+              transition: 'color 0.3s ease',
+            }}>
+              {item.title}
+            </h3>
+
+            <div className="project-tags" style={{ display: 'flex', gap: '6px', flexWrap: 'wrap' }}>
               {item.tags.map((tag) => (
                 <span
                   key={tag}
@@ -174,6 +130,7 @@ function ProjectCard({ item, index }: { item: (typeof projectsData)[0]; index: n
                 </span>
               ))}
             </div>
+
           </div>
         </div>
       </Link>
@@ -195,6 +152,17 @@ export default function Projects() {
       }}
     >
       <style>{`
+        .projects-grid {
+          display: grid;
+          grid-template-columns: 1fr;
+          gap: 40px;
+        }
+        @media (min-width: 900px) {
+          .projects-grid {
+            grid-template-columns: repeat(3, 1fr);
+            gap: clamp(24px, 2.5vw, 40px);
+          }
+        }
         .project-card:hover .project-card-inner {
           background: rgba(255, 255, 255, 0.08);
           border-color: rgba(255, 255, 255, 0.14);
@@ -203,23 +171,23 @@ export default function Projects() {
         .project-card:hover h3 {
           color: rgba(255, 255, 255, 1) !important;
         }
-        .project-tags-desktop {
-          display: none !important;
+        .project-media img {
+          transition: transform 600ms cubic-bezier(0.16, 1, 0.3, 1);
         }
-        .project-tags-mobile {
-          display: flex !important;
+        .project-card:hover .project-media img {
+          transform: scale(1.04);
         }
-        @media (min-width: 768px) {
-          .project-tags-desktop {
-            display: flex !important;
+        @media (prefers-reduced-motion: reduce) {
+          .project-media img {
+            transition: none;
           }
-          .project-tags-mobile {
-            display: none !important;
+          .project-card:hover .project-media img {
+            transform: none;
           }
         }
       `}</style>
 
-      <div style={{ maxWidth: '1100px', margin: '0 auto', padding: '0 clamp(24px, 4vw, 48px)' }}>
+      <div style={{ maxWidth: '1280px', margin: '0 auto', padding: '0 clamp(24px, 4vw, 48px)' }}>
         {/* Header */}
         <motion.h2
           id="projects-title"
@@ -245,8 +213,8 @@ export default function Projects() {
           <em style={{ fontFamily: 'var(--font-display)', fontStyle: 'italic', fontWeight: 400, color: 'var(--color-primary)' }}>parla per noi</em>
         </motion.h2>
 
-        {/* Project stack */}
-        <div style={{ display: 'flex', flexDirection: 'column', gap: 'clamp(24px, 3vw, 40px)' }}>
+        {/* I tre progetti, affiancati */}
+        <div className="projects-grid">
           {projectsData.map((item, i) => (
             <ProjectCard key={item.id} item={item} index={i} />
           ))}
