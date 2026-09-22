@@ -2,12 +2,13 @@
 
 import { motion } from 'framer-motion'
 
+// I marchi del gruppo, nella versione bianca su fondo trasparente.
 const partnerLogos = [
-  // uno dei cinque originali, lasciato com'era
-  { id: 'consulting', name: 'Make Consulting', src: '/Make-Consulting-nero.png' },
-  // i due aggiunti
-  { id: 'make-1', name: 'Make Finance', src: '/partners/logo-make-1.png' },
-  { id: 'make-2', name: 'Make Consulting', src: '/partners/logo-make-2.png' },
+  { id: 'make-group', name: 'Make Group', src: '/partners/make-group.png' },
+  { id: 'make-consulting', name: 'Make Consulting', src: '/partners/make-consulting.png' },
+  { id: 'make-finance', name: 'Make Finance', src: '/partners/make-finance.png' },
+  { id: 'makelab', name: 'Makelab Business School', src: '/partners/makelab.png' },
+  { id: 'kanbanlogiq', name: 'KanbanlogiQ', src: '/partners/kanbanlogiq.png' },
 ]
 
 export default function Partners() {
@@ -20,7 +21,8 @@ export default function Partners() {
       style={{
         maxWidth: '1200px',
         margin: '0 auto',
-        padding: '0 32px 120px',
+        // Il riquadro non deve toccare la fascia puntinata che finisce qui sopra.
+        padding: '80px 32px 120px',
         position: 'relative',
         zIndex: 2,
       }}
@@ -73,9 +75,11 @@ export default function Partners() {
               src={logo.src}
               alt={logo.name}
               style={{
-                height: '28px',
+                // I file sono ritagliati sul marchio, senza margine trasparente:
+                // così l'altezza è quella del segno e i cinque restano in riga.
+                height: '26px',
                 width: 'auto',
-                maxWidth: '120px',
+                maxWidth: '160px',
                 objectFit: 'contain',
                 opacity: 0.5,
                 filter: 'brightness(0) invert(1)',

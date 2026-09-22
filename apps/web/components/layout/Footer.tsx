@@ -75,18 +75,6 @@ export default function Footer() {
         position: 'relative',
       }}
     >
-      {/* Dot pattern */}
-      <div
-        aria-hidden="true"
-        style={{
-          position: 'absolute',
-          inset: 0,
-          backgroundImage: `url("data:image/svg+xml,%3Csvg width='20' height='20' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='10' cy='10' r='1' fill='%23ffffff12'/%3E%3C/svg%3E")`,
-          backgroundSize: '20px 20px',
-          pointerEvents: 'none',
-          zIndex: 1,
-        }}
-      />
       {/* ── Main content ── */}
       <div
         style={{
