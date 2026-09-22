@@ -20,9 +20,20 @@ export default function ShowreelBand() {
   const videoRef = useRef<HTMLVideoElement>(null)
   const [videoSrc, setVideoSrc] = useState('')
 
+  // Su telefono va il montaggio verticale, sul desktop quello orizzontale con
+  // il testo. La scelta resta agganciata alla query: se lo schermo cambia —
+  // rotazione, finestra ridimensionata — il video passa all'altro file, e solo
+  // quando serve davvero, così una riproduzione in corso non riparte da capo.
   useEffect(() => {
-    const mobile = window.matchMedia('(max-width: 767px), (orientation: portrait)').matches
-    setVideoSrc(mobile ? '/showreel/showreel-mobile.mp4' : '/showreel/showreel-desktop-text.mp4')
+    const query = window.matchMedia('(max-width: 767px), (orientation: portrait)')
+    const apply = (verticale: boolean) => {
+      setVideoSrc(verticale ? '/showreel/showreel-mobile.mp4' : '/showreel/showreel-desktop-text.mp4')
+    }
+
+    apply(query.matches)
+    const onChange = (event: MediaQueryListEvent) => apply(event.matches)
+    query.addEventListener('change', onChange)
+    return () => query.removeEventListener('change', onChange)
   }, [])
 
   // Il video non si ferma mai: se l'autoplay viene rifiutato — succede quando
