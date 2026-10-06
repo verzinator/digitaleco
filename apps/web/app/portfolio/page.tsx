@@ -113,9 +113,6 @@ export default function PortfolioPage() {
         .port-form textarea:focus {
           border-color: var(--color-primary);
         }
-        .port-submit:hover {
-          background: #25b863 !important;
-        }
         @media (max-width: 900px) {
           .port-grid {
             grid-template-columns: repeat(2, 1fr);
@@ -276,20 +273,7 @@ export default function PortfolioPage() {
               <div style={{ textAlign: 'center', marginTop: 'var(--space-2)' }}>
                 <button
                   type="submit"
-                  className="port-submit"
-                  style={{
-                    background: 'var(--color-accent)',
-                    color: 'var(--color-primary)',
-                    fontFamily: 'var(--font-body)',
-                    fontSize: 'var(--text-base)',
-                    fontWeight: 600,
-                    padding: '14px 48px',
-                    borderRadius: '999px',
-                    border: 'none',
-                    cursor: 'pointer',
-                    transition: 'background 150ms ease',
-                    letterSpacing: '0.01em',
-                  }}
+                  className="btn-pill btn-pill--dark"
                 >
                   Parliamone!
                 </button>
