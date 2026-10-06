@@ -12,9 +12,7 @@ const projectsData = [
     id: '1',
     title: 'MasterFor',
     tags: ['Analisi', 'Comunicazione', 'Trasformazione Digitale'],
-    // MasterFor fa eccezione: la card tiene lo scatto in ufficio con la targa,
-    // che nella pagina del progetto non compare.
-    image: '/progetti/progetto-1-5.jpeg',
+    image: PROJECT_HERO_IMAGES.masterfor,
     slug: 'masterfor',
   },
   {
@@ -30,6 +28,13 @@ const projectsData = [
     tags: ['Content Creation', 'Social Media', 'Reels'],
     image: PROJECT_HERO_IMAGES['mondi-piscine'],
     slug: 'mondi-piscine',
+  },
+  {
+    id: '4',
+    title: 'Autodis RTS Group',
+    tags: ['Concept creativo', 'Produzione video', 'Riprese POV'],
+    image: PROJECT_HERO_IMAGES['autodis-rts'],
+    slug: 'autodis-rts',
   },
 ]
 
@@ -78,7 +83,7 @@ function ProjectCard({ item, index }: { item: (typeof projectsData)[0]; index: n
               src={item.image}
               alt={`Progetto ${item.title}`}
               fill
-              sizes="(max-width: 899px) 100vw, 33vw"
+              sizes="(max-width: 699px) 100vw, 50vw"
               style={{ objectFit: 'cover' }}
             />
           </div>
@@ -93,7 +98,7 @@ function ProjectCard({ item, index }: { item: (typeof projectsData)[0]; index: n
           }}>
             <h3 style={{
               fontFamily: 'var(--font-display)',
-              fontSize: 'clamp(1.3rem, 0.9rem + 1.2vw, 1.8rem)',
+              fontSize: 'clamp(1.5rem, 1rem + 1.5vw, 2.2rem)',
               fontWeight: 400,
               fontStyle: 'italic',
               letterSpacing: '-0.02em',
@@ -156,10 +161,12 @@ export default function Projects() {
           grid-template-columns: 1fr;
           gap: 40px;
         }
-        @media (min-width: 900px) {
+        /* Quattro progetti a coppie, 2x2: in fila da quattro le card erano
+           troppo strette per leggere le foto */
+        @media (min-width: 700px) {
           .projects-grid {
-            grid-template-columns: repeat(3, 1fr);
-            gap: clamp(24px, 2.5vw, 40px);
+            grid-template-columns: repeat(2, 1fr);
+            gap: clamp(24px, 3vw, 48px);
           }
         }
         /* Da telefono la card occupa tutta la larghezza: con l'immagine 2:3
@@ -168,9 +175,16 @@ export default function Projects() {
         .project-media {
           aspect-ratio: 4 / 5;
         }
-        @media (min-width: 900px) {
+        @media (min-width: 700px) {
           .project-media {
-            aspect-ratio: 2 / 3;
+            aspect-ratio: 3 / 4;
+          }
+        }
+        /* A due colonne su schermo largo la card e' larga: in 2:3 la foto
+           supererebbe l'altezza dello schermo */
+        @media (min-width: 1100px) {
+          .project-media {
+            aspect-ratio: 9 / 10;
           }
         }
         .project-card:hover .project-card-inner {
@@ -223,7 +237,7 @@ export default function Projects() {
           <em style={{ fontFamily: 'var(--font-display)', fontStyle: 'italic', fontWeight: 400, color: 'var(--color-primary)' }}>parla per noi</em>
         </motion.h2>
 
-        {/* I tre progetti, affiancati */}
+        {/* I progetti, affiancati */}
         <div className="projects-grid">
           {projectsData.map((item, i) => (
             <ProjectCard key={item.id} item={item} index={i} />

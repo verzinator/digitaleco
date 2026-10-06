@@ -4,7 +4,7 @@ import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
 import { useState, useCallback } from 'react'
-import { CheckCircle2, AlertCircle, ArrowRight } from 'lucide-react'
+import { CheckCircle2, AlertCircle } from 'lucide-react'
 
 const contactSchema = z.object({
   firstName: z.string().min(2, 'Inserisci almeno 2 caratteri'),
@@ -262,39 +262,11 @@ export default function ContactFormFields({ idPrefix = 'c' }: { idPrefix?: strin
         <button
           type="submit"
           disabled={!isValid || isSubmitting || submitState === 'loading'}
+          className="btn-pill btn-pill--dark"
           style={{
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            gap: '8px',
             width: '100%',
-            padding: '16px 24px',
-            fontFamily: 'var(--font-body)',
-            fontSize: '10px',
-            fontWeight: 600,
-            letterSpacing: '0.22em',
-            textTransform: 'uppercase',
-            color: 'var(--color-text-inverse)',
-            background: 'var(--color-primary)',
-            border: 'none',
-            borderRadius: '100px',
-            cursor: (!isValid || isSubmitting) ? 'not-allowed' : 'pointer',
-            minHeight: '52px',
-            transition: 'background 0.3s ease, transform 0.15s ease, opacity 0.3s ease',
             marginTop: '4px',
             opacity: (!isValid && !isSubmitting) ? 0.3 : 1,
-          }}
-          onMouseEnter={e => {
-            if (!isSubmitting && isValid) {
-              e.currentTarget.style.background = 'var(--color-primary-hover)'
-              e.currentTarget.style.transform = 'translateY(-1px)'
-            }
-          }}
-          onMouseLeave={e => {
-            if (!isSubmitting && isValid) {
-              e.currentTarget.style.background = 'var(--color-primary)'
-              e.currentTarget.style.transform = 'translateY(0)'
-            }
           }}
         >
           {isSubmitting ? (
@@ -305,7 +277,6 @@ export default function ContactFormFields({ idPrefix = 'c' }: { idPrefix?: strin
           ) : (
             <>
               Invia richiesta
-              <ArrowRight size={14} strokeWidth={2.5} />
             </>
           )}
         </button>

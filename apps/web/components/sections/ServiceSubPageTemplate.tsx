@@ -74,28 +74,7 @@ export default function ServiceSubPageTemplate({
                 </p>
                 <Link
                   href="/contact#consulenza"
-                  className="ssp-hero-cta"
-                  style={{
-                    display: 'inline-flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    padding: 'var(--space-4) var(--space-8)',
-                    background: 'var(--color-primary)',
-                    color: 'var(--color-text-inverse)',
-                    fontFamily: 'var(--font-body)',
-                    fontWeight: 600,
-                    fontSize: 'var(--text-base)',
-                    borderRadius: 'var(--radius-sm)',
-                    minHeight: '52px',
-                    textDecoration: 'none',
-                    transition: 'background var(--transition-interactive)',
-                  }}
-                  onMouseEnter={e =>
-                    (e.currentTarget.style.background = 'var(--color-primary-hover)')
-                  }
-                  onMouseLeave={e =>
-                    (e.currentTarget.style.background = 'var(--color-primary)')
-                  }
+                  className="btn-pill btn-pill--dark"
                 >
                   Richiedi una consulenza gratuita
                 </Link>

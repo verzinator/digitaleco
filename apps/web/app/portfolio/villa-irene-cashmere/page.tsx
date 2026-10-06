@@ -60,13 +60,13 @@ const RELATED = [
   {
     title: 'MasterFor',
     tags: ['Analisi', 'Comunicazione', 'Trasformazione Digitale'],
-    image: '/progetti/progetto-1-5.jpeg',
+    image: PROJECT_HERO_IMAGES.masterfor,
     href: '/portfolio/masterfor',
   },
   {
     title: 'Mondi Piscine',
     tags: ['Content Creation', 'Social Media', 'Reels'],
-    image: 'https://images.unsplash.com/photo-1572331165267-854da2b10ccc?w=1600&q=80',
+    image: PROJECT_HERO_IMAGES['mondi-piscine'],
     href: '/portfolio/mondi-piscine',
   },
 ]
@@ -525,38 +525,6 @@ export default function VillaIreneCashmerePage() {
           align-items: center;
           justify-content: space-between;
           gap: clamp(32px, 5vw, 64px);
-        }
-        .cs-cta-btn {
-          display: inline-flex;
-          align-items: center;
-          justify-content: center;
-          gap: 8px;
-          flex-shrink: 0;
-          background: var(--color-primary);
-          color: var(--color-text-inverse);
-          font-family: var(--font-body);
-          font-size: 10px;
-          font-weight: 600;
-          letter-spacing: 0.22em;
-          text-transform: uppercase;
-          padding: 16px 32px;
-          min-height: 52px;
-          border-radius: 100px;
-          text-decoration: none;
-          transition: background 0.3s ease, transform 0.15s ease;
-        }
-        .cs-cta-btn:hover {
-          background: var(--color-primary-hover);
-          transform: translateY(-1px);
-        }
-        .cs-cta-arrow {
-          display: inline-flex;
-          align-items: center;
-          justify-content: center;
-          transition: transform 250ms cubic-bezier(0.16, 1, 0.3, 1);
-        }
-        .cs-cta-btn:hover .cs-cta-arrow {
-          transform: translateX(3px);
         }
         .cs-related-card {
           cursor: pointer;
@@ -1184,16 +1152,9 @@ export default function VillaIreneCashmerePage() {
             <button
               type="button"
               onClick={openContactDrawer}
-              className="cs-cta-btn"
-              style={{ border: 'none', cursor: 'pointer' }}
+              className="btn-pill btn-pill--dark"
             >
               Parliamone
-              <span aria-hidden="true" className="cs-cta-arrow">
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                  <line x1="5" y1="12" x2="19" y2="12" />
-                  <polyline points="12 5 19 12 12 19" />
-                </svg>
-              </span>
             </button>
           </motion.div>
         </section>

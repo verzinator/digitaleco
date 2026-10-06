@@ -139,9 +139,6 @@ export default function StrategiaPage() {
           letter-spacing: -0.02em;
           margin-bottom: var(--space-6);
         }
-        .strat-cta-btn:hover {
-          background: #25b863 !important;
-        }
         .strat-card-illus {
           display: flex;
         }
@@ -362,20 +359,7 @@ export default function StrategiaPage() {
           </h2>
           <Link
             href="/contact#consulenza"
-            className="strat-cta-btn"
-            style={{
-              display: 'inline-block',
-              background: 'var(--color-accent)',
-              color: 'var(--color-primary)',
-              fontFamily: 'var(--font-body)',
-              fontSize: 'var(--text-base)',
-              fontWeight: 700,
-              padding: 'var(--space-4) var(--space-10)',
-              borderRadius: 'var(--radius-sm)',
-              textDecoration: 'none',
-              letterSpacing: '0.01em',
-              transition: 'background var(--transition-interactive, 150ms ease)',
-            }}
+            className="btn-pill btn-pill--light"
           >
             Parliamone!
           </Link>
