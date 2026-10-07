@@ -2,6 +2,7 @@
 
 import { motion, useReducedMotion } from 'framer-motion'
 import { ArrowRight } from 'lucide-react'
+import { CONTACT_EMAIL } from '@/lib/contacts'
 
 const EASE: [number, number, number, number] = [0.16, 1, 0.3, 1]
 
@@ -110,7 +111,7 @@ export default function CTAConsulenza() {
             </a>
 
             <a
-              href="mailto:ciao@digitaleco.it"
+              href={`mailto:${CONTACT_EMAIL}`}
               style={{
                 display: 'inline-flex',
                 alignItems: 'center',
@@ -134,7 +135,7 @@ export default function CTAConsulenza() {
                 e.currentTarget.style.borderColor = 'rgba(255,255,255,0.2)'
               }}
             >
-              ciao@digitaleco.it
+              {CONTACT_EMAIL}
             </a>
           </div>
         </div>

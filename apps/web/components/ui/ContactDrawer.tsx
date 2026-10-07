@@ -2,7 +2,8 @@
 
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { AnimatePresence, motion, useDragControls, useReducedMotion } from 'framer-motion'
-import { Clock, Mail, MapPin, X } from 'lucide-react'
+import { Clock, Mail, MapPin, Phone, X } from 'lucide-react'
+import { CONTACT_EMAIL, CONTACT_PHONE } from '@/lib/contacts'
 import ContactFormFields from '@/components/sections/ContactFormFields'
 
 const EASE: [number, number, number, number] = [0.16, 1, 0.3, 1]
@@ -14,7 +15,8 @@ export function openContactDrawer() {
 }
 
 const CONTACTS = [
-  { icon: Mail, label: 'Scrivici', value: 'ciao@digitaleco.it', href: 'mailto:ciao@digitaleco.it' },
+  { icon: Mail, label: 'Scrivici', value: CONTACT_EMAIL, href: `mailto:${CONTACT_EMAIL}` },
+  { icon: Phone, label: 'Chiamaci', value: CONTACT_PHONE, href: `tel:${CONTACT_PHONE.replace(/\s/g, '')}` },
   { icon: MapPin, label: 'Dove siamo', value: 'Venezia, Veneto' },
   { icon: Clock, label: 'Quando', value: 'Lun–Ven, 9:00–18:00' },
 ]

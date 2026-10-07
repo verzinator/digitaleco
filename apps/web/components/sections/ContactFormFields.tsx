@@ -5,6 +5,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
 import { useState, useCallback } from 'react'
 import { CheckCircle2, AlertCircle } from 'lucide-react'
+import { CONTACT_EMAIL } from '@/lib/contacts'
 
 const contactSchema = z.object({
   firstName: z.string().min(2, 'Inserisci almeno 2 caratteri'),
@@ -254,7 +255,7 @@ export default function ContactFormFields({ idPrefix = 'c' }: { idPrefix?: strin
             }}
           >
             <AlertCircle size={16} aria-hidden="true" />
-            Si è verificato un errore. Riprova o scrivici a ciao@digitaleco.it
+            Si è verificato un errore. Riprova o scrivici a {CONTACT_EMAIL}
           </div>
         )}
 
@@ -262,7 +263,7 @@ export default function ContactFormFields({ idPrefix = 'c' }: { idPrefix?: strin
         <button
           type="submit"
           disabled={!isValid || isSubmitting || submitState === 'loading'}
-          className="btn-pill btn-pill--dark"
+          className="btn-pill btn-pill--green"
           style={{
             width: '100%',
             marginTop: '4px',

@@ -358,7 +358,7 @@ export default function StrategiaPage() {
             Raccontaci di cosa hai bisogno
           </h2>
           <Link
-            href="/contact#consulenza"
+            href="/contatti#consulenza"
             className="btn-pill btn-pill--light"
           >
             Parliamone!

@@ -73,7 +73,7 @@ export default function ServiceSubPageTemplate({
                   {subtitle}
                 </p>
                 <Link
-                  href="/contact#consulenza"
+                  href="/contatti#consulenza"
                   className="btn-pill btn-pill--dark"
                 >
                   Richiedi una consulenza gratuita
@@ -232,7 +232,7 @@ export default function ServiceSubPageTemplate({
               Contattaci oggi e costruiamo insieme la tua strategia digitale
             </p>
             <Link
-              href="/contact#consulenza"
+              href="/contatti#consulenza"
               style={{
                 display: 'inline-flex',
                 alignItems: 'center',
