@@ -142,8 +142,10 @@ function ProjectCard({ item, index }: { item: (typeof projectsData)[0]; index: n
   )
 }
 
-export default function Projects() {
+/** `as="h1"` quando la sezione apre la pagina, come in /portfolio */
+export default function Projects({ as = 'h2' }: { as?: 'h1' | 'h2' }) {
   const rm = useReducedMotion()
+  const Heading = as
 
   return (
     <section
@@ -213,12 +215,16 @@ export default function Projects() {
 
       <div style={{ maxWidth: '1280px', margin: '0 auto', padding: '0 clamp(24px, 4vw, 48px)' }}>
         {/* Header */}
-        <motion.h2
-          id="projects-title"
+        {/* L'animazione sta sul contenitore: il titolo resta un tag semplice,
+            h1 o h2, uguale fra server e browser */}
+        <motion.div
           initial={rm ? false : { opacity: 0, y: 24 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: '-60px' }}
           transition={{ duration: 0.6, ease: EASE }}
+        >
+        <Heading
+          id="projects-title"
           style={{
             fontFamily: 'var(--font-body)',
             fontWeight: 300,
@@ -235,7 +241,8 @@ export default function Projects() {
           Quello che abbiamo fatto
           <br />
           <em style={{ fontFamily: 'var(--font-display)', fontStyle: 'italic', fontWeight: 400, color: 'var(--color-primary)' }}>parla per noi</em>
-        </motion.h2>
+        </Heading>
+        </motion.div>
 
         {/* I progetti, affiancati */}
         <div className="projects-grid">
