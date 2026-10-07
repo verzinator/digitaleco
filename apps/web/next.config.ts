@@ -24,6 +24,9 @@ const nextConfig: NextConfig = {
     return [
       { source: '/about', destination: '/chi-siamo', permanent: true },
       { source: '/contact', destination: '/contatti', permanent: true },
+      // Pagina portfolio nascosta per ora: il codice resta, chi ci arriva
+      // torna ai progetti in home. Temporaneo, non 301.
+      { source: '/portfolio', destination: '/#projects', permanent: false },
     ]
   },
 }

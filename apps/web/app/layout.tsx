@@ -2,7 +2,7 @@ import type { Metadata } from 'next'
 import './globals.css'
 import CustomCursor from '@/components/ui/CustomCursor'
 import ContactDrawer from '@/components/ui/ContactDrawer'
-import { CONTACT_EMAIL, CONTACT_PHONE } from '@/lib/contacts'
+import { CONTACT_EMAIL, CONTACT_PHONE, COMPANY } from '@/lib/contacts'
 
 export const metadata: Metadata = {
   title: {
@@ -89,15 +89,14 @@ export default function RootLayout({
               email: CONTACT_EMAIL,
               address: {
                 '@type': 'PostalAddress',
-                addressLocality: 'Venezia',
+                streetAddress: COMPANY.street,
+                postalCode: COMPANY.postalCode,
+                addressLocality: COMPANY.city,
                 addressRegion: 'Veneto',
                 addressCountry: 'IT',
               },
-              geo: {
-                '@type': 'GeoCoordinates',
-                latitude: 45.4408,
-                longitude: 12.3155,
-              },
+              legalName: COMPANY.name,
+              vatID: `IT${COMPANY.vat}`,
               areaServed: [
                 { '@type': 'City', name: 'Venezia' },
                 { '@type': 'State', name: 'Veneto' },
@@ -116,10 +115,9 @@ export default function RootLayout({
               priceRange: '€€',
               openingHours: 'Mo-Fr 09:00-18:00',
               sameAs: [
-                'https://linkedin.com/company/digitaleco',
-                'https://instagram.com/digitaleco_it',
-                'https://facebook.com/digitaleco',
-                'https://tiktok.com/@digitaleco',
+                'https://www.linkedin.com/company/digital-eco-it/',
+                'https://www.instagram.com/digital.eco.it/',
+                'https://www.facebook.com/digitalecoit/',
               ],
             }),
           }}
