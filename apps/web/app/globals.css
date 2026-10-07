@@ -220,7 +220,8 @@ img, video {
 }
 
 /* Pulsanti: un solo stile in tutto il sito, quello di "Parliamone" nel menù.
-   --dark su fondi chiari, --light su fondi scuri o verdi. */
+   --dark su fondi chiari, --light su fondi scuri o verdi, --green per le
+   azioni principali (contatto, invio del form). */
 .btn-pill {
   display: inline-flex;
   align-items: center;
@@ -253,6 +254,13 @@ img, video {
 }
 .btn-pill--dark:hover:not(:disabled) {
   background: #1C2620;
+}
+.btn-pill--green {
+  background: var(--color-primary);
+  color: #FFFFFF;
+}
+.btn-pill--green:hover:not(:disabled) {
+  background: var(--color-primary-hover);
 }
 .btn-pill--light {
   background: #FFFFFF;

@@ -8,6 +8,7 @@ import Footer from '@/components/layout/Footer'
 import AmbientBlobs from '@/components/ui/AmbientBlobs'
 import Link from 'next/link'
 import { PROJECT_HERO_IMAGES } from '@/lib/projects'
+import { useImageReady } from '@/lib/useImageReady'
 
 /* ─────────────────────────────────────────────
    Constants
@@ -128,6 +129,7 @@ function GalleryImage({ src, alt, index }: { src: string; alt: string; index: nu
 export default function MasterForPage() {
   const rm = useReducedMotion()
   const heroRef = useRef<HTMLElement>(null)
+  const hero = useImageReady()
   const { scrollYProgress } = useScroll({
     target: heroRef,
     offset: ['start start', 'end start'],
@@ -299,6 +301,7 @@ export default function MasterForPage() {
           ref={heroRef}
           style={{
             position: 'relative',
+            background: '#0F1410',
             height: '100svh',
             minHeight: '600px',
             overflow: 'hidden',
@@ -312,10 +315,14 @@ export default function MasterForPage() {
             }}
           >
             <img
+              ref={hero.ref}
+              onLoad={hero.onLoad}
               src={PROJECT.heroImage}
               fetchPriority="high"
               alt="MasterFor, la collaborazione con Fondimpresa per la formazione finanziata"
               style={{
+                opacity: hero.ready || rm ? 1 : 0,
+                transition: 'opacity 600ms ease',
                 width: '100%',
                 height: '115%',
                 objectFit: 'cover',
@@ -347,7 +354,7 @@ export default function MasterForPage() {
           >
             <motion.p
               initial={rm ? false : { opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
+              animate={hero.ready ? { opacity: 1, y: 0 } : undefined}
               transition={{ duration: 0.6, delay: 0.3, ease: EASE }}
               style={{
                 fontFamily: 'var(--font-body)',
@@ -364,7 +371,7 @@ export default function MasterForPage() {
 
             <motion.h1
               initial={rm ? false : { opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
+              animate={hero.ready ? { opacity: 1, y: 0 } : undefined}
               transition={{ duration: 0.7, delay: 0.5, ease: EASE }}
               style={{
                 fontFamily: 'var(--font-display)',
@@ -752,7 +759,7 @@ export default function MasterForPage() {
             <button
               type="button"
               onClick={openContactDrawer}
-              className="btn-pill btn-pill--dark"
+              className="btn-pill btn-pill--green"
             >
               Parliamone
             </button>
