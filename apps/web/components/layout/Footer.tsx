@@ -47,9 +47,9 @@ const footerColumns = [
   {
     title: 'Azienda',
     links: [
-      { label: 'Chi siamo', href: '/about' },
+      { label: 'Chi siamo', href: '/chi-siamo' },
       { label: 'Portfolio', href: '/portfolio' },
-      { label: 'Contatti', href: '/contact' },
+      { label: 'Contatti', href: '/contatti' },
     ],
   },
   {

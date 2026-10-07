@@ -18,6 +18,14 @@ const nextConfig: NextConfig = {
   },
   // Strict mode for better React error detection
   reactStrictMode: true,
+  // Google ha indicizzato /chi-siamo/ e /contatti/ del sito precedente: le pagine
+  // vivono li', e i vecchi indirizzi del rifacimento ci portano con un 301.
+  async redirects() {
+    return [
+      { source: '/about', destination: '/chi-siamo', permanent: true },
+      { source: '/contact', destination: '/contatti', permanent: true },
+    ]
+  },
 }
 
 export default nextConfig

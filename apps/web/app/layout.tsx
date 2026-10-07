@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import './globals.css'
 import CustomCursor from '@/components/ui/CustomCursor'
 import ContactDrawer from '@/components/ui/ContactDrawer'
+import { CONTACT_EMAIL, CONTACT_PHONE } from '@/lib/contacts'
 
 export const metadata: Metadata = {
   title: {
@@ -27,11 +28,11 @@ export const metadata: Metadata = {
   ],
   authors: [{ name: 'Digital Eco' }],
   creator: 'Digital Eco',
-  metadataBase: new URL('https://digitaleco.it'),
+  metadataBase: new URL('https://www.digital-eco.it'),
   openGraph: {
     type: 'website',
     locale: 'it_IT',
-    url: 'https://digitaleco.it',
+    url: 'https://www.digital-eco.it',
     siteName: 'Digital Eco',
     title: 'Digital Eco — Agenzia di Comunicazione e Web Design a Venezia',
     description:
@@ -54,9 +55,6 @@ export const metadata: Metadata = {
   robots: {
     index: true,
     follow: true,
-  },
-  alternates: {
-    canonical: 'https://digitaleco.it',
   },
 }
 
@@ -84,11 +82,11 @@ export default function RootLayout({
               '@type': 'ProfessionalService',
               name: 'Digital Eco',
               description: 'Agenzia di comunicazione, web design e advertising digitale a Venezia. Realizziamo siti web, e-commerce, SEO, social media e campagne Google e Meta Ads.',
-              url: 'https://digitaleco.it',
-              logo: 'https://digitaleco.it/logo-digital-eco.png',
-              image: 'https://digitaleco.it/og-image.jpg',
-              telephone: '+39 041 000 0000',
-              email: 'ciao@digitaleco.it',
+              url: 'https://www.digital-eco.it',
+              logo: 'https://www.digital-eco.it/logo-digital-eco.png',
+              image: 'https://www.digital-eco.it/og-image.jpg',
+              telephone: CONTACT_PHONE,
+              email: CONTACT_EMAIL,
               address: {
                 '@type': 'PostalAddress',
                 addressLocality: 'Venezia',

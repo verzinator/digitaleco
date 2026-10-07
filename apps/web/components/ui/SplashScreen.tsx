@@ -1,25 +1,12 @@
 'use client'
 
 import { useCallback, useEffect, useState } from 'react'
+import { forceMuted } from '@/lib/video'
 
 const EXIT_DURATION_MS = 700
 const INTRO_END_SECONDS = 3.1
 
 type Phase = 'checking' | 'playing' | 'exit' | 'done'
-
-/**
- * Safari su iOS decide se concedere l'autoplay guardando lo stato del video
- * quando entra nel documento, e considera solo l'attributo `muted`. React lo
- * rende come attributo nell'HTML generato dal server, ma quando l'elemento
- * nasce lato client — come qui, perche' la sorgente si decide dopo il mount —
- * imposta la sola proprieta'. Senza attributo iOS blocca la riproduzione e
- * mostra il pulsante di avvio, quindi lo forziamo a mano.
- */
-function forceMuted(video: HTMLVideoElement) {
-  video.muted = true
-  video.defaultMuted = true
-  if (!video.hasAttribute('muted')) video.setAttribute('muted', '')
-}
 
 export default function SplashScreen() {
   const [phase, setPhase] = useState<Phase>('checking')

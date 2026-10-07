@@ -1,3 +1,4 @@
+import type { Metadata } from 'next'
 import Navbar from '@/components/layout/Navbar'
 import Footer from '@/components/layout/Footer'
 import ImageHero from '@/components/sections/ImageHero'
@@ -10,6 +11,10 @@ import Services from '@/components/sections/Services'
 import Partners from '@/components/sections/Partners'
 import GlobalGradient from '@/components/ui/GlobalGradient'
 import AmbientBlobs from '@/components/ui/AmbientBlobs'
+
+export const metadata: Metadata = {
+  alternates: { canonical: '/' },
+}
 
 export default function HomePage() {
   return (

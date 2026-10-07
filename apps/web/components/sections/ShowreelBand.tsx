@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from 'react'
 import { motion, useReducedMotion, useScroll, useSpring, useTransform } from 'framer-motion'
+import { forceMuted } from '@/lib/video'
 
 const EASE: [number, number, number, number] = [0.16, 1, 0.3, 1]
 // Quanto parte rimpicciolito il riquadro prima di aprirsi con lo scroll.
@@ -38,22 +39,34 @@ export default function ShowreelBand() {
 
   // Il video non si ferma mai: se l'autoplay viene rifiutato — succede quando
   // la scheda nasce in secondo piano — si riprova appena la fascia entra nello
-  // schermo, ma la riproduzione non viene mai messa in pausa.
+  // schermo, ma la riproduzione non viene mai messa in pausa. Su telefono e
+  // tablet il file arriva dopo che la fascia e' gia' in vista, quindi si
+  // riprova anche quando il video e' pronto a partire.
   useEffect(() => {
     const video = videoRef.current
     if (!video || !videoSrc || rm) return
 
+    let inView = false
+    const tryPlay = () => {
+      if (!inView || !video.paused) return
+      forceMuted(video)
+      void video.play().catch(() => {})
+    }
+
     const observer = new IntersectionObserver(
       ([entry]) => {
-        if (entry.isIntersecting && video.paused) {
-          void video.play().catch(() => {})
-        }
+        inView = entry.isIntersecting
+        tryPlay()
       },
       { threshold: 0.2 }
     )
 
     observer.observe(video)
-    return () => observer.disconnect()
+    video.addEventListener('canplay', tryPlay)
+    return () => {
+      observer.disconnect()
+      video.removeEventListener('canplay', tryPlay)
+    }
   }, [videoSrc, rm])
 
   // Il riquadro si apre mentre entra: da quando il bordo alto tocca il fondo
@@ -124,7 +137,10 @@ export default function ShowreelBand() {
       >
         {videoSrc && (
           <video
-            ref={videoRef}
+            ref={(video) => {
+              videoRef.current = video
+              forceMuted(video)
+            }}
             src={videoSrc}
             autoPlay={!rm}
             muted
