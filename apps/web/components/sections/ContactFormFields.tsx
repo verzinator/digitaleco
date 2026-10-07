@@ -77,20 +77,24 @@ export default function ContactFormFields({ idPrefix = 'c' }: { idPrefix?: strin
   // Keep form reactive
   watch()
 
-  const onSubmit = async (data: ContactFormData) => {
-    setSubmitState('loading')
-    try {
-      const res = await fetch('/api/contact', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(data),
-      })
-      if (!res.ok) throw new Error('Server error')
-      setSubmitState('success')
-      reset()
-    } catch {
-      setSubmitState('error')
-    }
+  // Niente server: il modulo apre il programma di posta di chi scrive con
+  // destinatario, oggetto e testo gia' compilati. Basta premere Invia.
+  const onSubmit = (data: ContactFormData) => {
+    const subject = `Richiesta dal sito: ${data.firstName} ${data.lastName}`
+    const body = [
+      'Ciao Digital Eco,',
+      '',
+      'vorrei essere ricontattato per un progetto.',
+      '',
+      `Nome: ${data.firstName} ${data.lastName}`,
+      `Email: ${data.email}`,
+      `Telefono: ${data.phone || '-'}`,
+      `Azienda: ${data.company || '-'}`,
+      `Città: ${data.city}`,
+    ].join('\n')
+    window.location.href = `mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`
+    setSubmitState('success')
+    reset()
   }
 
   /* Wrap register to compose focus/blur handlers */
@@ -327,7 +331,7 @@ function SuccessMessage() {
         fontStyle: 'italic',
         color: 'var(--color-text)',
       }}>
-        Messaggio inviato!
+        Si è aperta la tua posta
       </h3>
       <p style={{
         fontFamily: 'var(--font-body)',
@@ -336,7 +340,7 @@ function SuccessMessage() {
         lineHeight: 1.65,
         maxWidth: '360px',
       }}>
-        Grazie per averci contattato. Ti risponderemo entro 24 ore lavorative.
+        Controlla il messaggio e premi Invia. Se non si è aperto niente, scrivici a {CONTACT_EMAIL}.
       </p>
     </div>
   )

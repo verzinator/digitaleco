@@ -26,7 +26,7 @@ export default function PrivacyPage() {
           title: 'Quali dati raccogliamo',
           body: [
             'Dati di navigazione. I sistemi che fanno funzionare il sito registrano, come avviene per qualsiasi sito, alcune informazioni tecniche: indirizzo IP, tipo di browser, pagine visitate, data e ora della richiesta. Servono a far funzionare il sito e a proteggerlo, non a identificarti.',
-            'Dati che ci dai tu. Se compili il modulo di contatto ci comunichi nome, cognome, email, città e, se vuoi, telefono e azienda. Se ci scrivi o ci chiami, trattiamo i dati che ci fornisci in quel momento.',
+            'Dati che ci dai tu. Il modulo di contatto non invia nulla al sito: apre il tuo programma di posta con un messaggio già compilato (nome, cognome, email, città e, se vuoi, telefono e azienda), che decidi tu se spedire. Se ci scrivi o ci chiami, trattiamo i dati che ci fornisci in quel momento.',
             'Non raccogliamo dati particolari (per esempio relativi alla salute) e ti chiediamo di non inserirli nei messaggi.',
           ],
         },
@@ -44,7 +44,7 @@ export default function PrivacyPage() {
         {
           title: 'È obbligatorio darci i dati?',
           body: [
-            'No. Però senza nome, email e città non possiamo rispondere alla richiesta inviata dal modulo. Telefono e azienda sono facoltativi.',
+            'No. Però senza nome, email e città non possiamo rispondere alla tua richiesta. Telefono e azienda sono facoltativi.',
           ],
         },
         {
@@ -53,8 +53,7 @@ export default function PrivacyPage() {
             'I dati sono trattati dal nostro personale autorizzato e dai fornitori che ci aiutano a gestire il sito, nominati responsabili del trattamento:',
             [
               'Vercel Inc., che ospita il sito;',
-              'Supabase Inc., che conserva le richieste inviate dal modulo;',
-              'Microsoft, che fornisce la nostra posta elettronica;',
+              'Microsoft, che fornisce la nostra posta elettronica, dove arrivano le richieste;',
               'Google LLC, che fornisce i caratteri tipografici del sito (Google Fonts) e riceve per questo l’indirizzo IP del visitatore.',
             ],
             'Alcuni di questi fornitori hanno sede negli Stati Uniti. Il trasferimento avviene sulla base dell’EU-U.S. Data Privacy Framework o delle clausole contrattuali standard approvate dalla Commissione europea.',
